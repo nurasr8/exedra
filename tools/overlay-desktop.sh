@@ -36,7 +36,7 @@ cat > "$OUT/usr/share/applications/install-exedra.desktop" <<'EOF'
 [Desktop Entry]
 Type=Application
 Name=Install Exedra
-Exec=konsole -e sudo install-exedra
+Exec=konsole -e sudo install-exedra-tui
 Icon=drive-harddisk
 Categories=System;
 EOF

@@ -31,6 +31,7 @@ while [ ${#queue[@]} -gt 0 ]; do
 done
 
 mkdir -p "$OUT"
+[ -d "$OUT/etc" ] && chmod -R u+w "$OUT" 2>/dev/null || true
 for pkg in "${!seen[@]}"; do
   f=""
   for c in $CACHES; do
@@ -45,7 +46,8 @@ done
 mkdir -p "$OUT"/{etc,root,home/exedra,venim/{packages,build,cache,db,sources},var/lib,var/log}
 cp "$ROOT/bin/venim" "$OUT/usr/bin/venim"
 cp "$ROOT/tools/install-exedra.sh" "$OUT/usr/sbin/install-exedra"
-chmod +x "$OUT/usr/sbin/install-exedra"
+cp "$ROOT/tools/install-exedra-tui.sh" "$OUT/usr/sbin/install-exedra-tui"
+chmod +x "$OUT/usr/sbin/install-exedra" "$OUT/usr/sbin/install-exedra-tui"
 mkdir -p "$OUT/usr/lib/venim"
 cp -r "$ROOT/src/venim" "$OUT/usr/lib/venim/venim"
 # Close missing .so providers, refresh linker cache
