@@ -8,7 +8,7 @@ CACHE=/var/cache/pacman/pkg
 
 SEED="filesystem glibc bash readline ncurses coreutils systemd util-linux shadow kmod
 e2fsprogs iproute2 iputils procps-ng grep sed gawk tar gzip xz findutils less file
-which nano curl ca-certificates openssl openssh pciutils usbutils linux python dbus"
+which nano curl ca-certificates openssl openssh pciutils usbutils linux python dbus systemd-sysvcompat dosfstools"
 
 resolve() {
   local pkg="$1"
@@ -37,6 +37,8 @@ done
 # Exedra overlay
 mkdir -p "$OUT"/{etc,root,home/exedra,venim/{packages,build,cache,db,sources},var/lib,var/log}
 cp "$ROOT/bin/venim" "$OUT/usr/bin/venim"
+cp "$ROOT/tools/install-exedra.sh" "$OUT/usr/sbin/install-exedra"
+chmod +x "$OUT/usr/sbin/install-exedra"
 mkdir -p "$OUT/usr/lib/venim"
 cp -r "$ROOT/src/venim" "$OUT/usr/lib/venim/venim"
 # Close missing .so providers, refresh linker cache

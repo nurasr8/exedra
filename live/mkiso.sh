@@ -31,6 +31,6 @@ mkfs.vfat -n EXEDRAESP "$WORK/esp.img" >/dev/null
 mcopy -s -i "$WORK/esp.img" "$WORK/esp/"* ::/
 xorriso -as mkisofs -o "$ISO" -V EXEDRA -J -r \
   -isohybrid-mbr "$ROOT/boot/bios/isohdpfx.bin" \
-  -e esp.img -no-emul-boot -isohybrid-gpt-basdat \
-  -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table "$WORK"
+  -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-alt-boot -e esp.img -no-emul-boot -isohybrid-gpt-basdat "$WORK"
 echo "wrote $ISO"
