@@ -134,6 +134,13 @@ def build_source(root, rec, verbose=False):
         with open(os.path.join(srcdir, 'hello.c'), 'w') as f:
             f.write('#include <stdio.h>\nint main(void){puts("Hello from Exedra!");return 0;}\n')
 
+    entries = os.listdir(srcdir)
+    if len(entries) == 1 and os.path.isdir(os.path.join(srcdir, entries[0])):
+        topsrc = os.path.join(srcdir, entries[0])
+    else:
+        topsrc = srcdir
+    workdir = topsrc if entries else work
+
     for f in rec.get('patch', []) if isinstance(rec.get('patch'), list) else []:
         pass
 
@@ -142,14 +149,14 @@ def build_source(root, rec, verbose=False):
         if isinstance(cmds, dict):
             cmds = cmds.get('_cmds', [])
         if cmds:
-            run_cmds(cmds, builddir if os.listdir(srcdir) else work, env)
+            run_cmds(cmds, workdir, env)
 
     check = rec.get('check', [])
     if isinstance(check, dict):
         check = check.get('_cmds', [])
     if check:
         try:
-            run_cmds(check, builddir, env)
+            run_cmds(check, workdir, env)
         except RuntimeError as e:
             if verbose:
                 print(f'check failed (non-fatal): {e}')
@@ -158,7 +165,7 @@ def build_source(root, rec, verbose=False):
     if isinstance(inst, dict):
         inst = inst.get('_cmds', [])
     if inst:
-        run_cmds(inst, builddir, env)
+        run_cmds(inst, workdir, env)
     elif name == 'hello-venim':
         bindir = os.path.join(destdir, 'bin')
         os.makedirs(bindir, exist_ok=True)
@@ -175,6 +182,12 @@ def build_source(root, rec, verbose=False):
 
 def install_destdir(root, rec, destdir, source='source', checksum=''):
     name, ver = rec['name'], rec.get('version', '0')
+    if os.path.isdir(os.path.join(destdir, 'usr')) and not os.path.exists(os.path.join(destdir, 'bin')):
+        norm = destdir.rstrip('/') + '.nexa'
+        if os.path.exists(norm):
+            shutil.rmtree(norm)
+        _to_exedra_layout(destdir, norm)
+        destdir = norm
     pkgdir = os.path.join(root, f'venim/packages/{name}/{ver}')
     if os.path.exists(pkgdir):
         shutil.rmtree(pkgdir)
@@ -211,7 +224,23 @@ def install_binary(root, rec, verbose=False):
     destdir = os.path.join(work, 'dest')
     if os.path.exists(destdir):
         shutil.rmtree(destdir)
-    _to_exedra_layout(inner, destdir)
+    os.makedirs(destdir)
+    inst = rec.get('install', [])
+    if isinstance(inst, dict):
+        inst = inst.get('_cmds', [])
+    if inst:
+        builddir = os.path.join(work, 'build')
+        os.makedirs(builddir, exist_ok=True)
+        env = base_env(rec, os.path.dirname(arc), builddir, destdir)
+        try:
+            run_cmds(inst, stage, env)
+        except RuntimeError as e:
+            print(f'install steps failed, generic layout instead: {e}')
+            if os.path.exists(destdir):
+                shutil.rmtree(destdir)
+            _to_exedra_layout(inner, destdir)
+    else:
+        _to_exedra_layout(inner, destdir)
     return install_destdir(root, rec, destdir, source='binary', checksum=b.get('sha256', ''))
 
 
@@ -224,28 +253,29 @@ def _strip_top_level(stage):
     return stage
 
 
+def _copy_entry(s, d):
+    if os.path.isdir(s) and not os.path.islink(s):
+        if os.path.exists(d):
+            shutil.rmtree(d)
+        shutil.copytree(s, d, symlinks=True)
+    elif os.path.islink(s):
+        if os.path.lexists(d):
+            os.remove(d)
+        os.symlink(os.readlink(s), d)
+    else:
+        shutil.copy2(s, d)
+
+
 def _to_exedra_layout(src, dest):
     os.makedirs(dest, exist_ok=True)
     if os.path.isdir(os.path.join(src, 'usr')) and not os.path.exists(os.path.join(src, 'bin')):
-        for e in os.listdir(os.path.join(src, 'usr')):
-            s = os.path.join(src, 'usr', e)
-            d = os.path.join(dest, e)
-            if os.path.isdir(s) and not os.path.islink(s):
-                shutil.copytree(s, d, symlinks=True)
+        for e in os.listdir(src):
+            s = os.path.join(src, e)
+            if e == 'usr':
+                for u in os.listdir(s):
+                    _copy_entry(os.path.join(s, u), os.path.join(dest, u))
             else:
-                shutil.copy2(s, d) if not os.path.islink(s) else os.symlink(os.readlink(s), d)
+                _copy_entry(s, os.path.join(dest, e))
         return
     for e in os.listdir(src):
-        s = os.path.join(src, e)
-        d = os.path.join(dest, e)
-        if os.path.isdir(s) and not os.path.islink(s):
-            if os.path.exists(d):
-                shutil.rmtree(d)
-            shutil.copytree(s, d, symlinks=True)
-        else:
-            if os.path.islink(s):
-                if os.path.lexists(d):
-                    os.remove(d)
-                os.symlink(os.readlink(s), d)
-            else:
-                shutil.copy2(s, d)
+        _copy_entry(os.path.join(src, e), os.path.join(dest, e))

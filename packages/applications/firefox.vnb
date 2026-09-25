@@ -16,8 +16,8 @@ package "firefox" {
     "dbus"
   }
   install {
-    command "mkdir -p ${destdir}/opt/firefox"
+    command "mkdir -p ${destdir}/opt/firefox ${destdir}/bin"
     command "tar -xf ${srcdir}/firefox-145.0.tar.xz -C ${destdir}/opt/firefox --strip-components=1"
-    command "mkdir -p ${destdir}/usr/bin && ln -sf /opt/firefox/firefox ${destdir}/usr/bin/firefox"
+    command "ln -sf ../opt/firefox/firefox ${destdir}/bin/firefox"
   }
 }

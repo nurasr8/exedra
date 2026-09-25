@@ -17,8 +17,8 @@ package "chromium" {
   }
   install {
     command "unzip -q ${srcdir}/chrome-linux64.zip -d ${builddir}"
-    command "mkdir -p ${destdir}/opt/chromium"
+    command "mkdir -p ${destdir}/opt/chromium ${destdir}/bin"
     command "cp -r ${builddir}/chrome-linux64/* ${destdir}/opt/chromium/"
-    command "mkdir -p ${destdir}/usr/bin && ln -sf /opt/chromium/chrome ${destdir}/usr/bin/chromium"
+    command "ln -sf ../opt/chromium/chrome ${destdir}/bin/chromium"
   }
 }

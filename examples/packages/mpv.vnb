@@ -1,0 +1,28 @@
+package "mpv" {
+  version = "0.41.0"
+  description = "mpv media player"
+  license = "GPL-2.0-or-later"
+  homepage = "https://mpv.io/"
+  source {
+    url = "https://github.com/mpv-player/mpv/archive/refs/tags/v0.41.0.tar.gz"
+    sha256 = "ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209"
+  }
+  depends {
+    "glibc"
+    "ffmpeg"
+    "libass"
+  }
+  makedepends {
+    "gcc"
+    "meson"
+    "ninja"
+    "pkg-config"
+  }
+  build {
+    command "meson setup ${builddir} --prefix=/usr"
+    command "ninja -C ${builddir}"
+  }
+  install {
+    command "DESTDIR=${destdir} ninja -C ${builddir} install"
+  }
+}

@@ -63,6 +63,24 @@ version=6.2
 depends="plasma-desktop sddm konsole dolphin networkmanager"
 ```
 
+## Binary-пакеты: install()
+
+Для `binary`-рецептов `install()` выполняется после распаковки архива:
+`${srcdir}` — каталог со скачанным архивом, `${builddir}` — пустой рабочий
+каталог, `${destdir}` — пустой staging. Пиши сразу финальную раскладку
+(`bin/`, `opt/`, `share/`), ссылки — относительные:
+
+```sh
+install {
+    command "mkdir -p ${destdir}/opt/firefox ${destdir}/bin"
+    command "tar -xf ${srcdir}/firefox-145.0.tar.xz -C ${destdir}/opt/firefox --strip-components=1"
+    command "ln -sf ../opt/firefox/firefox ${destdir}/bin/firefox"
+}
+```
+
+Без `install()` применяется generic-раскладка (дерево архива как есть).
+Если команды падают — тоже generic, с предупреждением.
+
 ## Ошибки
 
 - нет sha256 при заданном URL — сборка не стартует;
