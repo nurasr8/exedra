@@ -1,12 +1,12 @@
 package "openssh" {
-  version = "9.9p1"
+  version = "10.2p1"
   description = "OpenSSH remote login client and server"
   license = "BSD"
   homepage = "https://www.openssh.com/"
 
   source {
-    url = "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${version}.tar.gz"
-    sha256 = "b343fbcdbff87f15b1986e6e15d6d4fc9a7d36066be6b7fb507087ba8f966c02"
+    url = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.2p1.tar.gz"
+    sha256 = "ccc42c0419937959263fa1dbd16dafc18c56b984c03562d2937ce56a60f798b2"
   }
 
   depends {

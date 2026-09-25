@@ -1,31 +1,36 @@
 package "networkmanager" {
   version = "1.54.0"
   description = "Network connection manager"
-  license = "GPL-2.0"
+  license = "GPL-2.0-or-later"
   homepage = "https://networkmanager.dev/"
+
   source {
     url = "https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/archive/1.54.0/NetworkManager-1.54.0.tar.gz"
     sha256 = "c5356e5a86b351dc79d23c8685d02b91917d1f107628c97d370c6441a8322a93"
   }
+
   depends {
-    "glibc"
+    "systemd"
     "dbus"
-    "libndp"
-    "curl"
-    "udev"
   }
+
   makedepends {
-    "gcc"
-    "make"
     "meson"
     "ninja"
-    "pkg-config"
+    "gcc"
   }
+
   build {
-    command "meson setup build --prefix=/usr --sysconfdir=/etc"
+    command "meson setup build --prefix=/usr"
     command "ninja -C build"
   }
+
   install {
-    command "DESTDIR=${destdir} ninja -C build install"
+    command "DESTDIR=${DESTDIR} ninja -C build install"
+  }
+
+  service {
+    unit = "NetworkManager.service"
+    enable = true
   }
 }

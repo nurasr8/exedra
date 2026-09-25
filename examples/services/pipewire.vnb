@@ -1,12 +1,12 @@
 package "pipewire" {
-  version = "1.2.7"
+  version = "1.4.7"
   description = "Multimedia server for audio and video"
   license = "MIT"
   homepage = "https://pipewire.org/"
 
   source {
-    url = "https://github.com/PipeWire/pipewire/archive/refs/tags/${version}.tar.gz"
-    sha256 = "e75568ed18bcbe75e9779af57cb9cc256fd7ebfaadc12bb347a0717055d1d3a9"
+    url = "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.7/pipewire-1.4.7.tar.gz"
+    sha256 = "9d54f025e1e7ae73b980a6c8be2e8e6387e24d554d58478d6495734ce1ee5a93"
   }
 
   depends {

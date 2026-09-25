@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build UEFI-only ISO (systemd-boot) from live/rootfs.
+# Build hybrid UEFI+BIOS ISO (systemd-boot + isolinux) from live/rootfs.
 # Needs: kernel at live/rootfs/boot/vmlinuz, initramfs.img, systemd-bootx64.efi on host.
 set -e
 VER="${1:-0.1.0}"
@@ -21,9 +21,16 @@ cp "$BOOTX64" "$WORK/esp/EFI/BOOT/BOOTX64.EFI"
 cp "$ROOT/boot/loader/loader.conf" "$WORK/esp/loader/"
 cp "$ROOT/boot/loader/entries/exedra.conf" "$WORK/esp/loader/entries/"
 mksquashfs "$ROOT/live/rootfs" "$WORK/live/rootfs.squashfs" -comp xz
+cp "$ROOT/live/rootfs/boot/vmlinuz" "$WORK/vmlinuz-exedra"
+cp "$ROOT/initramfs.img" "$WORK/initramfs-exedra.img"
+mkdir -p "$WORK/isolinux"
+cp "$ROOT/boot/bios/isolinux.bin" "$ROOT/boot/bios/ldlinux.c32" "$WORK/isolinux/"
+cp "$ROOT/boot/bios/isolinux.cfg" "$WORK/isolinux/isolinux.cfg"
 dd if=/dev/zero of="$WORK/esp.img" bs=1M count=64 status=none
 mkfs.vfat -n EXEDRAESP "$WORK/esp.img" >/dev/null
 mcopy -s -i "$WORK/esp.img" "$WORK/esp/"* ::/
 xorriso -as mkisofs -o "$ISO" -V EXEDRA -J -r \
-  -e esp.img -no-emul-boot -isohybrid-gpt-basdat "$WORK"
+  -isohybrid-mbr "$ROOT/boot/bios/isohdpfx.bin" \
+  -e esp.img -no-emul-boot -isohybrid-gpt-basdat \
+  -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table "$WORK"
 echo "wrote $ISO"

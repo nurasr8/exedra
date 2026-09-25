@@ -41,6 +41,8 @@ mkdir -p "$OUT/usr/lib/venim"
 cp -r "$ROOT/src/venim" "$OUT/usr/lib/venim/venim"
 # Close missing .so providers, refresh linker cache
 bash "$ROOT/tools/seed-fix-libs.sh" "$OUT"
+# Hardware database (silences imds-generator warning on boot)
+systemd-hwdb update --root="$OUT" --usr 2>/dev/null || systemd-hwdb update --root="$OUT" 2>/dev/null || true
 # System users/groups from package fragments (build-time, /etc is ro on live)
 systemd-sysusers --root="$OUT"
 ldconfig -r "$OUT" 2>/dev/null || true

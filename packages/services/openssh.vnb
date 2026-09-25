@@ -1,28 +1,35 @@
 package "openssh" {
   version = "10.2p1"
-  description = "OpenSSH secure shell suite"
-  license = "BSD-2-Clause"
+  description = "OpenSSH remote login client and server"
+  license = "BSD"
   homepage = "https://www.openssh.com/"
+
   source {
     url = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.2p1.tar.gz"
     sha256 = "ccc42c0419937959263fa1dbd16dafc18c56b984c03562d2937ce56a60f798b2"
   }
+
   depends {
-    "glibc"
     "openssl"
-    "zlib"
-    "libedit"
+    "pam"
   }
+
   makedepends {
     "gcc"
     "make"
-    "pkg-config"
   }
+
   build {
     command "./configure --prefix=/usr --sysconfdir=/etc/ssh"
-    command "make -j$(nproc)"
+    command "make"
   }
+
   install {
-    command "make DESTDIR=${destdir} install"
+    command "make DESTDIR=${DESTDIR} install"
+  }
+
+  service {
+    unit = "sshd.service"
+    enable = true
   }
 }

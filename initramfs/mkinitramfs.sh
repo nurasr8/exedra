@@ -43,6 +43,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 mount -t proc proc /proc
 mount -t sysfs sys /sys
 mount -t devtmpfs dev /dev
+mkdir -p /run
 for m in loop sr_mod cdrom ata_piix ata_generic squashfs isofs virtio_blk virtio_net e1000 e1000e overlay; do
   modprobe $m 2>/dev/null || true
 done

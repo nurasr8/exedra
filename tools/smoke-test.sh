@@ -18,5 +18,6 @@ check "[ \"$out\" = 'Hello from Exedra!' ]" "hello output"
 check "VENIM_ROOT=$TMP python3 bin/venim --root $TMP verify hello-venim | grep -q ok" "venim verify"
 VENIM_ROOT="$TMP" python3 bin/venim --root "$TMP" remove hello-venim --quiet
 check "[ ! -e $TMP/venim/packages/hello-venim ]" "hello-venim removed"
+check "python3 tests/test_venim.py" "unit tests"
 check "bash -n tools/build live/mklive.sh live/mkiso.sh tools/run-qemu.sh tools/seed-rootfs.sh tools/seed-fix-libs.sh initramfs/mkinitramfs.sh" "scripts syntax"
 exit $fail

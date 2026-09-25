@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 ISO="${1:-Exedra-*-x86_64.iso}"
+if [ "$2" = --bios ]; then
+  KVM=""; [ -e /dev/kvm ] && KVM="-enable-kvm"
+  exec qemu-system-x86_64 -m 2048 -smp 2 $KVM \
+    -cdrom $ISO -boot d -serial stdio -display none
+fi
 KVM=""
 [ -e /dev/kvm ] && KVM="-enable-kvm"
 BIOS=""
