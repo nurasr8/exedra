@@ -102,4 +102,8 @@ Name=en* eth*
 [Network]
 DHCP=yes
 EOF
+# Live login must stay passwordless no matter what sysusers/packages did
+sed -i 's/^root:[^:]*:/root::/' "$OUT/etc/passwd"
+sed -i 's/^root:[^:]*:/root::/' "$OUT/etc/shadow"
+grep -q '^root::' "$OUT/etc/shadow" || echo "WARN: root unlock failed" >&2
 echo "seeded $(echo ${!seen[@]} | wc -w) packages in $OUT, $(du -sh "$OUT" | cut -f1)"

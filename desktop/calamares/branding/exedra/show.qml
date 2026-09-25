@@ -1,11 +1,24 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.0;
+import calamares.slideshow 1.0;
 
-Presentation {
+Presentation
+{
     id: presentation
 
+    function nextSlide() {
+        presentation.goToNextSlide();
+    }
+
+    Timer {
+        id: advanceTimer
+        interval: 8000
+        running: true
+        repeat: true
+        onTriggered: nextSlide()
+    }
+
     Slide {
-        centeredText: "Welcome to Exedra.\n\nThe installer copies the live system to disk.\nYour files on the target disk will be erased."
+        centeredText: "Welcome to Exedra.\n\nThe installer copies the live system to disk.\nAll data on the target disk will be erased."
     }
 
     Slide {

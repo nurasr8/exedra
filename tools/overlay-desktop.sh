@@ -3,6 +3,7 @@
 # NetworkManager instead of networkd, PipeWire user units, installer shortcut.
 set -e
 OUT="${1:?usage: overlay-desktop.sh <rootfs>}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 rm -f "$OUT/etc/systemd/system/multi-user.target.wants/systemd-networkd.service"
 rm -f "$OUT/etc/systemd/system/multi-user.target.wants/systemd-resolved.service"
@@ -21,6 +22,7 @@ User=exedra
 Session=plasmax11.desktop
 EOF
 mkdir -p "$OUT/etc/sudoers.d"
+rm -f "$OUT/etc/sudoers.d/live"
 echo 'exedra ALL=(ALL) NOPASSWD: ALL' > "$OUT/etc/sudoers.d/live"
 chmod 440 "$OUT/etc/sudoers.d/live"
 
