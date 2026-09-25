@@ -10,3 +10,10 @@ kernel + initramfs into ESP, loader entry with `root=UUID=`.
 
 Verified in QEMU: install to blank disk → boot from disk → login, venim,
 network, 0 failed units.
+
+## Secure Boot note
+
+Live ISO boots signed (Exedra db key, see `docs/secureboot.md`). The system
+written to disk gets an *unsigned* bootloader copy: either disable Secure
+Boot on first boot of the installed system, or sign it yourself after
+install (chroot + `sbsign`) and enroll your key in firmware.
