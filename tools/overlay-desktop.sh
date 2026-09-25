@@ -18,7 +18,7 @@ mkdir -p "$OUT/etc/sddm.conf.d"
 cat > "$OUT/etc/sddm.conf.d/autologin.conf" <<'EOF'
 [Autologin]
 User=exedra
-Session=plasma.desktop
+Session=plasmax11.desktop
 EOF
 mkdir -p "$OUT/etc/sudoers.d"
 echo 'exedra ALL=(ALL) NOPASSWD: ALL' > "$OUT/etc/sudoers.d/live"
@@ -36,8 +36,20 @@ cat > "$OUT/usr/share/applications/install-exedra.desktop" <<'EOF'
 [Desktop Entry]
 Type=Application
 Name=Install Exedra
-Exec=konsole -e sudo install-exedra-tui
+Exec=sudo -E calamares
 Icon=drive-harddisk
 Categories=System;
+EOF
+
+mkdir -p "$OUT/etc/calamares"
+cp -r "$ROOT/desktop/calamares/"* "$OUT/etc/calamares/"
+
+mkdir -p "$OUT/etc/xdg/autostart"
+cat > "$OUT/etc/xdg/autostart/exedra-xhost.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Exedra X access
+Exec=xhost +SI:localuser:root
+NoDisplay=true
 EOF
 echo "desktop overlay done in $OUT"

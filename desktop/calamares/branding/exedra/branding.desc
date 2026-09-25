@@ -1,0 +1,33 @@
+---
+componentName:    exedra
+welcomeStyleCalamares: false
+windowExpanding: normal
+windowSize: 1024px,520px
+windowPlacement: center
+
+strings:
+    productName:         Exedra
+    shortProductName:    Exedra
+    version:             0.1.0
+    shortVersion:        0.1.0
+    versionedName:       Exedra 0.1.0
+    shortVersionedName:  Exedra 0.1.0
+    bootloaderEntryName: Exedra
+    productUrl:          https://example.org/exedra
+    supportUrl:          https://example.org/exedra
+    knownIssuesUrl:      https://example.org/exedra
+    releaseNotesUrl:     https://example.org/exedra
+    donateUrl:           https://example.org/exedra
+
+images:
+    productLogo:         "logo.png"
+    productIcon:         "logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+
+style:
+    sidebarBackground:    "#2c2c2c"
+    sidebarText:          "#ffffff"
+    sidebarTextSelect:    "#34b4eb"
+    sidebarTextHighlight: "#ffffff"

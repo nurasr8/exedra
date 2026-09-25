@@ -58,6 +58,8 @@ if [ -n "$ISO" ]; then
   mount -t tmpfs tmpfs /ovl
   mkdir -p /ovl/upper /ovl/work
   mount -t overlay overlay -o lowerdir=/lower,upperdir=/ovl/upper,workdir=/ovl/work /newroot
+  mkdir -p /newroot/live
+  mount --bind /iso/live/rootfs.squashfs /newroot/live/rootfs.squashfs 2>/dev/null || true
 else
   read -r CMDLINE < /proc/cmdline
   for w in $CMDLINE; do case "$w" in root=*) ARG=${w#root=};; esac; done

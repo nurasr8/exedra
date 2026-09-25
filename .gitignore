@@ -1,3 +1,4 @@
+tools/secureboot/keys/
 live/rootfs/
 live/rootfs-desktop/
 live/iso-work/

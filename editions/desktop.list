@@ -22,6 +22,12 @@ print-manager
 partitionmanager
 firefox
 libreoffice-fresh
+calamares
+kpmcore
+libpwquality
+squashfs-tools
+xorg-xhost
+polkit-kde-agent
 networkmanager
 bluez
 cups
