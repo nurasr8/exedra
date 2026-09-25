@@ -1,0 +1,27 @@
+package "file" {
+  version = "5.46"
+  description = "File type detection utility"
+  license = "BSD-2-Clause"
+  homepage = "https://www.darwinsys.com/file/"
+  source {
+    url = "https://astron.com/pub/file/file-5.46.tar.gz"
+    sha256 = "c9cc77c7c560c543135edc555af609d5619dbef011997e988ce40a3d75d86088"
+  }
+  depends {
+    "glibc"
+    "zlib"
+    "xz"
+    "bzip2"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

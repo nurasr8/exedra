@@ -1,0 +1,30 @@
+package "git" {
+  version = "2.51.0"
+  description = "Distributed version control system"
+  license = "GPL-2.0"
+  homepage = "https://git-scm.com/"
+  source {
+    url = "https://www.kernel.org/pub/software/scm/git/git-2.51.0.tar.xz"
+    sha256 = "60a7c2251cc2e588d5cd87bae567260617c6de0c22dca9cdbfc4c7d2b8990b62"
+  }
+  depends {
+    "glibc"
+    "curl"
+    "openssl"
+    "expat"
+    "zlib"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "perl"
+    "python"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} prefix=/usr install"
+  }
+}

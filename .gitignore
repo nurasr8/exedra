@@ -1,0 +1,9 @@
+live/rootfs/
+live/iso-work/
+*.iso
+*.img
+__pycache__/
+nex/
+venimpkgs/
+*.dl
+/tmp/

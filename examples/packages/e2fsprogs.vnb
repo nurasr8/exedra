@@ -1,0 +1,25 @@
+package "e2fsprogs" {
+  version = "1.47.3"
+  description = "Ext2 filesystem utilities"
+  license = "GPL-2.0"
+  homepage = "https://e2fsprogs.sourceforge.net/"
+  source {
+    url = "https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.3/e2fsprogs-1.47.3.tar.xz"
+    sha256 = "857e6ef800feaa2bb4578fbc810214be5d3c88b072ea53c5384733a965737329"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "pkg-config"
+  }
+  build {
+    command "./configure --prefix=/usr --sysconfdir=/etc"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

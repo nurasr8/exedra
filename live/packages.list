@@ -1,0 +1,17 @@
+bash
+coreutils
+grep
+sed
+gawk
+findutils
+nano
+less
+tar
+gzip
+xz
+curl
+util-linux
+e2fsprogs
+iproute2
+openssh
+hello-venim

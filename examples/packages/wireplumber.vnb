@@ -1,0 +1,30 @@
+package "wireplumber" {
+  version = "0.5.10"
+  description = "Session manager for PipeWire"
+  license = "MIT"
+  homepage = "https://pipewire.pages.freedesktop.org/wireplumber/"
+  source {
+    url = "https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.10/wireplumber-0.5.10.tar.gz"
+    sha256 = "c2e021d8e6ef1db644facd4a97f5a644b67481c641da9100e851aab6752ba446"
+  }
+  depends {
+    "glibc"
+    "pipewire"
+    "lua"
+    "glib2"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "meson"
+    "ninja"
+    "pkg-config"
+  }
+  build {
+    command "meson setup build --prefix=/usr"
+    command "ninja -C build"
+  }
+  install {
+    command "DESTDIR=${destdir} ninja -C build install"
+  }
+}

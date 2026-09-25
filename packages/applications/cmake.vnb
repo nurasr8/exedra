@@ -1,0 +1,28 @@
+package "cmake" {
+  version = "4.1.1"
+  description = "Cross-platform build system"
+  license = "BSD-3-Clause"
+  homepage = "https://cmake.org/"
+  source {
+    url = "https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1.tar.gz"
+    sha256 = "b29f6f19733aa224b7763507a108a427ed48c688e1faf22b29c44e1c30549282"
+  }
+  depends {
+    "glibc"
+    "curl"
+    "expat"
+    "zlib"
+    "libuv"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./bootstrap --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

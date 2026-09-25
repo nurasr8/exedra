@@ -1,0 +1,29 @@
+package "openbox" {
+  version = "3.6.1"
+  description = "Standards-compliant stacking window manager"
+  license = "GPL-2.0-or-later"
+  homepage = "http://openbox.org/"
+
+  source {
+    url = "http://openbox.org/dist/openbox/openbox-${version}.tar.gz"
+    sha256 = "8b4ac0760018c77c0044fab06a4f0c510ba87eae934d9983b10878483bde7ef7"
+  }
+
+  depends {
+    "xorg-server"
+  }
+
+  makedepends {
+    "gcc"
+    "make"
+  }
+
+  build {
+    command "./configure --prefix=/usr"
+    command "make"
+  }
+
+  install {
+    command "make DESTDIR=${DESTDIR} install"
+  }
+}

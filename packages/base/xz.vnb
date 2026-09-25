@@ -1,0 +1,24 @@
+package "xz" {
+  version = "5.8.1"
+  description = "XZ file compression tools"
+  license = "GPL-2.0"
+  homepage = "https://tukaani.org/xz/"
+  source {
+    url = "https://github.com/tukaani-project/xz/releases/download/v5.8.1/xz-5.8.1.tar.xz"
+    sha256 = "0b54f79df85912504de0b14aec7971e3f964491af1812d83447005807513cd9e"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./configure --prefix=/usr --disable-static"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

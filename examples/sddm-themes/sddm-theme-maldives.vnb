@@ -1,0 +1,20 @@
+package "sddm-theme-maldives" {
+  version = "0.21.0"
+  description = "Maldives SDDM theme (bundled upstream)"
+  license = "CC-BY-SA-3.0"
+  homepage = "https://github.com/sddm/sddm"
+
+  source {
+    url = "https://github.com/sddm/sddm/archive/refs/tags/v${version}.tar.gz"
+    sha256 = "f895de2683627e969e4849dbfbbb2b500787481ca5ba0de6d6dfdae5f1549abf"
+  }
+
+  depends {
+    "sddm"
+  }
+
+  install {
+    command "mkdir -p ${DESTDIR}/usr/share/sddm/themes/maldives"
+    command "cp -r ${srcdir}/data/themes/maldives/* ${DESTDIR}/usr/share/sddm/themes/maldives/"
+  }
+}

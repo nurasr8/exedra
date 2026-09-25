@@ -1,0 +1,26 @@
+package "zstd" {
+  version = "1.5.7"
+  description = "Zstandard compression tools"
+  license = "BSD-3-Clause"
+  homepage = "https://facebook.github.io/zstd/"
+  source {
+    url = "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz"
+    sha256 = "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3"
+  }
+  depends {
+    "glibc"
+    "zlib"
+    "xz"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "cmake"
+  }
+  build {
+    command "make -j$(nproc) prefix=/usr"
+  }
+  install {
+    command "make DESTDIR=${destdir} prefix=/usr install"
+  }
+}

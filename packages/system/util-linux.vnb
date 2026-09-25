@@ -1,0 +1,28 @@
+package "util-linux" {
+  version = "2.41.2"
+  description = "System utilities for Linux"
+  license = "GPL-2.0"
+  homepage = "https://www.kernel.org/pub/linux/utils/util-linux/"
+  source {
+    url = "https://www.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-2.41.2.tar.xz"
+    sha256 = "6062a1d89b571a61932e6fc0211f36060c4183568b81ee866cf363bce9f6583e"
+  }
+  depends {
+    "glibc"
+    "ncurses"
+    "zlib"
+    "pam"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "pkg-config"
+  }
+  build {
+    command "./configure --prefix=/usr --disable-static"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

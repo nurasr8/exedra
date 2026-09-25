@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import os
+import sys
+here = os.path.dirname(os.path.realpath(__file__))
+for cand in (os.path.join(here, '..', 'src'), '/usr/lib/venim'):
+    if os.path.exists(os.path.join(cand, 'venim', '__init__.py')):
+        sys.path.insert(0, cand)
+        break
+from venim.cli import main
+if __name__ == '__main__':
+    raise SystemExit(main())

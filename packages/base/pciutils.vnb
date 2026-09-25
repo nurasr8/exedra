@@ -1,0 +1,27 @@
+package "pciutils" {
+  version = "3.15.0"
+  description = "PCI bus utilities"
+  license = "GPL-2.0"
+  homepage = "https://mj.ucw.cz/sw/pciutils/"
+  source {
+    url = "https://www.kernel.org/pub/software/utils/pciutils/pciutils-3.15.0.tar.xz"
+    sha256 = "c02940f430841ecf158d5d9a50007afc4d5353c8678a2455003ca0b2c4e9f5ff"
+  }
+  depends {
+    "glibc"
+    "zlib"
+    "kmod"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "pkg-config"
+  }
+  build {
+    command "make -j$(nproc) PREFIX=/usr SHARED=yes"
+  }
+  install {
+    command "make DESTDIR=${destdir} PREFIX=/usr SHARED=yes install"
+    command "make DESTDIR=${destdir} PREFIX=/usr update-pcidb"
+  }
+}

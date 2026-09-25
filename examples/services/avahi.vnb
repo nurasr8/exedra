@@ -1,0 +1,35 @@
+package "avahi" {
+  version = "0.8"
+  description = "mDNS/DNS-SD service discovery daemon"
+  license = "LGPL-2.1-or-later"
+  homepage = "https://www.avahi.org/"
+
+  source {
+    url = "https://github.com/avahi/avahi/archive/refs/tags/v${version}.tar.gz"
+    sha256 = "c15e750ef7c6df595fb5f2ce10cac0fee2353649600e6919ad08ae8871e4945f"
+  }
+
+  depends {
+    "dbus"
+    "systemd"
+  }
+
+  makedepends {
+    "gcc"
+    "make"
+  }
+
+  build {
+    command "./autogen.sh --prefix=/usr"
+    command "make"
+  }
+
+  install {
+    command "make DESTDIR=${DESTDIR} install"
+  }
+
+  service {
+    unit = "avahi-daemon.service"
+    enable = true
+  }
+}

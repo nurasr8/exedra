@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+VER="$(cat "$ROOT/VERSION")"
+
+cmd="${1:-help}"
+case "$cmd" in
+  bootstrap)
+    bash "$ROOT/system/bootstrap/bootstrap.sh"
+    ;;
+  system)
+    bash "$ROOT/system/rootfs/mkrootfs.sh"
+    ;;
+  package)
+    # ./tools/build package <recipe.vnb> [--root /]
+    exec python3 "$ROOT/bin/venim" --repo "$ROOT" build "$2"
+    ;;
+  live)
+    bash "$ROOT/live/mklive.sh"
+    ;;
+  iso)
+    bash "$ROOT/live/mkiso.sh" "$VER"
+    ;;
+  qemu)
+    bash "$ROOT/tools/run-qemu.sh"
+    ;;
+  test)
+    python3 -m pytest tests/ -q
+    ;;
+  *)
+    echo "usage: build {bootstrap|system|package <recipe>|live|iso|qemu|test}"
+    ;;
+esac
