@@ -1,0 +1,23 @@
+package "dialog" {
+  version = "1.3_20260721"
+  description = "TUI dialog boxes"
+  license = "LGPL-2.1"
+  homepage = "https://invisible-island.net/dialog/"
+  source {
+    url = "https://invisible-island.net/archives/dialog/dialog-1.3-20260721.tgz"
+    sha256 = "3bc8b6513de94d9592329603676922cdfa773c7134886412e2b82c4ad0184212"
+  }
+  depends {
+    "ncurses"
+  }
+  makedepends {
+    "gcc" "make"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

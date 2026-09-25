@@ -3,12 +3,15 @@
 # Usage: bash tools/seed-rootfs.sh
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="$ROOT/live/rootfs"
-CACHE=/var/cache/pacman/pkg
+OUT="${OUT:-$ROOT/live/rootfs}"
+EDITION="${EDITION:-core}"
+CACHES="/var/cache/pacman/pkg $HOME/pkgcache"
 
-SEED="filesystem glibc bash readline ncurses coreutils systemd util-linux shadow kmod
-e2fsprogs iproute2 iputils procps-ng grep sed gawk tar gzip xz findutils less file
-which nano curl ca-certificates openssl openssh pciutils usbutils linux python dbus systemd-sysvcompat dosfstools"
+read_list() { grep -v '^[[:space:]]*#' "$1" | grep -v '^[[:space:]]*$' | tr -d ' \t\r'; }
+SEED="$(read_list "$ROOT/editions/core.list")"
+if [ "$EDITION" = desktop ]; then
+  SEED="$SEED $(read_list "$ROOT/editions/desktop.list")"
+fi
 
 resolve() {
   local pkg="$1"
@@ -29,7 +32,11 @@ done
 
 mkdir -p "$OUT"
 for pkg in "${!seen[@]}"; do
-  f=$(ls -t "$CACHE/$pkg"-[0-9]*.pkg.tar.zst 2>/dev/null | head -n1)
+  f=""
+  for c in $CACHES; do
+    f=$(ls -t "$c/$pkg"-[0-9]*.pkg.tar.zst 2>/dev/null | head -n1)
+    [ -n "$f" ] && break
+  done
   if [ -z "$f" ]; then echo "MISS: $pkg"; continue; fi
   bsdtar -xf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
 done

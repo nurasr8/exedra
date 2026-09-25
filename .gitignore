@@ -1,5 +1,7 @@
 live/rootfs/
+live/rootfs-desktop/
 live/iso-work/
+live/iso-work-*/
 *.iso
 *.img
 __pycache__/

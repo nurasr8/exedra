@@ -1,0 +1,22 @@
+package "hdparm" {
+  version = "9.65"
+  description = "ATA disk parameters"
+  license = "BSD-2-Clause"
+  homepage = "https://sourceforge.net/projects/hdparm/"
+  source {
+    url = "https://downloads.sourceforge.net/project/hdparm/hdparm/hdparm-9.65.tar.gz"
+    sha256 = "d14929f910d060932e717e9382425d47c2e7144235a53713d55a94f7de535a4b"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc" "make"
+  }
+  build {
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

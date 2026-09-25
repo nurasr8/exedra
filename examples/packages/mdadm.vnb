@@ -1,0 +1,22 @@
+package "mdadm" {
+  version = "4.4"
+  description = "Software RAID management"
+  license = "GPL-2.0"
+  homepage = "https://raid.wiki.kernel.org/"
+  source {
+    url = "https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.4.tar.xz"
+    sha256 = "9b488f35ed153df99924b5fe41eed380e8512de8f18a118628cacdd681b1d573"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc" "make"
+  }
+  build {
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

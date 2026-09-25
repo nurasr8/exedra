@@ -4,7 +4,7 @@
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="${1:-$ROOT/live/rootfs}"
-CACHE=/var/cache/pacman/pkg
+CACHES="/var/cache/pacman/pkg $HOME/pkgcache"
 
 have() { ldconfig -r "$OUT" -p 2>/dev/null | grep -q " $1 "; }
 
@@ -23,8 +23,12 @@ while read -r so; do
   [ -n "$host" ] || { echo "HOST-MISS: $so"; continue; }
   pkg=$(pacman -Qo "$host" 2>/dev/null | sed 's/.*is owned by //; s/ .*//')
   [ -n "$pkg" ] || { echo "PKG-MISS: $so"; continue; }
-  f=$(ls -t "$CACHE/$pkg"-[0-9]*.pkg.tar.zst 2>/dev/null | head -n1)
-  [ -n "$f" ] || { echo "CACHE-MISS: $pkg ($so)"; continue; }
+  f=""
+  for c in $CACHES; do
+    f=$(ls -t "$c/$pkg"-[0-9]*.pkg.tar.zst 2>/dev/null | head -n1)
+    [ -n "$f" ] && break
+  done
+  if [ -z "$f" ]; then echo "CACHE-MISS: $pkg ($so)"; continue; fi
   echo "ADD: $pkg (for $so)"
   bsdtar -xf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
   fixed=$((fixed+1))

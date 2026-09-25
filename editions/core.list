@@ -1,0 +1,56 @@
+# Exedra Core base set (one package per line, # comments allowed)
+filesystem
+glibc
+bash
+readline
+ncurses
+coreutils
+systemd
+systemd-sysvcompat
+systemd-libs
+util-linux
+shadow
+kmod
+dbus
+python
+# shell tools
+grep
+sed
+gawk
+tar
+gzip
+xz
+findutils
+less
+file
+which
+nano
+# hardware
+pciutils
+usbutils
+lvm2
+mdadm
+cryptsetup
+smartmontools
+hdparm
+htop
+# network
+iproute2
+iputils
+curl
+ca-certificates
+openssl
+openssh
+iw
+iwd
+wpa_supplicant
+ethtool
+# storage/fs
+e2fsprogs
+dosfstools
+# boot/kernel
+linux
+# misc
+dialog
+sudo
+procps-ng
