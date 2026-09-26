@@ -1,0 +1,19 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+stat -c '%u %a' /usr/bin/sudo; su -s /bin/sh exedra -c 'sudo -n true; echo SUDO=$?'
+---
+SUDO=
+su -s /bin/sh exedra -c 'sudo -E env QT_QPA_PLATFORM=offscreen timeout 110 calamares -d > /tmp/cal.log 2>&1; echo CAL=$?'
+---
+CAL=
+grep -a -c "DEBUG\|Loaded" /tmp/cal.log; grep -a -iE "error|critical|cannot open|missing" /tmp/cal.log | head -6; echo CG
+---
+CG
+ls ~/Desktop 2>/dev/null; ls /home/exedra/Desktop; systemctl is-active NetworkManager; echo VDONE
+---
+VDONE
