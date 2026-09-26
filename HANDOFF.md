@@ -116,6 +116,13 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
 - WiFi: в образе все firmware-сплиты, iw/iwd/wpa_supplicant/rfkill/NM,
   hostapd/v4l-utils/acpid. Broadcom-wl (DKMS) preinstall невозможен
   без root-сборки — только через USB-tethering + headers после установки.
+- 2026-09-26 (вечер 3): WiFi не работал НЕ из-за драйверов, а из-за
+  ОТСУТСТВИЯ modules.dep/modules.alias (Arch генерит хуком depmod,
+  сид его не запускал) — modalias-автозагрузка была мертва целиком,
+  не грузился НИ ОДИН драйвер. Фикс: depmod -b в seed-rootfs.sh.
+  Проверено в QEMU: modprobe dummy insmod OK. Чужие дистры ничего
+  особенного не везут — тот же mainline + depmod. RTL8852CE (rtw89),
+  8821ce, ath12k, mt7925e, rtw8922ae — всё в mainline, всё в образе.
 
 ## Быстрые команды
 
