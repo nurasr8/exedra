@@ -41,4 +41,7 @@ xorriso -as mkisofs -o "$ISO" -V EXEDRA -J -r \
   -isohybrid-mbr "$ROOT/boot/bios/isohdpfx.bin" \
   -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table \
   -eltorito-alt-boot -e esp.img -no-emul-boot -isohybrid-gpt-basdat "$WORK"
+# xorriso leaves no ESP GUID in GPT (strict firmwares ignore the stick):
+# mark the El Torito FAT image as ESP, fix GPT CRCs.
+python3 "$ROOT/tools/gpt-esp.py" "$ISO"
 echo "wrote $ISO"
