@@ -1,0 +1,16 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+stat -c '%u %a %n' /usr/bin/sudo /usr/bin/su /etc/sudoers /etc/sudoers.d/live
+---
+live
+su -s /bin/sh exedra -c 'sudo -n true; echo SUDO=$?'
+---
+SUDO=
+id exedra; echo SDONE
+---
+SDONE

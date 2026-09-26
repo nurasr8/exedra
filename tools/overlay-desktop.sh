@@ -60,4 +60,24 @@ Name=Exedra X access
 Exec=xhost +SI:localuser:root
 NoDisplay=true
 EOF
+# Hide menu clutter: Qt dev tools, Avahi browsers, geo handlers, dup installer
+for hide in assistant designer linguist qdbusviewer qv4l2 qvidcap lstopo \
+    avahi-discover bssh bvnc cartes-geo-handler openstreetmap-geo-handler \
+    google-maps-geo-handler wheelmap-geo-handler; do
+  f="$OUT/usr/share/applications/$hide.desktop"
+  if [ -f "$f" ] && ! grep -q '^NoDisplay=' "$f"; then
+    echo 'NoDisplay=true' >> "$f"
+  fi
+done
+# Live session: passwordless privilege for the installer (pkexec path)
+mkdir -p "$OUT/etc/polkit-1/rules.d"
+cat > "$OUT/etc/polkit-1/rules.d/49-exedra-live.rules" <<'EOF'
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.freedesktop.policykit.exec" &&
+      action.lookup("program") == "/usr/bin/calamares" &&
+      subject.user == "exedra") { return polkit.Result.YES; }
+});
+EOF
+# Live user owns their home (seed runs fakerooted, files default to uid 0)
+chown -R 1000:1000 "$OUT/home/exedra" 2>/dev/null || true
 echo "desktop overlay done in $OUT"

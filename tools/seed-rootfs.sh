@@ -39,7 +39,7 @@ for pkg in "${!seen[@]}"; do
     [ -n "$f" ] && break
   done
   if [ -z "$f" ]; then echo "MISS: $pkg"; continue; fi
-  bsdtar -xf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
+  bsdtar -xpf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
 done
 
 # Exedra overlay

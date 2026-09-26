@@ -28,7 +28,9 @@ cp "$BOOTX64" "$WORK/esp/EFI/BOOT/BOOTX64.EFI"
 cp "$ROOT/boot/loader/loader.conf" "$WORK/esp/loader/"
 cp "$ROOT/boot/loader/entries/exedra.conf" "$WORK/esp/loader/entries/"
 bash "$ROOT/tools/secureboot/sign.sh" "$WORK/esp" || true
-mksquashfs "$RFS" "$WORK/live/rootfs.squashfs" -comp xz
+STATE="$ROOT/live/fakeroot-$EDITION.save"
+[ -f "$STATE" ] || { echo "no $STATE (run mklive first)" >&2; exit 1; }
+fakeroot -i "$STATE" mksquashfs "$RFS" "$WORK/live/rootfs.squashfs" -comp xz
 cp "$RFS/boot/vmlinuz" "$WORK/vmlinuz-exedra"
 cp "$ROOT/initramfs.img" "$WORK/initramfs-exedra.img"
 mkdir -p "$WORK/isolinux"

@@ -123,3 +123,13 @@ qemu-guest-agent
 spice-vdagent
 open-vm-tools
 virtualbox-guest-utils
+# App store (Flatpak backend works live; native needs repo DB)
+discover
+packagekit-qt6
+packagekit
+flatpak
+fwupd
+# WiFi extras: AP mode, video/DVB utils, laptop events
+hostapd
+v4l-utils
+acpid

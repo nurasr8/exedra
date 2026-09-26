@@ -1,0 +1,22 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+runuser -u exedra sudo -n true; echo SUDO=$?
+---
+SUDO=
+ldconfig -p | grep -c calamares; ls /usr/bin/calamares
+---
+calamares
+QT_QPA_PLATFORM=offscreen timeout 100 calamares -d > /tmp/cal.log 2>&1; echo CAL=$?
+---
+CAL=
+grep -a -iE "error|critical|fail|cannot|missing" /tmp/cal.log | head -10; echo G1; wc -l /tmp/cal.log
+---
+G1
+systemctl is-active NetworkManager; nmcli -t dev status 2>&1 | head -5; echo NETDONE
+---
+NETDONE

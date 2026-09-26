@@ -30,7 +30,7 @@ while read -r so; do
   done
   if [ -z "$f" ]; then echo "CACHE-MISS: $pkg ($so)"; continue; fi
   echo "ADD: $pkg (for $so)"
-  bsdtar -xf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
+  bsdtar -xpf "$f" -C "$OUT" --exclude=.PKGINFO --exclude=.MTREE --exclude=.INSTALL
   fixed=$((fixed+1))
 done < "$needed"
 rm -f "$needed"
