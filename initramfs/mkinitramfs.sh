@@ -26,12 +26,13 @@ copy_bin /bin/bash
 copy_bin /bin/mount
 copy_bin /bin/umount
 copy_bin /usr/bin/blkid
+copy_bin /bin/sleep
 copy_bin /usr/bin/mkdir
 copy_bin /usr/sbin/modprobe
 copy_bin /usr/sbin/switch_root
 ln -sf bash "$WORK/bin/sh"
 
-for ko in $(cd "$RFS/lib/modules/$KV" && find kernel -name '*.ko*' | grep -E 'loop|isofs|squashfs|sr_mod|cdrom|ata_piix|ata_generic|libata|scsi_mod|sd_mod|sg_mod|fat|vfat|virtio|virtio_blk|virtio_pci|virtio_ring|virtio_net|uhci|ehci|xhci|usb_storage|uas|libahci|ahci|overlay|e1000|e1000e|r8169|igb'); do
+for ko in $(cd "$RFS/lib/modules/$KV" && find kernel -name '*.ko*' | grep -E 'loop|isofs|squashfs|sr_mod|cdrom|ata_piix|ata_generic|libata|scsi_mod|scsi_transport|sd_mod|sg_mod|fat|vfat|virtio|virtio_blk|virtio_pci|virtio_ring|virtio_net|uhci|ehci|ehci_pci|xhci|xhci_pci|usbcore|usb_common|usb[_-]storage|uas|libahci|ahci|nvme|nvme_core|sdhci|sdhci_pci|mmc_core|mmc_block|overlay|e1000|e1000e|r8169|igb'); do
   mkdir -p "$WORK/lib/modules/$KV/$(dirname "$ko")"
   cp -a "$RFS/lib/modules/$KV/$ko" "$WORK/lib/modules/$KV/$ko"
 done
@@ -44,12 +45,19 @@ mount -t proc proc /proc
 mount -t sysfs sys /sys
 mount -t devtmpfs dev /dev
 mkdir -p /run
-for m in loop sr_mod cdrom ata_piix ata_generic squashfs isofs vfat virtio_blk virtio_net e1000 e1000e overlay; do
+for m in loop sr_mod sd_mod cdrom usb_storage uas xhci_pci ehci_pci uhci_hcd ata_piix ata_generic ahci nvme squashfs isofs vfat virtio_blk virtio_net e1000 e1000e overlay; do
   modprobe $m 2>/dev/null || true
 done
+# USB sticks / slow buses need seconds to enumerate: wait for the live medium.
 ISO=""
-for d in $(blkid -o device -t LABEL=EXEDRA 2>/dev/null); do
-  if [ "$(blkid -o value -s TYPE "$d" 2>/dev/null)" = iso9660 ]; then ISO="$d"; break; fi
+i=1
+while [ $i -le 30 ]; do
+  for d in $(blkid -o device -t LABEL=EXEDRA 2>/dev/null); do
+    if [ "$(blkid -o value -s TYPE "$d" 2>/dev/null)" = iso9660 ]; then ISO="$d"; break; fi
+  done
+  [ -n "$ISO" ] && break
+  sleep 1
+  i=$((i + 1))
 done
 if [ -n "$ISO" ]; then
   mount -t iso9660 -o ro "$ISO" /iso
@@ -57,7 +65,8 @@ if [ -n "$ISO" ]; then
   mount -o loop,ro /iso/live/rootfs.squashfs /lower
   mount -t tmpfs tmpfs /ovl
   mkdir -p /ovl/upper /ovl/work
-  mount -t overlay overlay -o lowerdir=/lower,upperdir=/ovl/upper,workdir=/ovl/work /newroot
+  mount -t overlay overlay -o lowerdir=/lower,upperdir=/ovl/upper,workdir=/ovl/work /newroot \
+    || { echo "Exedra: overlay mount failed"; exec sh; }
   mkdir -p /newroot/live
   mount --bind /iso/live/rootfs.squashfs /newroot/live/rootfs.squashfs 2>/dev/null || true
 else
@@ -68,8 +77,19 @@ else
     LABEL=*) DEV=$(blkid -L "${ARG#LABEL=}") ;;
     *) DEV="$ARG" ;;
   esac
-  [ -n "$DEV" ] || { echo "Exedra: no root device"; sh; }
-  mount "$DEV" /newroot
+  [ -n "$DEV" ] || {
+    i=1
+    while [ -z "$DEV" ] && [ $i -le 15 ]; do
+      case "$ARG" in
+        UUID=*) DEV=$(blkid -U "${ARG#UUID=}") ;;
+        LABEL=*) DEV=$(blkid -L "${ARG#LABEL=}") ;;
+      esac
+      [ -n "$DEV" ] || sleep 1
+      i=$((i + 1))
+    done
+  }
+  if [ -z "$DEV" ]; then echo "Exedra: no root device ($ARG)"; exec sh; fi
+  mount "$DEV" /newroot || { echo "Exedra: cannot mount $DEV"; exec sh; }
 fi
 mkdir -p /newroot/run
 mount --move /dev /newroot/dev

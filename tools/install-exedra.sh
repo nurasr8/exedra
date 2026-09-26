@@ -65,7 +65,7 @@ cat > "$MNT/boot/loader/entries/exedra.conf" <<EOF
 title Exedra
 linux /vmlinuz-exedra
 initrd /initramfs-exedra.img
-options root=UUID=$ROOTUUID console=ttyS0,115200 quiet
+options root=UUID=$ROOTUUID console=tty0 console=ttyS0,115200 quiet
 EOF
 KV=$(ls "$MNT/usr/lib/modules/" | head -n1)
 cp "$MNT/usr/lib/modules/$KV/vmlinuz" "$MNT/boot/vmlinuz-exedra"

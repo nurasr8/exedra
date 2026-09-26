@@ -1,0 +1,19 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+timeout 20 venim --version; echo VRC=$?
+---
+VRC=
+systemctl is-active sddm
+---
+active
+echo FAILED=$(systemctl --failed --no-legend | wc -l)
+---
+FAILED=
+sleep 90; loginctl --no-legend; echo LEND
+---
+LEND
