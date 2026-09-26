@@ -11,6 +11,9 @@ bool copyFile2(const std::string& src, const std::string& dst);  // copy2: data+
 void copyTree(const std::string& src, const std::string& dst);   // symlinks kept
 std::string shellQuote(const std::string& s);  // single-quote for system()
 std::string trim(const std::string& s);
+// lexical relative path (like os.path.relpath: no fs access, no symlink
+// resolution — std::filesystem::relative resolves ".." through symlinks)
+std::string relPath(const std::string& base, const std::string& path);
 
 // JSON with Python json.dumps semantics (ensure_ascii, indent support)
 std::string jsonEscape(const std::string& s);

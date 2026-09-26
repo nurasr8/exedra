@@ -7,6 +7,7 @@
 
 #include "core.h"
 #include "db.h"
+#include "util.h"
 #include "vnb.h"
 
 namespace fs = std::filesystem;
@@ -53,8 +54,19 @@ static void testInstallHello() {
     std::cout << "ok: install-hello\n";
 }
 
+static void testRelPath() {
+    // lexical only: must NOT resolve symlinks (libstdc++ relative() does)
+    assert(util::relPath("/a/b", "/a/b/c/d") == "c/d");
+    assert(util::relPath("/a/b/c", "/a/x/y") == "../../x/y");
+    assert(util::relPath("/r/usr/bin", "/r/venim/packages/p/1.0/bin/tool") ==
+           "../../venim/packages/p/1.0/bin/tool");
+    assert(util::relPath("/r", "/r/opt/t/f") == "opt/t/f");
+    std::cout << "ok: relpath\n";
+}
+
 int main() {
     testParserMinimal();
+    testRelPath();
     testInstallHello();
     return 0;
 }

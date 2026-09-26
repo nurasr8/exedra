@@ -7,6 +7,8 @@
 #include <filesystem>
 #include <sstream>
 #include <sys/wait.h>
+#include <unistd.h>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -39,8 +41,7 @@ void copyTree(const std::string& src, const std::string& dst) {
     for (auto it = fs::recursive_directory_iterator(
              src, fs::directory_options::skip_permission_denied, ec);
          it != fs::recursive_directory_iterator(); ++it) {
-        std::string rel = fs::relative(it->path(), src, ec).string();
-        if (ec) continue;
+        std::string rel = util::relPath(src, it->path().string());
         fs::path d = fs::path(dst) / rel;
         auto st = it->symlink_status(ec);
         if (ec) continue;
@@ -74,6 +75,60 @@ std::string trim(const std::string& s) {
     while (a < b && std::isspace((unsigned char)s[a])) a++;
     while (b > a && std::isspace((unsigned char)s[b - 1])) b--;
     return s.substr(a, b - a);
+}
+
+std::vector<std::string> splitParts(const std::string& s) {
+    std::vector<std::string> parts;
+    size_t i = 0, n = s.size();
+    while (i < n) {
+        while (i < n && s[i] == '/') i++;
+        size_t j = i;
+        while (j < n && s[j] != '/') j++;
+        if (j > i) parts.push_back(s.substr(i, j - i));
+        i = j;
+    }
+    return parts;
+}
+
+std::string relPath(const std::string& base, const std::string& path) {
+    // work on absolute forms (lexically, like os.path.abspath)
+    std::string b0 = base, p0 = path;
+    if (!b0.empty() && b0[0] != '/') {
+        char cwd[4096];
+        b0 = std::string(getcwd(cwd, sizeof cwd) ? cwd : ".") + "/" + b0;
+    }
+    if (!p0.empty() && p0[0] != '/') {
+        char cwd[4096];
+        p0 = std::string(getcwd(cwd, sizeof cwd) ? cwd : ".") + "/" + p0;
+    }
+    std::vector<std::string> b, p;
+    for (const auto& c : splitParts(base)) {
+        if (c == ".") continue;
+        if (c == ".." && !b.empty() && b.back() != "..")
+            b.pop_back();
+        else
+            b.push_back(c);
+    }
+    for (const auto& c : splitParts(path)) {
+        if (c == ".") continue;
+        if (c == ".." && !p.empty() && p.back() != "..")
+            p.pop_back();
+        else
+            p.push_back(c);
+    }
+    size_t common = 0;
+    while (common < b.size() && common < p.size() && b[common] == p[common])
+        common++;
+    std::string out;
+    for (size_t i = common; i < b.size(); i++) {
+        if (!out.empty()) out += "/";
+        out += "..";
+    }
+    for (size_t i = common; i < p.size(); i++) {
+        if (!out.empty()) out += "/";
+        out += p[i];
+    }
+    return out.empty() ? "." : out;
 }
 
 namespace {

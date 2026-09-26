@@ -471,8 +471,7 @@ int cmdIndex(const Opts& o) {
             skipped++;
             continue;
         }
-        std::string rel = fs::relative(f, dir, ec).string();
-        if (ec) rel = fs::path(f).filename().string();
+        std::string rel = util::relPath(dir, f);
         if (!first) std::cout << ",";
         first = false;
         std::cout << "\n  " << util::jsonStr(rec.name) << ": {\"file\": "

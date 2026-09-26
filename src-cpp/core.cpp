@@ -236,9 +236,7 @@ std::vector<std::string> listFiles(const std::string& tree) {
             ec.clear();
         }
         if (!take) continue;
-        std::string rel = fs::relative(it->path(), tree, ec).string();
-        if (!ec) out.push_back(rel);
-        ec.clear();
+        out.push_back(util::relPath(tree, it->path().string()));
     }
     std::sort(out.begin(), out.end());
     return out;
@@ -264,11 +262,8 @@ std::vector<std::string> linkPackage(const std::string& root,
             ec.clear();
             fs::remove(dst, ec);
         }
-        std::string relSrc = fs::relative(src, fs::path(dst).parent_path(), ec).string();
-        if (ec) {
-            ec.clear();
-            relSrc = src;
-        }
+        std::string relSrc =
+            util::relPath(fs::path(dst).parent_path().string(), src);
         fs::create_symlink(relSrc, dst, ec);
         linked.push_back(targetRel);
     }
