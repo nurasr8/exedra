@@ -42,6 +42,12 @@ Exec=sudo -E calamares
 Icon=drive-harddisk
 Categories=System;
 EOF
+# Installer shortcut on the live desktop (Plasma shows ~/Desktop)
+for d in "$OUT/home/exedra/Desktop" "$OUT/etc/skel/Desktop"; do
+  mkdir -p "$d"
+  cp "$OUT/usr/share/applications/install-exedra.desktop" "$d/"
+  chmod +x "$d/install-exedra.desktop"
+done
 
 mkdir -p "$OUT/etc/calamares"
 cp -r "$ROOT/desktop/calamares/"* "$OUT/etc/calamares/"
