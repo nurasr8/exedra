@@ -1,0 +1,16 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+ls -la /usr/lib/modules/*/modules.dep; modprobe -v dummy 2>&1 | head -3; echo MODP=$?
+---
+MODP=
+lspci -k 2>/dev/null | grep -A1 -E "Network|Audio|VGA" | head -12; echo HW
+---
+HW
+su -s /bin/sh exedra -c 'sudo -n true; echo SUDO=$?'; echo MDONE
+---
+MDONE
