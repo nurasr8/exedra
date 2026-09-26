@@ -82,6 +82,24 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
    сида из Arch-кэша; NVIDIA-проприетарщина; shim для SB без enrollment.
 5. Мелочь: ворнинг `switch_root /run`, `imds-generator hwdb` в логе загрузки.
 
+## Дополнение 2026-09-26 (вечер)
+
+- Panic `Attempted to kill init! exitcode=0x100` на реальном железе:
+  в `/init` модпробbились только ata_piix/virtio, USB-флешка не видна
+  мгновенно → blkid пуст → switch_root exit 1. Фикс (коммит 1e5197d):
+  modprobe usb_storage/uas/ahci/nvme/sdhci, ожидание носителя до 30с,
+  `usb-storage` в copy-паттерне через `usb[_-]storage` (дефис в имени!),
+  вместо паники — `exec sh`. Учтено: xhci/sd_mod/ahci/usbcore — builtin,
+  копировать не надо; в initramfs нет `seq` — только POSIX-циклы/встроенные.
+- Консоль ядра теперь `tty0+ttyS0` (live entries, isolinux, install-exedra):
+  на машинке без serial видно загрузку, serial-тесты не сломаны.
+- Проверенный expect-сценарий Desktop: `tools/qemu-desktop.steps`
+  (stty -echo, полный промпт, 1 команда на шаг — иначе эхо матчит EXPECT).
+- QEMU Desktop: запуск через `-vga virtio` (kwin_wayland нужен DRM).
+- Грабли снова: `pkill -f` с паттерном убил свой же шелл; /tmp/opencode
+  вытерт рестартом сервера (~14:35) — важное держать в репо.
+- Актуальный Desktop ISO + SHA256SUMS + README: `release/` (в gitignore).
+
 ## Быстрые команды
 
 ```sh
