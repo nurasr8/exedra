@@ -20,5 +20,5 @@ VENIM_ROOT=/tmp/exedra-test ./bin/venim --repo . install hello-venim
 ./tools/run-qemu.sh Exedra-0.1.0-x86_64.iso
 ```
 
-Docs in `docs/`, recipes in `packages/` (index) and `examples/` (рабочие примеры:
-base, desktop, wm, display-managers, sddm-themes, services).
+Docs in `docs/`, recipes in `packages/` (base, system, desktop, applications,
+services, themes, wm) and in the online repo (`hub/repo`, `venim --repo <url>`).

@@ -24,13 +24,14 @@ std::vector<std::string> unlinkPackage(const std::string& root,
 
 // build recipe from source -> destdir (caller owns work dirs)
 std::string buildSource(const std::string& root, const vnb::Recipe& rec,
-                        bool verbose = false);
+                        bool verbose = false, bool noCheck = false);
 // install staged destdir into venim/packages + link + db
 std::string installDestdir(const std::string& root, const vnb::Recipe& rec,
                            const std::string& destdir,
                            const std::string& source = "source",
                            const std::string& checksum = "");
 std::string installBinary(const std::string& root, const vnb::Recipe& rec,
-                          bool verbose = false);
+                          bool verbose = false, bool noCheck = false);
+void fetchFresh(const std::string& url, const std::string& dest);
 
 }  // namespace core

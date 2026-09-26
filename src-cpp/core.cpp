@@ -308,7 +308,7 @@ std::vector<std::string> unlinkPackage(const std::string& root,
 }
 
 std::string buildSource(const std::string& root, const vnb::Recipe& rec,
-                        bool verbose) {
+                        bool verbose, bool noCheck) {
     std::string name = rec.name, ver = rec.getStr("version", "0");
     std::string work = root + "/venim/build/" + name + "-" + ver;
     std::string srcdir = work + "/src", builddir = work + "/build",
@@ -329,7 +329,7 @@ std::string buildSource(const std::string& root, const vnb::Recipe& rec,
                           fs::path(url).filename().string();
         fetch(url, arc);
         auto it = src->map.find("sha256");
-        if (it != src->map.end() && it->second.isStr() &&
+        if (!noCheck && it != src->map.end() && it->second.isStr() &&
             it->second.s.compare(0, 8, "00000000") != 0) {
             std::string got = sha256File(arc);
             if (got != it->second.s)
@@ -421,7 +421,7 @@ std::string installDestdir(const std::string& root, const vnb::Recipe& rec,
 }
 
 std::string installBinary(const std::string& root, const vnb::Recipe& rec,
-                          bool verbose) {
+                          bool verbose, bool noCheck) {
     (void)verbose;
     const vnb::Value* b = rec.get("binary");
     bool haveUrl = b && b->isMap() && b->map.count("url") &&
@@ -432,7 +432,7 @@ std::string installBinary(const std::string& root, const vnb::Recipe& rec,
         root + "/venim/cache/" + fs::path(url).filename().string();
     fetch(url, arc);
     auto it = b->map.find("sha256");
-    if (it != b->map.end() && it->second.isStr()) {
+    if (!noCheck && it != b->map.end() && it->second.isStr()) {
         std::string got = sha256File(arc);
         if (got != it->second.s)
             throw std::runtime_error("sha256 mismatch: want " + it->second.s +
@@ -444,7 +444,31 @@ std::string installBinary(const std::string& root, const vnb::Recipe& rec,
     std::error_code ec;
     util::removeAll(stage);
     fs::create_directories(stage, ec);
-    adapter::unpack(arc, stage);
+    try {
+        adapter::unpack(arc, stage);
+    } catch (const std::runtime_error&) {
+        // single-file payloads (AppImage, static binaries) are not archives:
+        // stage them as-is instead of failing
+        std::string low = arc;
+        for (auto& c : low) c = (char)tolower((unsigned char)c);
+        bool isArchive =
+            low.size() >= 4 &&
+            (low.compare(low.size() - 4, 4, ".zip") == 0 ||
+             low.compare(low.size() - 4, 4, ".zst") == 0 ||
+             low.compare(low.size() - 4, 4, ".tar") == 0 ||
+             low.compare(low.size() - 4, 4, ".txz") == 0 ||
+             low.compare(low.size() - 4, 4, ".tbz") == 0 ||
+             low.compare(low.size() - 3, 3, ".gz") == 0 ||
+             low.compare(low.size() - 3, 3, ".xz") == 0 ||
+             low.compare(low.size() - 4, 4, ".bz2") == 0 ||
+             (low.size() >= 5 &&
+              (low.compare(low.size() - 5, 5, ".zstd") == 0 ||
+               low.compare(low.size() - 5, 5, ".tgz") == 0)));
+        if (isArchive) throw;
+        std::string fn = fs::path(arc).filename().string();
+        if (!util::copyFile2(arc, (fs::path(stage) / fn).string()))
+            throw std::runtime_error("cannot stage payload: " + arc);
+    }
     std::string inner = stripTopLevel(stage);
     std::string destdir = work + "/dest";
     util::removeAll(destdir);
@@ -468,6 +492,12 @@ std::string installBinary(const std::string& root, const vnb::Recipe& rec,
     std::string sum;
     if (it != b->map.end() && it->second.isStr()) sum = it->second.s;
     return installDestdir(root, rec, destdir, "binary", sum);
+}
+
+void fetchFresh(const std::string& url, const std::string& dest) {
+    std::error_code ec;
+    fs::remove(dest, ec);
+    fetch(url, dest);
 }
 
 }  // namespace core

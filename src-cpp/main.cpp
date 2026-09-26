@@ -1,12 +1,14 @@
 // venim CLI. Same commands, flags, messages and exit codes as the Python impl.
 #include <algorithm>
 #include <cctype>
+#include <cstdio>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -21,17 +23,6 @@ const char* VERSION = "0.1.0";
 
 namespace {
 
-struct Opts {
-    std::string root;
-    std::string repo = ".";
-    bool source = false, binary = false, verbose = false, quiet = false,
-         json = false, force = false, version = false;
-    std::string rootArg;
-    bool hasRootArg = false;
-    std::string command;
-    std::vector<std::string> operands;
-};
-
 std::string toLower(std::string s) {
     for (auto& c : s) c = (char)tolower((unsigned char)c);
     return s;
@@ -39,7 +30,7 @@ std::string toLower(std::string s) {
 
 bool scanRecipes(const std::string& repo, const std::string& want,
                  std::vector<std::string>& hits, bool all) {
-    for (const char* base : {"packages", "examples"}) {
+    for (const char* base : {"packages"}) {
         std::string dir = (fs::path(repo) / base).string();
         std::error_code ec;
         if (!fs::is_directory(dir, ec)) continue;
@@ -58,6 +49,17 @@ bool scanRecipes(const std::string& repo, const std::string& want,
     return !hits.empty();
 }
 
+struct Opts {
+    std::string root;
+    std::string repo = ".";
+    bool source = false, binary = false, verbose = false, quiet = false,
+         json = false, force = false, version = false, noCheck = false;
+    std::string rootArg;
+    bool hasRootArg = false;
+    std::string command;
+    std::vector<std::string> operands;
+};
+
 std::string findRecipe(const std::string& name, const std::string& repo) {
     std::vector<std::string> hits;
     if (scanRecipes(repo, name, hits, false)) {
@@ -65,6 +67,99 @@ std::string findRecipe(const std::string& name, const std::string& repo) {
         return hits[0];
     }
     return "";
+}
+
+bool isUrl(const std::string& s) {
+    return s.compare(0, 7, "http://") == 0 || s.compare(0, 8, "https://") == 0 ||
+           s.compare(0, 7, "file://") == 0;
+}
+
+std::string joinUrl(const std::string& base, const std::string& rel) {
+    std::string b = base;
+    while (!b.empty() && b.back() == '/') b.pop_back();
+    return b + "/" + rel;
+}
+
+struct IndexEntry {
+    std::string file, version, desc;
+};
+
+// name -> entry, from <repo>/index.json (fresh copy, cached fallback)
+std::map<std::string, IndexEntry> loadRepoIndex(const std::string& root,
+                                                const std::string& repo) {
+    std::string idxPath = (fs::path(root) / "venim/cache/repo-index.json").string();
+    std::string tmp = idxPath + ".tmp";
+    try {
+        core::fetchFresh(joinUrl(repo, "index.json"), tmp);
+        std::error_code ec;
+        fs::rename(tmp, idxPath, ec);
+        if (ec) throw std::runtime_error("cannot cache repo index");
+    } catch (const std::exception& e) {
+        std::error_code ec;
+        if (!fs::exists(idxPath, ec))
+            throw std::runtime_error(std::string("repo index unreachable: ") +
+                                     e.what());
+    }
+    std::ifstream f(idxPath);
+    if (!f) throw std::runtime_error("cannot read repo index");
+    std::ostringstream ss;
+    ss << f.rdbuf();
+    util::Json idx;
+    if (!util::parseJson(ss.str(), idx))
+        throw std::runtime_error("bad repo index.json");
+    std::map<std::string, IndexEntry> out;
+    const util::Json* recipes = idx.find("recipes");
+    if (recipes && recipes->type == util::Json::Type::OBJ) {
+        for (const auto& [name, e] : recipes->obj) {
+            IndexEntry en;
+            en.file = e.find("file") ? e.find("file")->str() : "";
+            en.version = e.find("version") ? e.find("version")->str() : "";
+            en.desc = e.find("description") ? e.find("description")->str() : "";
+            if (!en.file.empty()) out[name] = en;
+        }
+    }
+    return out;
+}
+
+// cached local path of a remote recipe file
+std::string fetchRemoteRecipe(const std::string& root, const std::string& repo,
+                              const std::string& file) {
+    std::string dest =
+        (fs::path(root) / "venim/cache/remote-recipes" / file).string();
+    std::error_code ec;
+    fs::create_directories(fs::path(dest).parent_path(), ec);
+    core::fetch(joinUrl(repo, file), dest);
+    return dest;
+}
+
+// resolve install/info/depends operand -> {local path, display name}
+// handles: URLs, local files, local repo, online repo index
+std::pair<std::string, std::string> resolveRecipe(const std::string& operand,
+                                                  const Opts& o) {
+    if (isUrl(operand)) {
+        std::string base = fs::path(operand).filename().string();
+        if (base.empty()) base = "recipe.vnb";
+        size_t h = std::hash<std::string>{}(operand);
+        char buf[20];
+        snprintf(buf, sizeof buf, "%zx", h);
+        std::string dest =
+            (fs::path(o.root) / ("venim/cache/remote-" + base + "-" + buf + ".vnb"))
+                .string();
+        core::fetchFresh(operand, dest);
+        return {dest, operand};
+    }
+    std::string recPath = findRecipe(operand, o.repo);
+    if (!recPath.empty()) return {recPath, recPath};
+    if (isUrl(o.repo)) {
+        auto idx = loadRepoIndex(o.root, o.repo);
+        auto it = idx.find(operand);
+        if (it != idx.end()) {
+            std::string local = fetchRemoteRecipe(o.root, o.repo, it->second.file);
+            return {local, joinUrl(o.repo, it->second.file)};
+        }
+    }
+    if (fs::exists(operand)) return {operand, operand};
+    return {"", ""};
 }
 
 // pretty JSON like json.dumps([{"name":..,"version":..,"active":bool,"desc":..}], indent=2)
@@ -82,8 +177,7 @@ std::string dumpPrettyList(const std::vector<db::Row>& rows) {
 }
 
 int cmdInstall(const Opts& o) {
-    std::string recPath = findRecipe(o.operands[0], o.repo);
-    if (recPath.empty() && fs::exists(o.operands[0])) recPath = o.operands[0];
+    auto [recPath, disp] = resolveRecipe(o.operands[0], o);
     if (recPath.empty()) {
         std::cerr << "package not found: " << o.operands[0] << "\n";
         return 1;
@@ -100,9 +194,9 @@ int cmdInstall(const Opts& o) {
     }
     std::string pkgdir;
     if (useBinary)
-        pkgdir = core::installBinary(o.root, rec, o.verbose);
+        pkgdir = core::installBinary(o.root, rec, o.verbose, o.noCheck);
     else {
-        std::string dest = core::buildSource(o.root, rec, o.verbose);
+        std::string dest = core::buildSource(o.root, rec, o.verbose, o.noCheck);
         pkgdir = core::installDestdir(o.root, rec, dest);
     }
     if (!o.quiet)
@@ -147,12 +241,12 @@ int cmdList(const Opts& o) {
 }
 
 int cmdInfo(const Opts& o) {
-    std::string recPath = findRecipe(o.operands[0], o.repo);
+    auto [recPath, disp] = resolveRecipe(o.operands[0], o);
     db::Pkg inst;
     bool hasInst = db::getActive(o.root, o.operands[0], inst);
     if (o.json) {
         std::cout << "{\n  \"recipe\": "
-                  << (recPath.empty() ? "null" : util::jsonStr(recPath))
+                  << (recPath.empty() ? "null" : util::jsonStr(disp))
                   << ",\n  \"installed\": ";
         if (!hasInst) {
             std::cout << "null\n}\n";
@@ -173,7 +267,7 @@ int cmdInfo(const Opts& o) {
         vnb::Recipe rec = vnb::parseFile(recPath);
         std::cout << rec.name << " " << rec.getStr("version", "") << "\n";
         std::cout << "  desc: " << rec.getStr("description", "") << "\n";
-        std::cout << "  recipe: " << recPath << "\n";
+        std::cout << "  recipe: " << disp << "\n";
         auto deps = rec.getStrList("depends");
         std::cout << "  depends: ";
         if (deps.empty())
@@ -197,6 +291,18 @@ int cmdInfo(const Opts& o) {
 }
 
 int cmdSearch(const Opts& o) {
+    if (isUrl(o.repo)) {
+        auto idx = loadRepoIndex(o.root, o.repo);
+        std::vector<std::pair<std::string, std::string>> named;
+        std::string q = toLower(o.operands[0]);
+        for (const auto& [name, e] : idx) {
+            if (toLower(name).find(q) != std::string::npos)
+                named.push_back({name, e.version});
+        }
+        std::sort(named.begin(), named.end());
+        for (const auto& [n, v] : named) std::cout << n << " " << v << " (remote)\n";
+        return 0;
+    }
     std::vector<std::string> hits;
     scanRecipes(o.repo, "", hits, true);
     std::vector<std::pair<std::string, std::string>> named;
@@ -222,7 +328,8 @@ int cmdSearch(const Opts& o) {
 }
 
 int cmdDepends(const Opts& o) {
-    std::string recPath = findRecipe(o.operands[0], o.repo);
+    auto [recPath, disp] = resolveRecipe(o.operands[0], o);
+    (void)disp;
     if (recPath.empty()) return 1;
     auto deps = vnb::parseFile(recPath).getStrList("depends");
     for (size_t i = 0; i < deps.size(); i++) {
@@ -340,8 +447,52 @@ int cmdClean(const Opts& o) {
     return 0;
 }
 
-int cmdUpdate(const Opts&) {
-    std::cout << "recipe index is local (packages/ + examples/); nothing to fetch yet\n";
+// venim index <dir> : print index.json for a recipe tree (stdout)
+int cmdIndex(const Opts& o) {
+    std::string dir = o.operands[0];
+    std::vector<std::string> files;
+    std::error_code ec;
+    for (auto it = fs::recursive_directory_iterator(
+             dir, fs::directory_options::skip_permission_denied, ec);
+         it != fs::recursive_directory_iterator(); ++it) {
+        if (it->is_regular_file(ec) && it->path().extension() == ".vnb")
+            files.push_back(it->path().string());
+    }
+    std::sort(files.begin(), files.end());
+    std::cout << "{\"recipes\": {";
+    bool first = true;
+    size_t skipped = 0;
+    for (const auto& f : files) {
+        vnb::Recipe rec;
+        try {
+            rec = vnb::parseFile(f);
+        } catch (const std::exception& e) {
+            std::cerr << "warn: skip " << f << ": " << e.what() << "\n";
+            skipped++;
+            continue;
+        }
+        std::string rel = fs::relative(f, dir, ec).string();
+        if (ec) rel = fs::path(f).filename().string();
+        if (!first) std::cout << ",";
+        first = false;
+        std::cout << "\n  " << util::jsonStr(rec.name) << ": {\"file\": "
+                  << util::jsonStr(rel)
+                  << ", \"version\": " << util::jsonStr(rec.getStr("version", "0"))
+                  << ", \"description\": "
+                  << util::jsonStr(rec.getStr("description", "")) << "}";
+    }
+    std::cout << (first ? "}}" : "\n}}\n");
+    if (skipped) std::cerr << "warn: skipped " << skipped << " file(s)\n";
+    return 0;
+}
+
+int cmdUpdate(const Opts& o) {    if (isUrl(o.repo)) {
+        auto idx = loadRepoIndex(o.root, o.repo);
+        std::cout << "repo index: " << idx.size() << " recipes from " << o.repo
+                  << "\n";
+        return 0;
+    }
+    std::cout << "recipe index is local (packages/); nothing to fetch yet\n";
     return 0;
 }
 
@@ -364,10 +515,16 @@ int cmdUpgrade(const Opts& o) {
 
 void printHelp() {
     std::cout
-        << "usage: venim [--root ROOT] [--repo REPO] [--source] [--binary]\n"
-        << "             [--verbose] [--quiet] [--json] [--force] [--version]\n"
+        << "usage: venim [--root ROOT] [--repo REPO|URL] [--source] [--binary]\n"
+        << "             [--verbose] [--quiet] [--json] [--force] [--no-check]\n"
+        << "             [--version]\n"
         << "             {install,remove,list,info,search,depends,provides,verify,\n"
-        << "              clean,build,doctor,repair,update,upgrade} ...\n";
+        << "              clean,build,doctor,repair,update,upgrade,index} ...\n"
+        << "\n"
+        << "  install <name|file.vnb|URL>  install a package\n"
+        << "  --repo URL reads recipes from an online repo (index.json)\n"
+        << "  --no-check (or VENIM_NO_CHECK=1) skips sha256 verification\n"
+        << "  index <dir> prints index.json for a recipe tree\n";
 }
 
 }  // namespace
@@ -376,6 +533,9 @@ int main(int argc, char** argv) {
     Opts o;
     if (const char* e = getenv("VENIM_ROOT")) o.root = e;
     if (o.root.empty()) o.root = "/";
+    if (const char* e = getenv("VENIM_NO_CHECK"))
+        o.noCheck = std::string(e) == "1" || std::string(e) == "true" ||
+                    std::string(e) == "yes";
     std::vector<std::string> args(argv + 1, argv + argc);
     for (size_t i = 0; i < args.size(); i++) {
         const std::string& a = args[i];
@@ -420,6 +580,8 @@ int main(int argc, char** argv) {
             o.json = true;
         else if (a == "--force")
             o.force = true;
+        else if (a == "--no-check")
+            o.noCheck = true;
         else if (a == "--version")
             o.version = true;
         else if (a.compare(0, 2, "--") == 0) {
@@ -452,6 +614,7 @@ int main(int argc, char** argv) {
         {"clean", cmdClean, nullptr},       {"build", cmdBuild, "recipe"},
         {"doctor", cmdDoctor, nullptr},     {"repair", cmdRepair, nullptr},
         {"update", cmdUpdate, nullptr},     {"upgrade", cmdUpgrade, nullptr},
+        {"index", cmdIndex, "directory"},
     };
     for (const auto& c : table) {
         if (o.command == c.name) {

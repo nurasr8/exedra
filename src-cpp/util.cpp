@@ -260,8 +260,7 @@ std::vector<std::string> parseJsonStringArray(const std::string& text) {
     return out;
 }
 
-ProcResult runCapture(const std::string& cmd) {
-    ProcResult r;
+ProcResult runCapture(const std::string& cmd) {    ProcResult r;
     FILE* p = popen((cmd + " 2>/dev/null").c_str(), "r");
     if (!p) return r;
     char buf[8192];
@@ -277,6 +276,161 @@ int runQuiet(const std::string& cmd) {
     int rc = system(full.c_str());
     if (WIFEXITED(rc)) return WEXITSTATUS(rc);
     return -1;
+}
+
+namespace {
+
+class JsonParser {
+public:
+    explicit JsonParser(const std::string& t) : s(t) {}
+    bool run(Json& out) {
+        skip();
+        if (!value(out)) return false;
+        skip();
+        return i == s.size();
+    }
+
+private:
+    const std::string& s;
+    size_t i = 0;
+    void skip() {
+        while (i < s.size() && std::isspace((unsigned char)s[i])) i++;
+    }
+    bool lit(const char* w, Json& o, Json::Type t, bool b = false) {
+        size_t n = strlen(w);
+        if (s.compare(i, n, w) != 0) return false;
+        i += n;
+        o.type = t;
+        o.b = b;
+        return true;
+    }
+    bool string(std::string& out) {
+        if (i >= s.size() || s[i] != '"') return false;
+        i++;
+        out.clear();
+        while (i < s.size()) {
+            char c = s[i++];
+            if (c == '"') return true;
+            if (c == '\\' && i < s.size()) {
+                char e = s[i++];
+                switch (e) {
+                    case '"': out += '"'; break;
+                    case '\\': out += '\\'; break;
+                    case '/': out += '/'; break;
+                    case 'b': out += '\b'; break;
+                    case 'f': out += '\f'; break;
+                    case 'n': out += '\n'; break;
+                    case 'r': out += '\r'; break;
+                    case 't': out += '\t'; break;
+                    case 'u': {
+                        if (i + 4 > s.size()) return false;
+                        unsigned cp = 0;
+                        for (int k = 0; k < 4; k++) {
+                            char h = s[i++];
+                            cp <<= 4;
+                            if (h >= '0' && h <= '9') cp += h - '0';
+                            else if (h >= 'a' && h <= 'f') cp += h - 'a' + 10;
+                            else if (h >= 'A' && h <= 'F') cp += h - 'A' + 10;
+                            else return false;
+                        }
+                        appendUtf8(out, cp);
+                        break;
+                    }
+                    default: out += e; break;
+                }
+            } else {
+                out += c;
+            }
+        }
+        return false;
+    }
+    bool value(Json& o) {
+        skip();
+        if (i >= s.size()) return false;
+        char c = s[i];
+        if (c == '"') {
+            o.type = Json::Type::STR;
+            return string(o.s);
+        }
+        if (c == '{') {
+            i++;
+            o.type = Json::Type::OBJ;
+            skip();
+            if (i < s.size() && s[i] == '}') {
+                i++;
+                return true;
+            }
+            while (true) {
+                std::string k;
+                skip();
+                if (!string(k)) return false;
+                skip();
+                if (i >= s.size() || s[i] != ':') return false;
+                i++;
+                Json v;
+                if (!value(v)) return false;
+                o.obj.push_back({k, v});
+                skip();
+                if (i >= s.size()) return false;
+                if (s[i] == ',') {
+                    i++;
+                    continue;
+                }
+                if (s[i] == '}') {
+                    i++;
+                    return true;
+                }
+                return false;
+            }
+        }
+        if (c == '[') {
+            i++;
+            o.type = Json::Type::ARR;
+            skip();
+            if (i < s.size() && s[i] == ']') {
+                i++;
+                return true;
+            }
+            while (true) {
+                Json v;
+                if (!value(v)) return false;
+                o.arr.push_back(v);
+                skip();
+                if (i >= s.size()) return false;
+                if (s[i] == ',') {
+                    i++;
+                    continue;
+                }
+                if (s[i] == ']') {
+                    i++;
+                    return true;
+                }
+                return false;
+            }
+        }
+        if (lit("true", o, Json::Type::BOOL, true)) return true;
+        if (lit("false", o, Json::Type::BOOL, false)) return true;
+        if (lit("null", o, Json::Type::NUL)) return true;
+        if (c == '-' || (c >= '0' && c <= '9')) {
+            size_t st = i;
+            if (c == '-') i++;
+            while (i < s.size() &&
+                   (std::isdigit((unsigned char)s[i]) || s[i] == '.' ||
+                    s[i] == 'e' || s[i] == 'E' || s[i] == '+' || s[i] == '-'))
+                i++;
+            o.type = Json::Type::NUM;
+            o.s = s.substr(st, i - st);
+            return true;
+        }
+        return false;
+    }
+};
+
+}  // namespace
+
+bool parseJson(const std::string& text, Json& out) {
+    JsonParser p(text);
+    return p.run(out);
 }
 
 }  // namespace util
