@@ -100,6 +100,23 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
   вытерт рестартом сервера (~14:35) — важное держать в репо.
 - Актуальный Desktop ISO + SHA256SUMS + README: `release/` (в gitignore).
 
+## Дополнение 2026-09-26 (вечер 2)
+
+- Calamares "не стартует" по клику: ВЕСЬ rootfs был распакован от uid 1000
+  без setuid (`sudo: must be owned by uid 0 and have the setuid bit set`).
+  Фикс: весь сид+оверлей+venim под fakeroot (`-s/-i` state в
+  `~/.cache/exedra-fakeroot/`, т.к. fakeroot ломается на пробелах в пути!),
+  распаковка `bsdtar -xpf`, mksquashfs под fakeroot. Проверка в QEMU:
+  `sudo -n true` от exedra = 0. Заодно чинены установленные системы
+  (наследуют владение из squashfs). Ярлык апстрима (pkexec) покрыт
+  polkit-правилом `49-exedra-live.rules`.
+- Проверенный сценарий: `tools/qemu-verify.steps`.
+- Discover-стек в образе (бинарь `plasma-discover` + flatpak/fwupd),
+  меню почищено от Qt-dev/Avahi/geo (NoDisplay в overlay).
+- WiFi: в образе все firmware-сплиты, iw/iwd/wpa_supplicant/rfkill/NM,
+  hostapd/v4l-utils/acpid. Broadcom-wl (DKMS) preinstall невозможен
+  без root-сборки — только через USB-tethering + headers после установки.
+
 ## Быстрые команды
 
 ```sh
