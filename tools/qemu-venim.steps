@@ -1,0 +1,10 @@
+exedra login:
+root
+---
+[root@exedra ~]#
+stty -echo; echo EOFF
+---
+EOFF
+file /usr/bin/venim; venim --version; venim verify hello-venim; echo VVDONE
+---
+VVDONE

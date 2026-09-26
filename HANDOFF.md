@@ -116,6 +116,10 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
 - WiFi: в образе все firmware-сплиты, iw/iwd/wpa_supplicant/rfkill/NM,
   hostapd/v4l-utils/acpid. Broadcom-wl (DKMS) preinstall невозможен
   без root-сборки — только через USB-tethering + headers после установки.
+- 2026-09-26 (ночь): venim переписан на C++17 (src-cpp/, cmake, sqlite3+
+  curl+openssl), CLI/DB паритет с Python (проверено diff),
+  Python-исходники удалены. Сборка: tools/build-venim.sh -> build-cpp/venim.
+  Полный пайплайн и live-QEMU с C++-бинарником зелёные.
 - 2026-09-26 (вечер 3): WiFi не работал НЕ из-за драйверов, а из-за
   ОТСУТСТВИЯ modules.dep/modules.alias (Arch генерит хуком depmod,
   сид его не запускал) — modalias-автозагрузка была мертва целиком,
