@@ -12,7 +12,11 @@ case "$EDITION" in
   *) echo "unknown edition: $EDITION" >&2; exit 1 ;;
 esac
 export EDITION
-STATE="$ROOT/live/fakeroot-$EDITION.save"
+# NOTE: fakeroot mishandles spaces in save-file paths (repo dir has one),
+# so the state lives in a space-free cache dir.
+STATEDIR="$HOME/.cache/exedra-fakeroot"
+mkdir -p "$STATEDIR"
+STATE="$STATEDIR/$EDITION.save"
 rm -f "$STATE"
 export OUT="$RFS"
 fakeroot -s "$STATE" bash "$ROOT/tools/seed-rootfs.sh"
