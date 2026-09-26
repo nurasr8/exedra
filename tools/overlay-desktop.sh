@@ -19,7 +19,7 @@ mkdir -p "$OUT/etc/sddm.conf.d"
 cat > "$OUT/etc/sddm.conf.d/autologin.conf" <<'EOF'
 [Autologin]
 User=exedra
-Session=plasmax11.desktop
+Session=plasma.desktop
 EOF
 mkdir -p "$OUT/etc/sudoers.d"
 rm -f "$OUT/etc/sudoers.d/live"
