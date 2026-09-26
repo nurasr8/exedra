@@ -1,6 +1,6 @@
 # Package manager (venim)
 
-Один бинарник: `src/venim/`.
+Один бинарник: `src-cpp/` (C++17, SQLite), сборка: `tools/build-venim.sh`.
 
 ## Команды
 

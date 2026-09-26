@@ -14,7 +14,7 @@ OFFICIAL BINARY -> VERIFY -> EXTRACT -> ADAPT -> VALIDATE -> /venim/...
 ```
 ./tools/build bootstrap
 ./tools/build system
-VENIM_ROOT=/tmp/exedra-test python3 bin/venim --repo . install hello-venim
+VENIM_ROOT=/tmp/exedra-test ./bin/venim --repo . install hello-venim
 /tmp/exedra-test/venim/packages/hello-venim/*/bin/hello
 ./tools/build iso   # needs grub-mkrescue, mksquashfs, kernel
 ./tools/run-qemu.sh Exedra-0.1.0-x86_64.iso

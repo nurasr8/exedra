@@ -19,6 +19,7 @@ mkdir -p "$STATEDIR"
 STATE="$STATEDIR/$EDITION.save"
 rm -f "$STATE"
 export OUT="$RFS"
+bash "$ROOT/tools/build-venim.sh" >/dev/null || { echo "venim build failed" >&2; exit 1; }
 fakeroot -s "$STATE" bash "$ROOT/tools/seed-rootfs.sh"
 fakeroot -i "$STATE" -s "$STATE" bash -c '
 if [ -f "$ROOT/initramfs.img" ]; then
@@ -29,5 +30,5 @@ fi' ROOT="$ROOT" RFS="$RFS"
 if [ "$EDITION" = desktop ]; then
   fakeroot -i "$STATE" -s "$STATE" bash "$ROOT/tools/overlay-desktop.sh" "$RFS"
 fi
-fakeroot -i "$STATE" -s "$STATE" env VENIM_ROOT="$RFS" python3 "$ROOT/bin/venim" --repo "$ROOT" install hello-venim
+fakeroot -i "$STATE" -s "$STATE" env VENIM_ROOT="$RFS" "$ROOT/build-cpp/venim" --repo "$ROOT" install hello-venim
 echo "live $EDITION rootfs at $RFS"

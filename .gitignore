@@ -10,3 +10,4 @@ nex/
 venimpkgs/
 *.dl
 /tmp/
+build-cpp/

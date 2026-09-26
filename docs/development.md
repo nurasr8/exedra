@@ -7,7 +7,7 @@ boot/        loader entries (systemd-boot)
 initramfs/   /init скрипт, modules.list
 live/        скрипты сборки ISO
 packages/    рецепты .vnb
-src/venim/     пакетный менеджер
+src-cpp/     пакетный менеджер (C++17)
 src/adapter/ binary-adapter
 system/      unit-файлы, base-набор
 tools/build  главный build-скрипт
