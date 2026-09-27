@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq cmake g++ libsqlite3-dev libcurl4-openssl-dev libssl-dev
       - name: build venim
         run: |
-          git clone --depth 1 https://github.com/YOU/exedra venim-src
+          git clone --depth 1 https://github.com/nurasr8/exedra venim-src
           cmake -S venim-src/src-cpp -B build -DCMAKE_BUILD_TYPE=Release
           cmake --build build -j
       - name: validate recipes

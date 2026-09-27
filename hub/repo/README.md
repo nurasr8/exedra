@@ -1,6 +1,6 @@
 # venim-recipes
 
-A bunch of recipes for [venim](https://example.org/exedra), the package
+A bunch of recipes for venim, the package
 manager of Exedra Linux. Browsers, editors, terminals, media, office,
 chat, dev tools, languages, networking, games, AI, backup, security —
 plus the base/system recipes merged in from the main repo.
@@ -12,12 +12,12 @@ with checking off (see below).
 
 ```sh
 # point venim at this repo, wherever it lives
-venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main update
-venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main search yt
-venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main --no-check install yt-dlp
+venim --repo https://raw.githubusercontent.com/nurasr8/venim-recipes/main update
+venim --repo https://raw.githubusercontent.com/nurasr8/venim-recipes/main search yt
+venim --repo https://raw.githubusercontent.com/nurasr8/venim-recipes/main --no-check install yt-dlp
 
 # or grab a single file
-venim --no-check install https://raw.githubusercontent.com/YOU/venim-recipes/main/utils/yt-dlp.vnb
+venim --no-check install https://raw.githubusercontent.com/nurasr8/venim-recipes/main/utils/yt-dlp.vnb
 ```
 
 `--no-check` (same as `VENIM_NO_CHECK=1`) skips hash verification.

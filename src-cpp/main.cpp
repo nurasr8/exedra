@@ -518,7 +518,8 @@ void printHelp() {
         << "              clean,build,doctor,repair,update,upgrade,index} ...\n"
         << "\n"
         << "  install <name|file.vnb|URL>  install a package\n"
-        << "  --repo URL reads recipes from an online repo (index.json)\n"
+        << "  --repo URL reads recipes from an online repo (index.json),\n"
+        << "             defaults to $VENIM_REPO\n"
         << "  --no-check (or VENIM_NO_CHECK=1) skips sha256 verification\n"
         << "  index <dir> prints index.json for a recipe tree\n";
 }
@@ -529,6 +530,7 @@ int main(int argc, char** argv) {
     Opts o;
     if (const char* e = getenv("VENIM_ROOT")) o.root = e;
     if (o.root.empty()) o.root = "/";
+    bool repoGiven = false;
     if (const char* e = getenv("VENIM_NO_CHECK"))
         o.noCheck = std::string(e) == "1" || std::string(e) == "true" ||
                     std::string(e) == "yes";
@@ -557,6 +559,7 @@ int main(int argc, char** argv) {
                 std::cerr << "venim: --repo needs a value\n";
                 return 2;
             }
+            repoGiven = true;
         } else if (a == "--root-arg" || a.compare(0, 11, "--root-arg=") == 0) {
             // mirror argparse: --root-arg takes a value
             if (!val(o.rootArg)) {
@@ -592,6 +595,9 @@ int main(int argc, char** argv) {
     if (o.version) {
         std::cout << "venim " << VERSION << "\n";
         return 0;
+    }
+    if (!repoGiven) {
+        if (const char* e = getenv("VENIM_REPO")) o.repo = e;
     }
     if (o.command.empty()) {
         printHelp();
