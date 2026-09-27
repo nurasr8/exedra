@@ -52,6 +52,10 @@ cp "$ROOT/tools/install-exedra-tui.sh" "$OUT/usr/sbin/install-exedra-tui"
 chmod +x "$OUT/usr/sbin/install-exedra" "$OUT/usr/sbin/install-exedra-tui"
 # Close missing .so providers, refresh linker cache
 bash "$ROOT/tools/seed-fix-libs.sh" "$OUT"
+# Default online recipe repo (overridable per-call with --repo or VENIM_ROOT-style VENIM_REPO)
+if ! grep -q '^VENIM_REPO=' "$OUT/etc/environment" 2>/dev/null; then
+  echo 'VENIM_REPO=https://raw.githubusercontent.com/nurasr8/venim-recipes/main' >> "$OUT/etc/environment"
+fi
 # Hardware database (silences imds-generator warning on boot)
 systemd-hwdb update --root="$OUT" --usr 2>/dev/null || systemd-hwdb update --root="$OUT" 2>/dev/null || true
 # Module dep maps (Arch generates them via install hook; without them

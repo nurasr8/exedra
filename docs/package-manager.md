@@ -49,6 +49,9 @@ venim --repo https://host/tree search rust
 Онлайн-репозиторий — дерево `*.vnb` + `index.json` в корне
 (генерируется командой `venim index <dir>`). Готовый репозиторий на
 200+ рецептов: `hub/repo/` (там же генератор `tools/gen-recipes.py`).
+В образах Exedra уже прописан по умолчанию
+(`VENIM_REPO=https://raw.githubusercontent.com/nurasr8/venim-recipes/main`
+в `/etc/environment`) — `venim update` работает сразу.
 
 ## Про sha256
 
