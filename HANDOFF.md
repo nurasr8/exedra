@@ -122,6 +122,15 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
   Полный пайплайн и live-QEMU с C++-бинарником зелёные.
 - 2026-09-27: venim умеет --no-check, install по URL/файлу, --repo URL
   через index.json (+команда index, ключ file, одиночные payloads).
+  examples/ удалены как дубли packages/.
+- 2026-09-27 (день): большой репозиторий рецептов: hub/repo (EN, chill-стиль:
+  README/CONTRIBUTING/RECIPE-SPEC/template/LICENSE/CI) + hub/recipes (bulk)
+  слиты с packages/ в одно дерево (merge-repo.sh, dedupe дубликатов).
+  286 рецептов, все парсятся, ВСЕ URL проверены живыми поштучно
+  (пачка битых версий/ассетов пофикшена через GitHub API, ~50 честно
+  дропнуто). Популярное: firefox/thunderbird/vlc, orcaslicer/arduino/freecad/
+  blender/godot/kicad-нет, dev-инструменты. Сайт: +страница документации,
+  сравнение удалено.
   examples/ удалены как дубли packages/. hub/: site (plain-site сайт),
   recipes (209 .vnb без sha256 + index.json), repo (EN GitHub-репо:
   README/CONTRIBUTING/RECIPE-SPEC/template/LICENSE/CI). Проверены живые
