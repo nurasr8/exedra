@@ -4,6 +4,7 @@ set -e
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 REPO="$ROOT/hub/repo"
 python3 "$REPO/tools/gen-recipes.py" "$ROOT/hub/recipes"
+cp "$REPO/assets/recipes-README.md" "$ROOT/hub/recipes/README.md"
 "$ROOT/build-cpp/venim" index "$ROOT/hub/recipes" > "$ROOT/hub/recipes/index.json"
 rm -rf "$REPO/recipes"
 cp -r "$ROOT/hub/recipes" "$REPO/recipes"
