@@ -1,0 +1,19 @@
+package "thunderbird" {
+  version = "145.0"
+  description = "Thunderbird mail"
+  license = "MPL-2.0"
+  homepage = "https://thunderbird.net"
+  binary {
+    url = "https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/145.0/linux-x86_64/en-US/thunderbird-145.0.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/thunderbird ${destdir}/bin"
+    command "tar -xf ${srcdir}/thunderbird-145.0.tar.xz -C ${destdir}/opt/thunderbird --strip-components=1"
+    command "chmod +x ${destdir}/opt/thunderbird/thunderbird"
+    command "ln -sf ../opt/thunderbird/thunderbird ${destdir}/bin/thunderbird"
+  }
+}

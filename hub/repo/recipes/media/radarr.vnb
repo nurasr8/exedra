@@ -1,0 +1,19 @@
+package "radarr" {
+  version = "6.4.4"
+  description = "Radarr movies"
+  license = "GPL-3.0"
+  homepage = "https://radarr.video"
+  binary {
+    url = "https://github.com/Radarr/Radarr/releases/download/v6.4.4.10685/Radarr.master.6.4.4.10685.linux-core-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/radarr ${destdir}/bin"
+    command "tar -xf ${srcdir}/Radarr.master.6.4.4.10685.linux-core-x64.tar.gz -C ${destdir}/opt/radarr"
+    command "chmod +x ${destdir}/opt/radarr/Radarr"
+    command "ln -sf ../opt/radarr/Radarr ${destdir}/bin/radarr"
+  }
+}

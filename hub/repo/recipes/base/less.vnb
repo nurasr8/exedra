@@ -1,0 +1,25 @@
+package "less" {
+  version = "679"
+  description = "Text pager"
+  license = "GPL-3.0"
+  homepage = "https://www.greenwoodsoftware.com/less/"
+  source {
+    url = "https://www.greenwoodsoftware.com/less/less-679.tar.gz"
+    sha256 = "9b68820c34fa8a0af6b0e01b74f0298bcdd40a0489c61649b47058908a153d78"
+  }
+  depends {
+    "glibc"
+    "ncurses"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./configure --prefix=/usr --sysconfdir=/etc"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

@@ -1,10 +1,10 @@
 package "mkcert" {
-  version = "1.4.9"
+  version = "1.4.4"
   description = "mkcert certs"
   license = "MPL-2.0"
   homepage = "https://github.com/FiloSottile/mkcert"
   binary {
-    url = "https://github.com/FiloSottile/mkcert/releases/download/v1.4.9/mkcert-v1.4.9-linux-amd64"
+    url = "https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64"
     format = "single"
   }
   depends {
@@ -12,7 +12,7 @@ package "mkcert" {
   }
   install {
     command "mkdir -p ${destdir}/bin"
-    command "cp ./mkcert-v1.4.9-linux-amd64 ${destdir}/bin/mkcert"
+    command "cp ./mkcert-v1.4.4-linux-amd64 ${destdir}/bin/mkcert"
     command "chmod +x ${destdir}/bin/mkcert"
   }
 }

@@ -1,10 +1,10 @@
 package "maven" {
-  version = "3.9.11"
+  version = "3.9.9"
   description = "Maven"
   license = "Apache-2.0"
   homepage = "https://maven.apache.org"
   binary {
-    url = "https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz"
+    url = "https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "maven" {
   }
   install {
     command "mkdir -p ${destdir}/opt/maven ${destdir}/bin"
-    command "tar -xf ${srcdir}/apache-maven-3.9.11-bin.tar.gz -C ${destdir}/opt/maven --strip-components=1"
+    command "tar -xf ${srcdir}/apache-maven-3.9.9-bin.tar.gz -C ${destdir}/opt/maven --strip-components=1"
     command "chmod +x ${destdir}/opt/maven/bin/mvn"
     command "ln -sf ../opt/maven/bin/mvn ${destdir}/bin/maven"
   }

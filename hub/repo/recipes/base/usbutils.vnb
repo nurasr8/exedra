@@ -1,0 +1,27 @@
+package "usbutils" {
+  version = "017"
+  description = "USB device utilities"
+  license = "GPL-2.0"
+  homepage = "https://www.kernel.org/pub/linux/utils/usb/usbutils/"
+  source {
+    url = "https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-017.tar.xz"
+    sha256 = "a6a25ffdcf9103e38d7a44732aca17073f4e602b92e4ae55625231a82702e05b"
+  }
+  depends {
+    "glibc"
+    "libusb"
+    "udev"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "pkg-config"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

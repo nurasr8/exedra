@@ -1,0 +1,19 @@
+package "qbittorrent" {
+  version = "5.1"
+  description = "qBittorrent"
+  license = "GPL-2.0"
+  homepage = "https://qbittorrent.org"
+  binary {
+    url = "https://github.com/qbittorrent/qBittorrent/releases/download/release-5.2.3/qbittorrent-5.2.3_x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/qbittorrent ${destdir}/bin"
+    command "cp ${srcdir}/qbittorrent-5.2.3_x86_64.AppImage ${destdir}/opt/qbittorrent/qbittorrent.AppImage"
+    command "chmod +x ${destdir}/opt/qbittorrent/qbittorrent.AppImage"
+    command "ln -sf ../opt/qbittorrent/qbittorrent.AppImage ${destdir}/bin/qbittorrent"
+  }
+}

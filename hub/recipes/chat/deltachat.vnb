@@ -1,10 +1,10 @@
 package "deltachat" {
-  version = "2.7.0"
+  version = "2.59.1"
   description = "Delta Chat"
   license = "GPL-3.0"
   homepage = "https://delta.chat"
   binary {
-    url = "https://github.com/deltachat/deltachat-desktop/releases/download/v2.7.0/DeltaChat-2.7.0.AppImage"
+    url = "https://github.com/deltachat/deltachat-desktop/releases/download/v2.59.1/DeltaChat-2.59.1-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "deltachat" {
   }
   install {
     command "mkdir -p ${destdir}/opt/deltachat ${destdir}/bin"
-    command "cp ${srcdir}/DeltaChat-2.7.0.AppImage ${destdir}/opt/deltachat/deltachat.AppImage"
+    command "cp ${srcdir}/DeltaChat-2.59.1-x86_64.AppImage ${destdir}/opt/deltachat/deltachat.AppImage"
     command "chmod +x ${destdir}/opt/deltachat/deltachat.AppImage"
     command "ln -sf ../opt/deltachat/deltachat.AppImage ${destdir}/bin/deltachat"
   }

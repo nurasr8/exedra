@@ -1,10 +1,10 @@
 package "borgbackup" {
-  version = "1.4.2"
+  version = "1.4.5"
   description = "BorgBackup"
   license = "BSD-3"
   homepage = "https://borgbackup.org"
   binary {
-    url = "https://github.com/borgbackup/borg/releases/download/1.4.2/borg-linux64"
+    url = "https://github.com/borgbackup/borg/releases/download/1.4.5/borg-linux-glibc231-x86_64"
     format = "single"
   }
   depends {
@@ -12,7 +12,7 @@ package "borgbackup" {
   }
   install {
     command "mkdir -p ${destdir}/bin"
-    command "cp ./borg-linux64 ${destdir}/bin/borgbackup"
+    command "cp ./borg-linux-glibc231-x86_64 ${destdir}/bin/borgbackup"
     command "chmod +x ${destdir}/bin/borgbackup"
   }
 }

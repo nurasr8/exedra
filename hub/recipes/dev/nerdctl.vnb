@@ -1,10 +1,10 @@
 package "nerdctl" {
-  version = "2.1.7"
+  version = "2.4.0"
   description = "nerdctl"
   license = "Apache-2.0"
   homepage = "https://github.com/containerd/nerdctl"
   binary {
-    url = "https://github.com/containerd/nerdctl/releases/download/v2.1.7/nerdctl-2.1.7-linux-amd64.tar.gz"
+    url = "https://github.com/containerd/nerdctl/releases/download/v2.4.0/nerdctl-2.4.0-linux-amd64.tar.gz"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "nerdctl" {
   }
   install {
     command "mkdir -p ${destdir}/opt/nerdctl ${destdir}/bin"
-    command "tar -xf ${srcdir}/nerdctl-2.1.7-linux-amd64.tar.gz -C ${destdir}/opt/nerdctl"
+    command "tar -xf ${srcdir}/nerdctl-2.4.0-linux-amd64.tar.gz -C ${destdir}/opt/nerdctl"
     command "chmod +x ${destdir}/opt/nerdctl/nerdctl"
     command "ln -sf ../opt/nerdctl/nerdctl ${destdir}/bin/nerdctl"
   }

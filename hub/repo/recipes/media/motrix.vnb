@@ -1,0 +1,19 @@
+package "motrix" {
+  version = "1.8"
+  description = "Motrix downloads"
+  license = "MIT"
+  homepage = "https://github.com/agalwood/Motrix"
+  binary {
+    url = "https://github.com/agalwood/Motrix/releases/download/v1.8.19/Motrix-1.8.19.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/motrix ${destdir}/bin"
+    command "cp ${srcdir}/Motrix-1.8.19.AppImage ${destdir}/opt/motrix/motrix.AppImage"
+    command "chmod +x ${destdir}/opt/motrix/motrix.AppImage"
+    command "ln -sf ../opt/motrix/motrix.AppImage ${destdir}/bin/motrix"
+  }
+}

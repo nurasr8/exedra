@@ -1,0 +1,19 @@
+package "meshlab" {
+  version = "2023.12"
+  description = "MeshLab meshes"
+  license = "GPL-3.0"
+  homepage = "https://meshlab.net"
+  binary {
+    url = "https://github.com/cnr-isti-vclab/meshlab/releases/download/MeshLab-2023.12/MeshLab2023.12-linux.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/meshlab ${destdir}/bin"
+    command "cp ${srcdir}/MeshLab2023.12-linux.AppImage ${destdir}/opt/meshlab/meshlab.AppImage"
+    command "chmod +x ${destdir}/opt/meshlab/meshlab.AppImage"
+    command "ln -sf ../opt/meshlab/meshlab.AppImage ${destdir}/bin/meshlab"
+  }
+}

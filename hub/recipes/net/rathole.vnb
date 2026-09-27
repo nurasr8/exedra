@@ -4,7 +4,7 @@ package "rathole" {
   license = "Apache-2.0"
   homepage = "https://github.com/rapiz1/rathole"
   binary {
-    url = "https://github.com/rapiz1/rathole/releases/download/v0.5.3/rathole-x86_64-unknown-linux-gnu.zip"
+    url = "https://github.com/rapiz1/rathole/releases/latest/download/rathole-x86_64-unknown-linux-gnu.zip"
     format = "single"
   }
   depends {

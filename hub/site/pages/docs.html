@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Документация venim — команды, рецепты, свой репозиторий</title>
+<meta name="description" content="Как пользоваться пакетником venim: установка, удаление, проверка, написание рецептов VenimBuild и свой онлайн-репозиторий.">
+<link rel="canonical" href="https://example.org/exedra/pages/docs.html">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header">
+  <div class="header-row">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="Логотип Exedra" width="32" height="32">
+      <span>Exedra</span>
+    </a>
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="../index.html">Главная</a>
+      <a href="download.html">Загрузка</a>
+      <a href="packages.html">Пакеты</a>
+      <a href="docs.html" aria-current="page">Документация</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title">Документация</h1>
+      <p class="lead">Пакетник venim: установка, удаление, проверка — и как писать свои рецепты.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="use-title">
+    <div class="wrap">
+      <h2 id="use-title">Пользование пакетником</h2>
+      <p class="section-desc">Каждый пакет — отдельное дерево <code>/venim/packages/имя/версия/</code>, в системе только симлинки.</p>
+      <div class="dl-box">
+        <p><code>venim install firefox</code> — поставить по имени</p>
+        <p><code>venim install ./foo.vnb</code> — поставить из файла рецепта</p>
+        <p><code>venim install https://host/foo.vnb</code> — поставить по URL</p>
+        <p><code>venim remove firefox</code> — убрать (проверяет, что пакет никому не нужен)</p>
+        <p><code>venim list</code> — что установлено; <code>venim info firefox</code> — детали</p>
+        <p><code>venim verify firefox</code> — сверить файлы с базой; <code>venim doctor</code> — найти битое</p>
+        <p><code>venim repair</code> — пересоздать все симлинки (лечит кривые ссылки разом)</p>
+        <p><code>venim search rust</code> — поиск; <code>venim upgrade</code> — переустановить изменившиеся</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="repo-title">
+    <div class="wrap">
+      <h2 id="repo-title">Онлайн-репозиторий</h2>
+      <p class="section-desc">Дерево рецептов + <code>index.json</code> в корне. Готовый репозиторий на 300+ рецептов идёт вместе с проектом.</p>
+      <div class="dl-box">
+        <p><code>venim --repo https://host/tree update</code> — скачать индекс</p>
+        <p><code>venim --repo https://host/tree search yt</code> — искать в нём</p>
+        <p><code>venim --repo https://host/tree --no-check install yt-dlp</code> — ставить оттуда</p>
+        <p>Свой индекс: <code>venim index ./моё-дерево</code> — заодно проверяет, что все рецепты парсятся.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recipe-title">
+    <div class="wrap">
+      <h2 id="recipe-title">Как написать рецепт</h2>
+      <p class="section-desc">Файл <code>имя.vnb</code>. Хэши опциональны: есть — проверяются, нет — ставится как есть (<code>--no-check</code> отключает проверку вообще).</p>
+      <div class="dl-box">
+        <p><code>package "myapp" {</code></p>
+        <p><code>&nbsp;&nbsp;version = "1.0"</code></p>
+        <p><code>&nbsp;&nbsp;description = "что это"</code></p>
+        <p><code>&nbsp;&nbsp;binary { url = "https://host/myapp.AppImage" }</code></p>
+        <p><code>&nbsp;&nbsp;install {</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "mkdir -p ${destdir}/opt/myapp ${destdir}/bin"</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "cp ${srcdir}/myapp.AppImage ${destdir}/opt/myapp/myapp.AppImage"</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "ln -sf ../opt/myapp/myapp.AppImage ${destdir}/bin/myapp"</code></p>
+        <p><code>&nbsp;&nbsp;}</code></p>
+        <p><code>}</code></p>
+      </div>
+      <p class="section-desc">Правила простые: раскладка сразу финальная (<code>bin/</code>, <code>opt/</code>), ссылки только относительные. Переменные: <code>${srcdir}</code> (скачанное), <code>${destdir}</code> (куда кладём), <code>${name}</code>, <code>${version}</code>. Для сборки из исходников — блоки <code>source</code>, <code>build</code>, <code>prepare</code>, <code>check</code>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="change-title">
+    <div class="wrap">
+      <h2 id="change-title">Как менять установленное</h2>
+      <p class="section-desc">В этом смысл Exedra: ничего не размазано по системе.</p>
+      <div class="grid-3">
+        <article class="card"><h3>Найти файлы</h3><p>Всё приложение — в <code>/venim/packages/имя/версия/</code>. Что куда ссылается — покажет <code>venim info имя</code>.</p></article>
+        <article class="card"><h3>Поправить</h3><p>Правишь дерево или рецепт и переустанавливаешь. Проверить — <code>venim verify имя</code>.</p></article>
+        <article class="card"><h3>Починить</h3><p>Сломал ссылки — <code>venim repair</code> пересоздаст их для всех пакетов разом.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 Exedra.</p>
+  </div>
+</footer>
+</body>
+</html>

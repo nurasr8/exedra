@@ -1,0 +1,28 @@
+package "htop" {
+  version = "3.4.1"
+  description = "Interactive process viewer"
+  license = "GPL-2.0"
+  homepage = "https://htop.dev/"
+  source {
+    url = "https://github.com/htop-dev/htop/archive/3.4.1.tar.gz"
+    sha256 = "af9ec878f831b7c27d33e775c668ec79d569aa781861c995a0fbadc1bdb666cf"
+  }
+  depends {
+    "glibc"
+    "ncurses"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "autoconf"
+    "automake"
+    "pkg-config"
+  }
+  build {
+    command "./autogen.sh --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

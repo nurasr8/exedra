@@ -1,0 +1,26 @@
+package "gawk" {
+  version = "5.3.2"
+  description = "GNU awk text processing language"
+  license = "GPL-3.0"
+  homepage = "https://www.gnu.org/software/gawk/"
+  source {
+    url = "https://ftp.gnu.org/gnu/gawk/gawk-5.3.2.tar.xz"
+    sha256 = "f8c3486509de705192138b00ef2c00bbbdd0e84c30d5c07d23fc73a9dc4cc9cc"
+  }
+  depends {
+    "glibc"
+    "mpfr"
+    "gmp"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

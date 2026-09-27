@@ -1,0 +1,18 @@
+package "gnome" {
+  version = "46"
+  description = "GNOME desktop (meta package)"
+  license = "meta"
+  homepage = "https://www.gnome.org/"
+
+  depends {
+    "gnome-shell"
+    "gtk4"
+    "gdm"
+    "networkmanager"
+    "pipewire"
+  }
+
+  install {
+    command "true"
+  }
+}

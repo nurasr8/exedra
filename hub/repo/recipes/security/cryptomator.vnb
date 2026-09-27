@@ -1,0 +1,19 @@
+package "cryptomator" {
+  version = "1.17"
+  description = "Cryptomator vaults"
+  license = "GPL-3.0"
+  homepage = "https://cryptomator.org"
+  binary {
+    url = "https://github.com/cryptomator/cryptomator/releases/download/1.17.0/Cryptomator-1.17.0-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/cryptomator ${destdir}/bin"
+    command "cp ${srcdir}/Cryptomator-1.17.0-x86_64.AppImage ${destdir}/opt/cryptomator/cryptomator.AppImage"
+    command "chmod +x ${destdir}/opt/cryptomator/cryptomator.AppImage"
+    command "ln -sf ../opt/cryptomator/cryptomator.AppImage ${destdir}/bin/cryptomator"
+  }
+}

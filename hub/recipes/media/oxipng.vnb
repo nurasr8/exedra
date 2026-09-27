@@ -1,0 +1,19 @@
+package "oxipng" {
+  version = "9.1"
+  description = "oxipng optimizer"
+  license = "MIT"
+  homepage = "https://github.com/shssoichiro/oxipng"
+  binary {
+    url = "https://github.com/shssoichiro/oxipng/releases/download/v9.1.5/oxipng-9.1.5-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/oxipng ${destdir}/bin"
+    command "tar -xf ${srcdir}/oxipng-9.1.5-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/oxipng"
+    command "chmod +x ${destdir}/opt/oxipng/oxipng"
+    command "ln -sf ../opt/oxipng/oxipng ${destdir}/bin/oxipng"
+  }
+}

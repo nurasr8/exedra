@@ -1,0 +1,19 @@
+package "beekeeper" {
+  version = "6.1.2"
+  description = "Beekeeper Studio SQL"
+  license = "GPL-3.0"
+  homepage = "https://beekeeperstudio.io"
+  binary {
+    url = "https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v6.1.2/Beekeeper-Studio-6.1.2.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/beekeeper ${destdir}/bin"
+    command "cp ${srcdir}/Beekeeper-Studio-6.1.2.AppImage ${destdir}/opt/beekeeper/beekeeper.AppImage"
+    command "chmod +x ${destdir}/opt/beekeeper/beekeeper.AppImage"
+    command "ln -sf ../opt/beekeeper/beekeeper.AppImage ${destdir}/bin/beekeeper"
+  }
+}

@@ -1,0 +1,19 @@
+package "floorp" {
+  version = "12.18.1"
+  description = "Floorp browser"
+  license = "MPL-2.0"
+  homepage = "https://floorp.app"
+  binary {
+    url = "https://github.com/Floorp-Projects/Floorp/releases/download/v12.18.1/floorp-linux-x86_64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/floorp ${destdir}/bin"
+    command "tar -xf ${srcdir}/floorp-linux-x86_64.tar.xz -C ${destdir}/opt/floorp --strip-components=1"
+    command "chmod +x ${destdir}/opt/floorp/floorp"
+    command "ln -sf ../opt/floorp/floorp ${destdir}/bin/floorp"
+  }
+}

@@ -1,0 +1,19 @@
+package "gitkraken" {
+  version = "10.3"
+  description = "GitKraken"
+  license = "proprietary"
+  homepage = "https://gitkraken.com"
+  binary {
+    url = "https://release.gitkraken.com/linux/gitkraken-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gitkraken ${destdir}/bin"
+    command "tar -xf ${srcdir}/gitkraken-amd64.tar.gz -C ${destdir}/opt/gitkraken --strip-components=1"
+    command "chmod +x ${destdir}/opt/gitkraken/gitkraken"
+    command "ln -sf ../opt/gitkraken/gitkraken ${destdir}/bin/gitkraken"
+  }
+}

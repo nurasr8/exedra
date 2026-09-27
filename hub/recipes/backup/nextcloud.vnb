@@ -1,10 +1,10 @@
 package "nextcloud" {
-  version = "3.18.1"
+  version = "34.0.4"
   description = "Nextcloud client"
   license = "GPL-2.0"
   homepage = "https://nextcloud.com"
   binary {
-    url = "https://github.com/nextcloud-releases/desktop/releases/download/v3.18.1/Nextcloud-3.18.1-x86_64.AppImage"
+    url = "https://github.com/nextcloud-releases/desktop/releases/download/v34.0.4/Nextcloud-34.0.4-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "nextcloud" {
   }
   install {
     command "mkdir -p ${destdir}/opt/nextcloud ${destdir}/bin"
-    command "cp ${srcdir}/Nextcloud-3.18.1-x86_64.AppImage ${destdir}/opt/nextcloud/nextcloud.AppImage"
+    command "cp ${srcdir}/Nextcloud-34.0.4-x86_64.AppImage ${destdir}/opt/nextcloud/nextcloud.AppImage"
     command "chmod +x ${destdir}/opt/nextcloud/nextcloud.AppImage"
     command "ln -sf ../opt/nextcloud/nextcloud.AppImage ${destdir}/bin/nextcloud-client"
   }

@@ -1,0 +1,19 @@
+package "portainer" {
+  version = "2.31"
+  description = "Portainer docker"
+  license = "Zlib"
+  homepage = "https://portainer.io"
+  binary {
+    url = "https://github.com/portainer/portainer/releases/download/2.31.2/portainer-2.31.2-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/portainer ${destdir}/bin"
+    command "tar -xf ${srcdir}/portainer-2.31.2-linux-amd64.tar.gz -C ${destdir}/opt/portainer"
+    command "chmod +x ${destdir}/opt/portainer/portainer"
+    command "ln -sf ../opt/portainer/portainer ${destdir}/bin/portainer"
+  }
+}

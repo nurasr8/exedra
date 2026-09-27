@@ -1,0 +1,19 @@
+package "webmin" {
+  version = "2.402"
+  description = "Webmin admin"
+  license = "BSD-3"
+  homepage = "https://webmin.com"
+  binary {
+    url = "https://github.com/webmin/webmin/releases/download/2.402/webmin-2.402.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/webmin ${destdir}/bin"
+    command "tar -xf ${srcdir}/webmin-2.402.tar.gz -C ${destdir}/opt/webmin --strip-components=1"
+    command "chmod +x ${destdir}/opt/webmin/run.cgi"
+    command "ln -sf ../opt/webmin/run.cgi ${destdir}/bin/webmin-admin"
+  }
+}

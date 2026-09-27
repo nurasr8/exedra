@@ -1,0 +1,19 @@
+package "lidarr" {
+  version = "3.1"
+  description = "Lidarr music"
+  license = "GPL-3.0"
+  homepage = "https://lidarr.audio"
+  binary {
+    url = "https://github.com/Lidarr/Lidarr/releases/download/v3.1.0.4875/Lidarr.master.3.1.0.4875.linux-core-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/lidarr ${destdir}/bin"
+    command "tar -xf ${srcdir}/Lidarr.master.3.1.0.4875.linux-core-x64.tar.gz -C ${destdir}/opt/lidarr"
+    command "chmod +x ${destdir}/opt/lidarr/Lidarr"
+    command "ln -sf ../opt/lidarr/Lidarr ${destdir}/bin/lidarr"
+  }
+}

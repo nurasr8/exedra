@@ -1,0 +1,20 @@
+package "postman" {
+  version = "11.3"
+  description = "Postman API"
+  license = "proprietary"
+  homepage = "https://postman.com"
+  binary {
+    url = "https://dl.pstmn.io/download/version/11.3.2/linux64"
+    file = "postman.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/postman ${destdir}/bin"
+    command "tar -xf ${srcdir}/postman.tar.gz -C ${destdir}/opt/postman"
+    command "chmod +x ${destdir}/opt/postman/Postman/Postman"
+    command "ln -sf ../opt/postman/Postman/Postman ${destdir}/bin/postman"
+  }
+}

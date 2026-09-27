@@ -1,0 +1,19 @@
+package "dbeaver" {
+  version = "25.2"
+  description = "DBeaver SQL"
+  license = "Apache-2.0"
+  homepage = "https://dbeaver.io"
+  binary {
+    url = "https://github.com/dbeaver/dbeaver/releases/download/25.2.0/dbeaver-ce-25.2.0-linux.gtk.x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/dbeaver ${destdir}/bin"
+    command "tar -xf ${srcdir}/dbeaver-ce-25.2.0-linux.gtk.x86_64.tar.gz -C ${destdir}/opt/dbeaver --strip-components=1"
+    command "chmod +x ${destdir}/opt/dbeaver/dbeaver"
+    command "ln -sf ../opt/dbeaver/dbeaver ${destdir}/bin/dbeaver"
+  }
+}

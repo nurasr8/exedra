@@ -1,0 +1,19 @@
+package "gdevelop" {
+  version = "5.6.282"
+  description = "GDevelop games"
+  license = "MIT"
+  homepage = "https://gdevelop.io"
+  binary {
+    url = "https://github.com/4ian/GDevelop/releases/download/v5.6.282/GDevelop-5-5.6.282.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gdevelop ${destdir}/bin"
+    command "cp ${srcdir}/GDevelop-5-5.6.282.AppImage ${destdir}/opt/gdevelop/gdevelop.AppImage"
+    command "chmod +x ${destdir}/opt/gdevelop/gdevelop.AppImage"
+    command "ln -sf ../opt/gdevelop/gdevelop.AppImage ${destdir}/bin/gdevelop"
+  }
+}

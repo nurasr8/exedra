@@ -4,7 +4,7 @@ package "superproductivity" {
   license = "MIT"
   homepage = "https://super-productivity.com"
   binary {
-    url = "https://github.com/johannesjo/super-productivity/releases/download/v11.0.11/superProductivity-11.0.11.AppImage"
+    url = "https://github.com/johannesjo/super-productivity/releases/download/v19.1.0/superProductivity-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "superproductivity" {
   }
   install {
     command "mkdir -p ${destdir}/opt/superproductivity ${destdir}/bin"
-    command "cp ${srcdir}/superProductivity-11.0.11.AppImage ${destdir}/opt/superproductivity/superproductivity.AppImage"
+    command "cp ${srcdir}/superProductivity-x86_64.AppImage ${destdir}/opt/superproductivity/superproductivity.AppImage"
     command "chmod +x ${destdir}/opt/superproductivity/superproductivity.AppImage"
     command "ln -sf ../opt/superproductivity/superproductivity.AppImage ${destdir}/bin/superproductivity"
   }

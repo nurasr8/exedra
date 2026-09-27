@@ -1,0 +1,19 @@
+package "bambu-studio" {
+  version = "2.8.2"
+  description = "Bambu Studio slicer"
+  license = "AGPL-3.0"
+  homepage = "https://github.com/bambulab/BambuStudio"
+  binary {
+    url = "https://github.com/bambulab/BambuStudio/releases/download/v02.08.02.61/BambuStudio_ubuntu22.04-v02.08.02.61-20260820225108.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bambu-studio ${destdir}/bin"
+    command "cp ${srcdir}/BambuStudio_ubuntu22.04-v02.08.02.61-20260820225108.AppImage ${destdir}/opt/bambu-studio/bambu-studio.AppImage"
+    command "chmod +x ${destdir}/opt/bambu-studio/bambu-studio.AppImage"
+    command "ln -sf ../opt/bambu-studio/bambu-studio.AppImage ${destdir}/bin/bambu-studio"
+  }
+}

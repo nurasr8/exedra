@@ -1,10 +1,10 @@
 package "ollama" {
-  version = "0.17.1"
+  version = "0.34.4"
   description = "Ollama LLMs"
   license = "MIT"
   homepage = "https://ollama.com"
   binary {
-    url = "https://github.com/ollama/ollama/releases/download/v0.17.1/ollama-linux-amd64.tgz"
+    url = "https://github.com/ollama/ollama/releases/download/v0.34.4/ollama-linux-amd64.tar.zst"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "ollama" {
   }
   install {
     command "mkdir -p ${destdir}/opt/ollama ${destdir}/bin"
-    command "tar -xf ${srcdir}/ollama-linux-amd64.tgz -C ${destdir}/opt/ollama"
+    command "tar -xf ${srcdir}/ollama-linux-amd64.tar.zst -C ${destdir}/opt/ollama"
     command "chmod +x ${destdir}/opt/ollama/bin/ollama"
     command "ln -sf ../opt/ollama/bin/ollama ${destdir}/bin/ollama"
   }

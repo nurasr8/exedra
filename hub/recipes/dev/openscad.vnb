@@ -1,0 +1,19 @@
+package "openscad" {
+  version = "2021.01"
+  description = "OpenSCAD CAD"
+  license = "GPL-2.0"
+  homepage = "https://openscad.org"
+  binary {
+    url = "https://github.com/openscad/openscad/releases/download/openscad-2021.01/OpenSCAD-2021.01-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/openscad ${destdir}/bin"
+    command "cp ${srcdir}/OpenSCAD-2021.01-x86_64.AppImage ${destdir}/opt/openscad/openscad.AppImage"
+    command "chmod +x ${destdir}/opt/openscad/openscad.AppImage"
+    command "ln -sf ../opt/openscad/openscad.AppImage ${destdir}/bin/openscad"
+  }
+}

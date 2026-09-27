@@ -4,7 +4,7 @@ package "hyper" {
   license = "MIT"
   homepage = "https://hyper.is"
   binary {
-    url = "https://github.com/vercel/hyper/releases/download/v3.4.1/Hyper-3.4.1-x86_64.AppImage"
+    url = "https://github.com/vercel/hyper/releases/download/v3.4.1/Hyper-3.4.1.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "hyper" {
   }
   install {
     command "mkdir -p ${destdir}/opt/hyper ${destdir}/bin"
-    command "cp ${srcdir}/Hyper-3.4.1-x86_64.AppImage ${destdir}/opt/hyper/hyper.AppImage"
+    command "cp ${srcdir}/Hyper-3.4.1.AppImage ${destdir}/opt/hyper/hyper.AppImage"
     command "chmod +x ${destdir}/opt/hyper/hyper.AppImage"
     command "ln -sf ../opt/hyper/hyper.AppImage ${destdir}/bin/hyper"
   }

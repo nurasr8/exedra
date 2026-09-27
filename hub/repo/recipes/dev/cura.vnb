@@ -1,0 +1,19 @@
+package "cura" {
+  version = "5.10"
+  description = "UltiMaker Cura slicer"
+  license = "LGPL-3.0"
+  homepage = "https://github.com/Ultimaker/Cura"
+  binary {
+    url = "https://github.com/Ultimaker/Cura/releases/download/5.10.0/UltiMaker-Cura-5.10.0-linux-X64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/cura ${destdir}/bin"
+    command "cp ${srcdir}/UltiMaker-Cura-5.10.0-linux-X64.AppImage ${destdir}/opt/cura/cura.AppImage"
+    command "chmod +x ${destdir}/opt/cura/cura.AppImage"
+    command "ln -sf ../opt/cura/cura.AppImage ${destdir}/bin/cura"
+  }
+}

@@ -1,0 +1,19 @@
+package "ksnip" {
+  version = "1.10"
+  description = "ksnip screenshots"
+  license = "GPL-3.0"
+  homepage = "https://github.com/ksnip/ksnip"
+  binary {
+    url = "https://github.com/ksnip/ksnip/releases/download/v1.10.1/ksnip-1.10.1-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ksnip ${destdir}/bin"
+    command "cp ${srcdir}/ksnip-1.10.1-x86_64.AppImage ${destdir}/opt/ksnip/ksnip.AppImage"
+    command "chmod +x ${destdir}/opt/ksnip/ksnip.AppImage"
+    command "ln -sf ../opt/ksnip/ksnip.AppImage ${destdir}/bin/ksnip"
+  }
+}

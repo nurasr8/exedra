@@ -1,0 +1,30 @@
+package "nodejs" {
+  version = "24.8.0"
+  description = "JavaScript runtime built on V8"
+  license = "MIT"
+  homepage = "https://nodejs.org/"
+  source {
+    url = "https://nodejs.org/dist/v24.8.0/node-v24.8.0.tar.xz"
+    sha256 = "1c03b362ebf4740d4758b9a3d3087e3de989f54823650ec80b47090ef414b2e0"
+  }
+  depends {
+    "glibc"
+    "openssl"
+    "zlib"
+    "libuv"
+    "c-ares"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "python"
+    "pkg-config"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

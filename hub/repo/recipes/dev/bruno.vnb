@@ -1,0 +1,19 @@
+package "bruno" {
+  version = "2.8"
+  description = "Bruno API"
+  license = "MIT"
+  homepage = "https://usebruno.com"
+  binary {
+    url = "https://github.com/usebruno/bruno/releases/download/v2.8.0/bruno_2.8.0_x86_64_linux.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bruno ${destdir}/bin"
+    command "cp ${srcdir}/bruno_2.8.0_x86_64_linux.AppImage ${destdir}/opt/bruno/bruno.AppImage"
+    command "chmod +x ${destdir}/opt/bruno/bruno.AppImage"
+    command "ln -sf ../opt/bruno/bruno.AppImage ${destdir}/bin/bruno"
+  }
+}

@@ -1,10 +1,10 @@
 package "obsidian" {
-  version = "1.10.7"
+  version = "1.13.7"
   description = "Obsidian notes"
   license = "proprietary"
   homepage = "https://obsidian.md"
   binary {
-    url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.10.7/Obsidian-1.10.7.AppImage"
+    url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "obsidian" {
   }
   install {
     command "mkdir -p ${destdir}/opt/obsidian ${destdir}/bin"
-    command "cp ${srcdir}/Obsidian-1.10.7.AppImage ${destdir}/opt/obsidian/obsidian.AppImage"
+    command "cp ${srcdir}/Obsidian-1.13.7.AppImage ${destdir}/opt/obsidian/obsidian.AppImage"
     command "chmod +x ${destdir}/opt/obsidian/obsidian.AppImage"
     command "ln -sf ../opt/obsidian/obsidian.AppImage ${destdir}/bin/obsidian"
   }

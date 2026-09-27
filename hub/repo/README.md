@@ -1,63 +1,59 @@
 # venim-recipes
 
-Community recipe collection for the [venim](https://example.org/exedra)
-package manager (Exedra Linux). 200+ `*.vnb` recipes for everyday software:
-browsers, editors, terminals, media, office, chat, dev tools, languages,
-networking, games, AI, backup and security.
+A bunch of recipes for [venim](https://example.org/exedra), the package
+manager of Exedra Linux. Browsers, editors, terminals, media, office,
+chat, dev tools, languages, networking, games, AI, backup, security —
+plus the base/system recipes merged in from the main repo.
 
-Recipes intentionally carry **no `sha256`** — install with hash checking
-disabled (see below). If you want verification, add a `sha256` line to the
-`binary`/`source` block; `venim` checks it unless `--no-check` is given.
+No `sha256` here, on purpose. Either add one yourself or just install
+with checking off (see below).
 
-## Use it
-
-Point `venim` at this repo (any HTTPS base URL that serves the tree):
+## Quick start
 
 ```sh
+# point venim at this repo, wherever it lives
 venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main update
 venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main search yt
 venim --repo https://raw.githubusercontent.com/YOU/venim-recipes/main --no-check install yt-dlp
-```
 
-Or install a single recipe file directly:
-
-```sh
+# or grab a single file
 venim --no-check install https://raw.githubusercontent.com/YOU/venim-recipes/main/utils/yt-dlp.vnb
-venim --no-check install ./utils/yt-dlp.vnb
 ```
 
-`--no-check` (or `VENIM_NO_CHECK=1`) skips `sha256` verification.
-Without it, recipes that *do* carry a hash are verified; recipes without
-one install as-is.
+`--no-check` (same as `VENIM_NO_CHECK=1`) skips hash verification.
+Recipes that *do* carry a hash get verified unless you pass it.
 
-## Layout
+## What's inside
 
 ```
-apps/ browsers/ chat/ dev/ editors/ games/ langs/ media/ net/ office/
-security/ terminals/ utils/ ai/ backup/
-index.json            # generated name -> {file, version, description}
-tools/gen-recipes.py  # the table that generates every recipe
-template.vnb          # starter for new recipes
+ai/ browsers/ chat/ dev/ editors/ games/ langs/ media/ net/ office/
+security/ terminals/ utils/ backup/           <- community stuff, no hashes
+applications/ base/ desktop/ services/        <- merged in from the
+system/ themes/ wm/                              Exedra repo (some with hashes)
+index.json                                     <- name -> file map for --repo
+tools/gen-recipes.py                           <- generates all the above
+tools/merge-repo.sh                            <- rebuilds this whole tree
 ```
 
-## Regenerate
+## How this repo is built
 
-Recipes are generated, not hand-edited. Edit the table in
-`tools/gen-recipes.py`, then:
+Almost everything under the category dirs is *generated* from one big
+table — don't edit `.vnb` files by hand, they'll get overwritten:
 
 ```sh
-python3 tools/gen-recipes.py recipes/
-venim index recipes/ > recipes/index.json
+python3 tools/gen-recipes.py /tmp/ignore    # sanity: table must be valid
+bash tools/merge-repo.sh                    # regen + merge + reindex
 ```
 
-CI runs `venim index` over the tree: every recipe must parse.
+`venim index` doubles as a linter: if a recipe doesn't parse, you'll hear
+about it. CI does exactly that on every push.
 
-## Contributing
+## Adding something
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Format reference:
-[RECIPE-SPEC.md](RECIPE-SPEC.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md) — it's short. TL;DR: one table
+row, regen, test-install into `/tmp`, open a PR.
 
 ## License
 
-CC0-1.0 Universal — see [LICENSE](LICENSE). Recipes are metadata;
-upstream binaries keep their own licenses (noted per recipe).
+Recipes are metadata, CC0 — see [LICENSE](LICENSE). The actual programs
+stay under their own licenses (each recipe says which).

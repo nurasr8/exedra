@@ -1,10 +1,10 @@
 package "step-cli" {
-  version = "0.28.4"
+  version = "0.31.0"
   description = "step CLI"
   license = "Apache-2.0"
   homepage = "https://smallstep.com/cli"
   binary {
-    url = "https://github.com/smallstep/cli/releases/download/v0.28.4/step_linux_0.28.4_amd64.tar.gz"
+    url = "https://github.com/smallstep/cli/releases/download/v0.31.0/step_linux_amd64.tar.gz"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "step-cli" {
   }
   install {
     command "mkdir -p ${destdir}/opt/step-cli ${destdir}/bin"
-    command "tar -xf ${srcdir}/step_linux_0.28.4_amd64.tar.gz -C ${destdir}/opt/step-cli"
+    command "tar -xf ${srcdir}/step_linux_amd64.tar.gz -C ${destdir}/opt/step-cli"
     command "chmod +x ${destdir}/opt/step-cli/step"
     command "ln -sf ../opt/step-cli/step ${destdir}/bin/step-cli"
   }

@@ -12,7 +12,7 @@ package "micro" {
   }
   install {
     command "mkdir -p ${destdir}/opt/micro ${destdir}/bin"
-    command "tar -xf ${srcdir}/micro-2.0.14-linux64-static.tar.gz -C ${destdir}/opt/micro"
+    command "tar -xf ${srcdir}/micro-2.0.14-linux64-static.tar.gz -C ${destdir}/opt/micro --strip-components=1"
     command "chmod +x ${destdir}/opt/micro/micro"
     command "ln -sf ../opt/micro/micro ${destdir}/bin/micro"
   }

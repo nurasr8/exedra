@@ -1,0 +1,19 @@
+package "gocryptfs" {
+  version = "2.6"
+  description = "gocryptfs vaults"
+  license = "MIT"
+  homepage = "https://github.com/rfjakob/gocryptfs"
+  binary {
+    url = "https://github.com/rfjakob/gocryptfs/releases/download/v2.6.1/gocryptfs_v2.6.1_linux-static_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gocryptfs ${destdir}/bin"
+    command "tar -xf ${srcdir}/gocryptfs_v2.6.1_linux-static_amd64.tar.gz -C ${destdir}/opt/gocryptfs"
+    command "chmod +x ${destdir}/opt/gocryptfs/gocryptfs"
+    command "ln -sf ../opt/gocryptfs/gocryptfs ${destdir}/bin/gocryptfs"
+  }
+}

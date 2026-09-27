@@ -1,0 +1,19 @@
+package "opencode" {
+  version = "1.0"
+  description = "opencode AI agent"
+  license = "MIT"
+  homepage = "https://github.com/sst/opencode"
+  binary {
+    url = "https://github.com/sst/opencode/releases/download/v1.0.151/opencode-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/opencode ${destdir}/bin"
+    command "tar -xf ${srcdir}/opencode-linux-x64.tar.gz -C ${destdir}/opt/opencode"
+    command "chmod +x ${destdir}/opt/opencode/opencode"
+    command "ln -sf ../opt/opencode/opencode ${destdir}/bin/opencode"
+  }
+}

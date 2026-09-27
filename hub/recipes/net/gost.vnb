@@ -1,10 +1,10 @@
 package "gost" {
-  version = "3.2.2"
+  version = "2.12.0"
   description = "GOST proxy"
   license = "MIT"
   homepage = "https://github.com/ginuerzh/gost"
   binary {
-    url = "https://github.com/ginuerzh/gost/releases/download/v3.2.2/gost-linux-amd64-3.2.2.gz"
+    url = "https://github.com/ginuerzh/gost/releases/download/v2.12.0/gost_2.12.0_linux_amd64.tar.gz"
     format = "single"
   }
   depends {
@@ -12,7 +12,7 @@ package "gost" {
   }
   install {
     command "mkdir -p ${destdir}/bin"
-    command "cp ./gost-linux-amd64-3.2.2 ${destdir}/bin/gost"
+    command "cp ./gost_2.12.0_linux_amd64.tar ${destdir}/bin/gost"
     command "chmod +x ${destdir}/bin/gost"
   }
 }

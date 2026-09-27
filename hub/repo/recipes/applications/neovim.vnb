@@ -1,0 +1,29 @@
+package "neovim" {
+  version = "0.11.4"
+  description = "Hyperextensible Vim-based text editor"
+  license = "Apache-2.0"
+  homepage = "https://neovim.io/"
+  source {
+    url = "https://github.com/neovim/neovim/archive/v0.11.4.tar.gz"
+    sha256 = "83cf9543bedab8bec8c11cd50ccd9a4bf1570420a914b9a28f83ad100ca6d524"
+  }
+  depends {
+    "glibc"
+    "libuv"
+    "msgpack-c"
+    "libtermkey"
+    "luajit"
+  }
+  makedepends {
+    "gcc"
+    "make"
+    "cmake"
+    "gettext"
+  }
+  build {
+    command "make -j$(nproc) CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=/usr"
+  }
+  install {
+    command "make DESTDIR=${destdir} CMAKE_INSTALL_PREFIX=/usr install"
+  }
+}

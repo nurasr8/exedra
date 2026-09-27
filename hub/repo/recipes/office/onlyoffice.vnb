@@ -1,10 +1,10 @@
 package "onlyoffice" {
-  version = "9.1.0"
+  version = "9.4.0"
   description = "ONLYOFFICE editors"
   license = "AGPL-3.0"
   homepage = "https://onlyoffice.com"
   binary {
-    url = "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v9.1.0/DesktopEditors_x86_64.AppImage"
+    url = "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v9.4.0/DesktopEditors-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "onlyoffice" {
   }
   install {
     command "mkdir -p ${destdir}/opt/onlyoffice ${destdir}/bin"
-    command "cp ${srcdir}/DesktopEditors_x86_64.AppImage ${destdir}/opt/onlyoffice/onlyoffice.AppImage"
+    command "cp ${srcdir}/DesktopEditors-x86_64.AppImage ${destdir}/opt/onlyoffice/onlyoffice.AppImage"
     command "chmod +x ${destdir}/opt/onlyoffice/onlyoffice.AppImage"
     command "ln -sf ../opt/onlyoffice/onlyoffice.AppImage ${destdir}/bin/onlyoffice"
   }

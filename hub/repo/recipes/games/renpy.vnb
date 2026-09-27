@@ -1,0 +1,19 @@
+package "renpy" {
+  version = "8.4"
+  description = "RenPy visual novels"
+  license = "MIT"
+  homepage = "https://renpy.org"
+  binary {
+    url = "https://www.renpy.org/dl/8.4.1/renpy-8.4.1-sdk.tar.bz2"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/renpy ${destdir}/bin"
+    command "tar -xf ${srcdir}/renpy-8.4.1-sdk.tar.bz2 -C ${destdir}/opt/renpy --strip-components=1"
+    command "chmod +x ${destdir}/opt/renpy/renpy.sh"
+    command "ln -sf ../opt/renpy/renpy.sh ${destdir}/bin/renpy"
+  }
+}

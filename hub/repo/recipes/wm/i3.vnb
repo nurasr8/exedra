@@ -1,0 +1,31 @@
+package "i3" {
+  version = "4.24"
+  description = "Improved tiling window manager"
+  license = "BSD-3-Clause"
+  homepage = "https://i3wm.org/"
+
+  source {
+    url = "https://github.com/i3/i3/archive/refs/tags/${version}.tar.gz"
+    sha256 = "8a09f02c2583020899ee95dfd41d12300a0c1c0239b0d752b676437cbf916cc8"
+  }
+
+  depends {
+    "xorg-server"
+    "libxcb"
+  }
+
+  makedepends {
+    "meson"
+    "ninja"
+    "gcc"
+  }
+
+  build {
+    command "meson setup build --prefix=/usr"
+    command "ninja -C build"
+  }
+
+  install {
+    command "DESTDIR=${DESTDIR} ninja -C build install"
+  }
+}

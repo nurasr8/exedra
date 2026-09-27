@@ -1,0 +1,23 @@
+package "lvm2" {
+  version = "2.03.42"
+  description = "Logical Volume Manager"
+  license = "GPL-2.0"
+  homepage = "https://sourceware.org/lvm2/"
+  source {
+    url = "https://sourceware.org/pub/lvm2/LVM2.2.03.42.tgz"
+    sha256 = "352703ef5b72ebb22d4f250284a29b89fe64d4049c6bf64c693f9af486c8081e"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc" "make"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

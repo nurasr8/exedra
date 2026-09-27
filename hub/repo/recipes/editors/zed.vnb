@@ -1,10 +1,10 @@
 package "zed" {
-  version = "0.209"
+  version = "1.21.0"
   description = "Zed editor"
   license = "GPL-3.0"
   homepage = "https://zed.dev"
   binary {
-    url = "https://github.com/zed-industries/zed/releases/download/v0.209.1/zed-linux-x86_64.tar.gz"
+    url = "https://github.com/zed-industries/zed/releases/latest/download/zed-linux-x86_64.tar.gz"
     format = "tarball"
   }
   depends {

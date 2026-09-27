@@ -1,0 +1,19 @@
+package "blender" {
+  version = "4.5"
+  description = "Blender 3D"
+  license = "GPL-3.0"
+  homepage = "https://blender.org"
+  binary {
+    url = "https://download.blender.org/release/Blender4.5/blender-4.5.3-linux-x64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/blender ${destdir}/bin"
+    command "tar -xf ${srcdir}/blender-4.5.3-linux-x64.tar.xz -C ${destdir}/opt/blender --strip-components=1"
+    command "chmod +x ${destdir}/opt/blender/blender"
+    command "ln -sf ../opt/blender/blender ${destdir}/bin/blender"
+  }
+}

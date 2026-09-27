@@ -1,10 +1,10 @@
 package "anytype" {
-  version = "0.48.6"
+  version = "0.57.1"
   description = "Anytype notes"
   license = "custom"
   homepage = "https://anytype.io"
   binary {
-    url = "https://github.com/anyproto/anytype-ts/releases/download/v0.48.6/Anytype-0.48.6.AppImage"
+    url = "https://github.com/anyproto/anytype-ts/releases/download/v0.57.1-beta/Anytype-0.57.1-beta.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "anytype" {
   }
   install {
     command "mkdir -p ${destdir}/opt/anytype ${destdir}/bin"
-    command "cp ${srcdir}/Anytype-0.48.6.AppImage ${destdir}/opt/anytype/anytype.AppImage"
+    command "cp ${srcdir}/Anytype-0.57.1-beta.AppImage ${destdir}/opt/anytype/anytype.AppImage"
     command "chmod +x ${destdir}/opt/anytype/anytype.AppImage"
     command "ln -sf ../opt/anytype/anytype.AppImage ${destdir}/bin/anytype"
   }

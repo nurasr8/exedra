@@ -1,37 +1,28 @@
 # Contributing
 
-## Adding a package
+Nothing bureaucratic. To add a program:
 
-1. Add one row to the table in `tools/gen-recipes.py`
-   (`(category, name, version, description, license, homepage, kind, url, opts)`).
-2. Regenerate and reindex:
+1. Add one row to the table in `tools/gen-recipes.py`. Look at the
+   neighbors, copy the shape that matches your download
+   (appimage / single binary / tarball).
+2. Run `bash tools/merge-repo.sh`. It regenerates everything and
+   reindexes. `venim index` must stay quiet (warnings = broken recipe).
+3. Actually install it somewhere harmless and run it:
    ```sh
-   python3 tools/gen-recipes.py recipes/
-   venim index recipes/ > recipes/index.json
+   VENIM_ROOT=/tmp/venim-test venim --no-check install <cat>/<name>.vnb
+   /tmp/venim-test/usr/bin/<name> --version
    ```
-   `venim index` must exit 0 with no `warn:` lines.
-3. Test-install it somewhere safe:
-   ```sh
-   VENIM_ROOT=/tmp/venim-test venim --no-check install recipes/<cat>/<name>.vnb
-   /tmp/venim-test/usr/bin/<name> --version   # or equivalent smoke check
-   ```
+4. Open a PR with the new recipe(s).
 
-Prefer, in order: official AppImages, static single binaries,
-tarballs with a stable layout. Avoid URLs with versions baked in when a
-`.../latest/download/...` asset exists — but keep the `version` field
-truthful to what you tested.
+A few ground rules:
 
-## Recipe rules
-
-- No `sha256` lines (this repo installs with `--no-check`).
-- `install{}` must produce the **final** layout: binaries in `bin/`,
-  trees in `opt/<name>/`, links **relative** (`../opt/<name>/...`).
-- One binary per `bin/` link; name links after the package (`as:` is
-  discouraged unless the upstream binary differs).
-- `depends` stays minimal (`glibc`); system libraries come from the distro.
-
-## Versions
-
-Upstream moves fast; a stale `version` field with a working `latest` URL
-is acceptable, a dead URL is not. If you verify a newer version, bump the
-field in the same PR.
+- Prefer official AppImages, then static single binaries, then tarballs
+  with a layout you're sure about. If you're guessing the layout, say so
+  in the PR.
+- No `sha256` lines here — this repo installs with `--no-check`.
+  (The merged `base/`/`system/` recipes are grandfathered in with theirs.)
+- `install{}` writes the final layout: binaries in `bin/`, trees in
+  `opt/<name>/`, links relative (`../opt/<name>/...`).
+- `latest/download` URLs beat versioned ones; keep `version` honest to
+  whatever you tested. Stale version + working URL is fine, dead URL
+  is not.

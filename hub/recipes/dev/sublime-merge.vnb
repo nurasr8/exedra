@@ -1,0 +1,19 @@
+package "sublime-merge" {
+  version = "2091"
+  description = "Sublime Merge"
+  license = "proprietary"
+  homepage = "https://sublimemerge.com"
+  binary {
+    url = "https://download.sublimetext.com/sublime_merge_build_2091_x64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/sublime-merge ${destdir}/bin"
+    command "tar -xf ${srcdir}/sublime_merge_build_2091_x64.tar.xz -C ${destdir}/opt/sublime-merge"
+    command "chmod +x ${destdir}/opt/sublime-merge/sublime_merge/sublime_merge"
+    command "ln -sf ../opt/sublime-merge/sublime_merge/sublime_merge ${destdir}/bin/sublime-merge"
+  }
+}

@@ -1,0 +1,23 @@
+package "wpa_supplicant" {
+  version = "2.11"
+  description = "WPA/WPA2 supplicant"
+  license = "BSD-3-Clause"
+  homepage = "https://w1.fi/wpa_supplicant/"
+  source {
+    url = "https://w1.fi/releases/wpa_supplicant-2.11.tar.gz"
+    sha256 = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
+  }
+  depends {
+    "glibc" "openssl"
+  }
+  makedepends {
+    "gcc" "make" "pkg-config"
+  }
+  build {
+    command "cp wpa_supplicant/defconfig wpa_supplicant/.config"
+    command "make -C wpa_supplicant -j$(nproc)"
+  }
+  install {
+    command "make -C wpa_supplicant DESTDIR=${destdir} install"
+  }
+}

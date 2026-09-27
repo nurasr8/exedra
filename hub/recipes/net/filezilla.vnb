@@ -1,0 +1,19 @@
+package "filezilla" {
+  version = "3.69"
+  description = "FileZilla FTP"
+  license = "GPL-2.0"
+  homepage = "https://filezilla-project.org"
+  binary {
+    url = "https://download.filezilla-project.org/client/FileZilla_3.69.0_x86_64-linux-gnu.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/filezilla ${destdir}/bin"
+    command "tar -xf ${srcdir}/FileZilla_3.69.0_x86_64-linux-gnu.tar.xz -C ${destdir}/opt/filezilla --strip-components=1"
+    command "chmod +x ${destdir}/opt/filezilla/bin/filezilla"
+    command "ln -sf ../opt/filezilla/bin/filezilla ${destdir}/bin/filezilla"
+  }
+}

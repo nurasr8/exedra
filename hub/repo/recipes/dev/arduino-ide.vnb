@@ -1,0 +1,19 @@
+package "arduino-ide" {
+  version = "2.3"
+  description = "Arduino IDE"
+  license = "AGPL-3.0"
+  homepage = "https://arduino.cc"
+  binary {
+    url = "https://github.com/arduino/arduino-ide/releases/download/2.3.6/arduino-ide_2.3.6_Linux_64bit.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/arduino-ide ${destdir}/bin"
+    command "cp ${srcdir}/arduino-ide_2.3.6_Linux_64bit.AppImage ${destdir}/opt/arduino-ide/arduino-ide.AppImage"
+    command "chmod +x ${destdir}/opt/arduino-ide/arduino-ide.AppImage"
+    command "ln -sf ../opt/arduino-ide/arduino-ide.AppImage ${destdir}/bin/arduino"
+  }
+}

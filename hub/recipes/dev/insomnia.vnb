@@ -1,0 +1,19 @@
+package "insomnia" {
+  version = "11.2"
+  description = "Insomnia API"
+  license = "Apache-2.0"
+  homepage = "https://insomnia.rest"
+  binary {
+    url = "https://github.com/Kong/insomnia/releases/download/core%4011.2.0/Insomnia.Core-11.2.0.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/insomnia ${destdir}/bin"
+    command "tar -xf ${srcdir}/Insomnia.Core-11.2.0.tar.gz -C ${destdir}/opt/insomnia"
+    command "chmod +x ${destdir}/opt/insomnia/insomnia"
+    command "ln -sf ../opt/insomnia/insomnia ${destdir}/bin/insomnia"
+  }
+}

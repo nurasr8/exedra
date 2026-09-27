@@ -1,10 +1,10 @@
 package "zettlr" {
-  version = "3.4.6"
+  version = "4.8.0"
   description = "Zettlr markdown editor"
   license = "GPL-3.0"
   homepage = "https://zettlr.com"
   binary {
-    url = "https://github.com/Zettlr/Zettlr/releases/download/v3.4.6/Zettlr-3.4.6-x86_64.AppImage"
+    url = "https://github.com/Zettlr/Zettlr/releases/download/v4.8.0/Zettlr-4.8.0-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "zettlr" {
   }
   install {
     command "mkdir -p ${destdir}/opt/zettlr ${destdir}/bin"
-    command "cp ${srcdir}/Zettlr-3.4.6-x86_64.AppImage ${destdir}/opt/zettlr/zettlr.AppImage"
+    command "cp ${srcdir}/Zettlr-4.8.0-x86_64.AppImage ${destdir}/opt/zettlr/zettlr.AppImage"
     command "chmod +x ${destdir}/opt/zettlr/zettlr.AppImage"
     command "ln -sf ../opt/zettlr/zettlr.AppImage ${destdir}/bin/zettlr"
   }

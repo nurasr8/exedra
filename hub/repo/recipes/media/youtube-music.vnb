@@ -1,0 +1,19 @@
+package "youtube-music" {
+  version = "3.12.0"
+  description = "YouTube Music app"
+  license = "MIT"
+  homepage = "https://github.com/th-ch/youtube-music"
+  binary {
+    url = "https://github.com/th-ch/youtube-music/releases/download/v3.12.0/YouTube-Music-3.12.0.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/youtube-music ${destdir}/bin"
+    command "cp ${srcdir}/YouTube-Music-3.12.0.AppImage ${destdir}/opt/youtube-music/youtube-music.AppImage"
+    command "chmod +x ${destdir}/opt/youtube-music/youtube-music.AppImage"
+    command "ln -sf ../opt/youtube-music/youtube-music.AppImage ${destdir}/bin/youtube-music"
+  }
+}

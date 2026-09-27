@@ -1,19 +1,18 @@
 package "dasel" {
-  version = "3.0.3"
+  version = "3.11.2"
   description = "dasel data tool"
   license = "MIT"
   homepage = "https://github.com/TomWright/dasel"
   binary {
-    url = "https://github.com/TomWright/dasel/releases/download/v3.0.3/dasel_linux_amd64.tar.gz"
-    format = "tarball"
+    url = "https://github.com/TomWright/dasel/releases/download/v3.11.2/dasel_linux_amd64"
+    format = "single"
   }
   depends {
     "glibc"
   }
   install {
-    command "mkdir -p ${destdir}/opt/dasel ${destdir}/bin"
-    command "tar -xf ${srcdir}/dasel_linux_amd64.tar.gz -C ${destdir}/opt/dasel"
-    command "chmod +x ${destdir}/opt/dasel/dasel"
-    command "ln -sf ../opt/dasel/dasel ${destdir}/bin/dasel"
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./dasel_linux_amd64 ${destdir}/bin/dasel"
+    command "chmod +x ${destdir}/bin/dasel"
   }
 }

@@ -1,0 +1,19 @@
+package "prowlarr" {
+  version = "2.6.5"
+  description = "Prowlarr indexers"
+  license = "GPL-3.0"
+  homepage = "https://prowlarr.com"
+  binary {
+    url = "https://github.com/Prowlarr/Prowlarr/releases/download/v2.6.5.5623/Prowlarr.master.2.6.5.5623.linux-core-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/prowlarr ${destdir}/bin"
+    command "tar -xf ${srcdir}/Prowlarr.master.2.6.5.5623.linux-core-x64.tar.gz -C ${destdir}/opt/prowlarr"
+    command "chmod +x ${destdir}/opt/prowlarr/Prowlarr"
+    command "ln -sf ../opt/prowlarr/Prowlarr ${destdir}/bin/prowlarr"
+  }
+}

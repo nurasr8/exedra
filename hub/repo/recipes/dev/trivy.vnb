@@ -1,10 +1,10 @@
 package "trivy" {
-  version = "0.68.2"
+  version = "0.74.0"
   description = "Trivy scanner"
   license = "Apache-2.0"
   homepage = "https://github.com/aquasecurity/trivy"
   binary {
-    url = "https://github.com/aquasecurity/trivy/releases/download/v0.68.2/trivy_0.68.2_Linux-64bit.tar.gz"
+    url = "https://github.com/aquasecurity/trivy/releases/download/v0.74.0/trivy_0.74.0_Linux-64bit.tar.gz"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "trivy" {
   }
   install {
     command "mkdir -p ${destdir}/opt/trivy ${destdir}/bin"
-    command "tar -xf ${srcdir}/trivy_0.68.2_Linux-64bit.tar.gz -C ${destdir}/opt/trivy"
+    command "tar -xf ${srcdir}/trivy_0.74.0_Linux-64bit.tar.gz -C ${destdir}/opt/trivy"
     command "chmod +x ${destdir}/opt/trivy/trivy"
     command "ln -sf ../opt/trivy/trivy ${destdir}/bin/trivy"
   }

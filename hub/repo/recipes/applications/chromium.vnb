@@ -1,0 +1,24 @@
+package "chromium" {
+  version = "154.0.8037.57"
+  description = "Chromium web browser"
+  license = "BSD-3-Clause"
+  homepage = "https://www.chromium.org/"
+  binary {
+    url = "https://storage.googleapis.com/chrome-for-testing-public/154.0.8037.57/linux64/chrome-linux64.zip"
+    sha256 = "ceee2972074d441ea7c4ba8bcc0eaab77e7e87680f6653d73d3065851fe10302"
+    format = "zip"
+  }
+  depends {
+    "glibc"
+    "gtk3"
+    "nss"
+    "alsa-lib"
+    "dbus"
+  }
+  install {
+    command "unzip -q ${srcdir}/chrome-linux64.zip -d ${builddir}"
+    command "mkdir -p ${destdir}/opt/chromium ${destdir}/bin"
+    command "cp -r ${builddir}/chrome-linux64/* ${destdir}/opt/chromium/"
+    command "ln -sf ../opt/chromium/chrome ${destdir}/bin/chromium"
+  }
+}

@@ -1,10 +1,10 @@
 package "audacity" {
-  version = "3.7.5"
+  version = "4.0.0"
   description = "Audacity audio editor"
   license = "GPL-2.0"
   homepage = "https://audacityteam.org"
   binary {
-    url = "https://github.com/audacity/audacity/releases/download/Audacity-3.7.5/audacity-linux-3.7.5-x64.AppImage"
+    url = "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-linux-4.0.0-x86_64.AppImage"
     format = "appimage"
   }
   depends {
@@ -12,7 +12,7 @@ package "audacity" {
   }
   install {
     command "mkdir -p ${destdir}/opt/audacity ${destdir}/bin"
-    command "cp ${srcdir}/audacity-linux-3.7.5-x64.AppImage ${destdir}/opt/audacity/audacity.AppImage"
+    command "cp ${srcdir}/audacity-linux-4.0.0-x86_64.AppImage ${destdir}/opt/audacity/audacity.AppImage"
     command "chmod +x ${destdir}/opt/audacity/audacity.AppImage"
     command "ln -sf ../opt/audacity/audacity.AppImage ${destdir}/bin/audacity"
   }

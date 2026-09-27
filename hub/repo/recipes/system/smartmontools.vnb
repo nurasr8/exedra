@@ -1,0 +1,23 @@
+package "smartmontools" {
+  version = "7.5"
+  description = "SMART disk monitoring"
+  license = "GPL-2.0"
+  homepage = "https://www.smartmontools.org/"
+  source {
+    url = "https://downloads.sourceforge.net/project/smartmontools/smartmontools/7.5/smartmontools-7.5.tar.gz"
+    sha256 = "690b83ca331378da9ea0d9d61008c4b22dde391387b9bbad7f29387f2595f76e"
+  }
+  depends {
+    "glibc"
+  }
+  makedepends {
+    "gcc" "make"
+  }
+  build {
+    command "./configure --prefix=/usr"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+  }
+}

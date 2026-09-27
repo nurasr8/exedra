@@ -1,0 +1,19 @@
+package "freecad" {
+  version = "1.0"
+  description = "FreeCAD CAD"
+  license = "LGPL-2.0"
+  homepage = "https://freecad.org"
+  binary {
+    url = "https://github.com/FreeCAD/FreeCAD/releases/download/1.0.2/FreeCAD_1.0.2-conda-Linux-x86_64-py311.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/freecad ${destdir}/bin"
+    command "cp ${srcdir}/FreeCAD_1.0.2-conda-Linux-x86_64-py311.AppImage ${destdir}/opt/freecad/freecad.AppImage"
+    command "chmod +x ${destdir}/opt/freecad/freecad.AppImage"
+    command "ln -sf ../opt/freecad/freecad.AppImage ${destdir}/bin/freecad"
+  }
+}

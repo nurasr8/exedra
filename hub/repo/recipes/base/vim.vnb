@@ -1,0 +1,27 @@
+package "vim" {
+  version = "9.1.1550"
+  description = "Vi IMproved text editor"
+  license = "Vim"
+  homepage = "https://www.vim.org/"
+  source {
+    url = "https://github.com/vim/vim/archive/v9.1.1550.tar.gz"
+    sha256 = "373f8478b7c285a9fbe18a62f18601736152ec425fbf1181af5a382a3f06bc76"
+  }
+  depends {
+    "glibc"
+    "ncurses"
+    "acl"
+  }
+  makedepends {
+    "gcc"
+    "make"
+  }
+  build {
+    command "./configure --prefix=/usr --with-features=huge --enable-multibyte"
+    command "make -j$(nproc)"
+  }
+  install {
+    command "make DESTDIR=${destdir} install"
+    command "ln -sf vim ${destdir}/usr/bin/vi"
+  }
+}

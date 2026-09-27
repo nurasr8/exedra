@@ -1,10 +1,10 @@
 package "wstunnel" {
-  version = "10.4.2"
+  version = "11.0.0"
   description = "wstunnel"
   license = "MIT"
   homepage = "https://github.com/erebe/wstunnel"
   binary {
-    url = "https://github.com/erebe/wstunnel/releases/download/v10.4.2/wstunnel_10.4.2_linux_x86_64.tar.gz"
+    url = "https://github.com/erebe/wstunnel/releases/download/v11.0.0/wstunnel_11.0.0_linux_amd64.tar.gz"
     format = "tarball"
   }
   depends {
@@ -12,7 +12,7 @@ package "wstunnel" {
   }
   install {
     command "mkdir -p ${destdir}/opt/wstunnel ${destdir}/bin"
-    command "tar -xf ${srcdir}/wstunnel_10.4.2_linux_x86_64.tar.gz -C ${destdir}/opt/wstunnel"
+    command "tar -xf ${srcdir}/wstunnel_11.0.0_linux_amd64.tar.gz -C ${destdir}/opt/wstunnel"
     command "chmod +x ${destdir}/opt/wstunnel/wstunnel"
     command "ln -sf ../opt/wstunnel/wstunnel ${destdir}/bin/wstunnel"
   }

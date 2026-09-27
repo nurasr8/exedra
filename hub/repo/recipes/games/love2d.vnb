@@ -1,0 +1,19 @@
+package "love2d" {
+  version = "11.5"
+  description = "LOVE2D framework"
+  license = "zlib"
+  homepage = "https://love2d.org"
+  binary {
+    url = "https://github.com/love2d/love/releases/download/11.5/love-11.5-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/love2d ${destdir}/bin"
+    command "cp ${srcdir}/love-11.5-x86_64.AppImage ${destdir}/opt/love2d/love2d.AppImage"
+    command "chmod +x ${destdir}/opt/love2d/love2d.AppImage"
+    command "ln -sf ../opt/love2d/love2d.AppImage ${destdir}/bin/love"
+  }
+}
