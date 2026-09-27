@@ -1,6 +1,7 @@
 # Exedra
 
-Independent Linux distro sketch: kernel + systemd upstream, own `venim` manager,
+Distro for people who want installed apps to be easy to modify, and stability:
+kernel + systemd upstream, own `venim` manager,
 own `VenimBuild` recipes (`*.vnb`), isolated storage in `/venim/packages/<name>/<version>/`,
 integration via symlinks in `/usr`.
 

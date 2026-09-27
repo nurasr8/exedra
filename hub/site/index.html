@@ -36,7 +36,7 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
       <h1 id="hero-title">Exedra Linux 0.1.0</h1>
-      <p class="lead">Независимый дистрибутив: ядро и systemd из upstream Arch, свой пакетный менеджер venim и рецепты VenimBuild.</p>
+      <p class="lead">Дистрибутив для тех, кто хочет простоты в изменении установленных приложений и стабильности: ядро и systemd из upstream Arch, свой пакетный менеджер venim и рецепты VenimBuild.</p>
       <div class="hero-actions">
         <a class="btn btn-accent" href="pages/download.html">Скачать ISO</a>
         <a class="btn" href="pages/packages.html">Как ставить пакеты</a>
@@ -50,9 +50,9 @@
       <h2 id="features-title">Чем отличается</h2>
       <p class="section-desc">Три вещи, ради которых проект существует.</p>
       <div class="grid-3">
-        <article class="card"><h3>venim</h3><p>Пакетник на C++: пакеты изолированы в <code>/venim/packages/имя/версия/</code>, в систему интегрируются относительными симлинками.</p></article>
+        <article class="card"><h3>Приложения просто менять</h3><p>Каждое приложение — отдельное дерево в <code>/venim/packages/имя/версия/</code>: видно все файлы, легко поправить, проверить (<code>verify</code>, <code>doctor</code>) и откатить.</p></article>
+        <article class="card"><h3>Стабильность</h3><p>Версионные деревья не смешиваются: обновление не трогает работающее, сломанное чинится пересозданием симлинков (<code>repair</code>).</p></article>
         <article class="card"><h3>VenimBuild</h3><p>Рецепты <code>*.vnb</code> — короткий DSL: source/binary, depends, install-команды. Свой репозиторий из 200+ рецептов.</p></article>
-        <article class="card"><h3>Простая установка</h3><p>Графический установщик Calamares в live-сессии и терминальный <code>install-exedra-tui</code>.</p></article>
       </div>
     </div>
   </section>
@@ -100,6 +100,10 @@
         <details>
           <summary>Не работает WiFi на live-сессии</summary>
           <p>Прошивки Intel/Realtek/MediaTek/Atheros/Broadcom и драйверы rtw89, rtw88, ath11k/ath12k, mt76/mt7925 в образе есть. Проверьте <code>rfkill list</code> (частый виновник — hard block клавишей) и вывод <code>dmesg | grep -i firmware</code>. Исключение: Broadcom-wl (проприетарный DKMS) — только вручную после установки.</p>
+        </details>
+        <details>
+          <summary>Как поменять файлы установленного приложения?</summary>
+          <p>Всё лежит открыто в <code>/venim/packages/имя/версия/</code>, в системе — только симлинки. Правишь дерево или рецепт, переустанавливаешь, проверяешь <code>venim verify имя</code>. Сломал ссылки — чинит <code>venim repair</code>.</p>
         </details>
         <details>
           <summary>Чем ставить программы?</summary>
