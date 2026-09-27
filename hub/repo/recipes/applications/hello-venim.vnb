@@ -2,7 +2,7 @@ package "hello-venim" {
   version = "0.1.0"
   description = "Test package for Exedra"
   license = "MIT"
-  homepage = "https://example.org/hello-venim"
+  homepage = "https://github.com/nurasr8/exedra"
   makedepends { "gcc" }
   build {
     command "cc ${srcdir}/hello.c -o ${builddir}/hello"

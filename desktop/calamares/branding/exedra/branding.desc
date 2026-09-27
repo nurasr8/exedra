@@ -13,11 +13,11 @@ strings:
     versionedName:       Exedra 0.1.0
     shortVersionedName:  Exedra 0.1.0
     bootloaderEntryName: Exedra
-    productUrl:          https://example.org/exedra
-    supportUrl:          https://example.org/exedra
-    knownIssuesUrl:      https://example.org/exedra
-    releaseNotesUrl:     https://example.org/exedra
-    donateUrl:           https://example.org/exedra
+    productUrl:          https://github.com/nurasr8/exedra
+    supportUrl:          https://github.com/nurasr8/exedra
+    knownIssuesUrl:      https://github.com/nurasr8/exedra
+    releaseNotesUrl:     https://github.com/nurasr8/exedra
+    donateUrl:           https://github.com/nurasr8/exedra
 
 images:
     productLogo:         "logo.png"
