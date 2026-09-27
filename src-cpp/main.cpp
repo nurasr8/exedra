@@ -30,21 +30,18 @@ std::string toLower(std::string s) {
 
 bool scanRecipes(const std::string& repo, const std::string& want,
                  std::vector<std::string>& hits, bool all) {
-    for (const char* base : {"packages"}) {
-        std::string dir = (fs::path(repo) / base).string();
-        std::error_code ec;
-        if (!fs::is_directory(dir, ec)) continue;
-        for (auto it = fs::recursive_directory_iterator(
-                 dir, fs::directory_options::skip_permission_denied, ec);
-             it != fs::recursive_directory_iterator(); ++it) {
-            if (!it->is_regular_file(ec)) continue;
-            std::string p = it->path().string();
-            if (p.size() < 4 || p.compare(p.size() - 4, 4, ".vnb") != 0)
-                continue;
-            std::string name = it->path().stem().string();
-            if (all || name == want) hits.push_back(p);
-            if (!all && name == want) return true;
-        }
+    // whole recipe tree, any layout (packages/, categories/, flat)
+    std::error_code ec;
+    if (!fs::is_directory(repo, ec)) return false;
+    for (auto it = fs::recursive_directory_iterator(
+             repo, fs::directory_options::skip_permission_denied, ec);
+         it != fs::recursive_directory_iterator(); ++it) {
+        if (!it->is_regular_file(ec)) continue;
+        std::string p = it->path().string();
+        if (p.size() < 4 || p.compare(p.size() - 4, 4, ".vnb") != 0) continue;
+        std::string name = it->path().stem().string();
+        if (all || name == want) hits.push_back(p);
+        if (!all && name == want) return true;
     }
     return !hits.empty();
 }
