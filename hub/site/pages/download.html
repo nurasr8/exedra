@@ -22,7 +22,6 @@
       <a href="download.html" aria-current="page">Загрузка</a>
       <a href="packages.html">Пакеты</a>
       <a href="docs.html">Документация</a>
-      
     </nav>
   </div>
 </header>
@@ -30,8 +29,8 @@
 <main id="main">
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
-      <h1 id="hero-title">Загрузка 0.1.0</h1>
-      <p class="lead">Гибридные ISO: одна флешка грузится и в UEFI, и в Legacy BIOS.</p>
+      <h1 id="hero-title">Забирай 0.1.0</h1>
+      <p class="lead">Обычные гибридные ISO: одна и та же флешка заведётся и в UEFI, и в старом BIOS.</p>
     </div>
   </section>
 
@@ -47,31 +46,31 @@
         </tbody>
       </table>
       <div class="version-box">
-        <p>Secure Boot: образы подписаны собственным ключом. На стоковом ПК либо выключите Secure Boot, либо добавьте ключ.</p>
+        <p>Про Secure Boot сразу: образы подписаны нашим ключом, твоя прошивка его не знает. Либо выключи Secure Boot, либо добавь ключ — иначе дальше меню не уедешь.</p>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="flash-title">
     <div class="wrap">
-      <h2 id="flash-title">Запись на флешку</h2>
-      <p class="section-desc">Флешка от 4 ГБ (Desktop) или 1 ГБ (Core). Данные затрутся.</p>
+      <h2 id="flash-title">Как записать флешку</h2>
+      <p class="section-desc">Нужна флешка от 4 ГБ под Desktop (под Core хватит и гигабайта). Учти, всё на ней затрется.</p>
       <div class="dl-box">
-        <p><code>lsblk</code> — найдите свою флешку (сравните до и после подключения).</p>
+        <p><code>lsblk</code> — воткни флешку и посмотри, какая буква у неё появилась (сравни до и после).</p>
         <p><code>sudo dd if=Exedra-Desktop-0.1.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></p>
-        <p>Важно: <code>/dev/sdX</code> — устройство целиком, без цифры раздела.</p>
+        <p>Главное: <code>/dev/sdX</code> — сама флешка, без цифры на конце. С цифрой запишешь в раздел — и потом будешь думать, что образ битый.</p>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="live-title">
     <div class="wrap">
-      <h2 id="live-title">Live-сессия и установка</h2>
-      <p class="section-desc">Загрузитесь с флешки (boot-меню: F12/F8/Esc).</p>
+      <h2 id="live-title">Загрузился — что дальше</h2>
+      <p class="section-desc">В boot-меню (обычно F12/F8/Esc) выбери флешку.</p>
       <div class="grid-3">
-        <article class="card"><h3>Desktop</h3><p>Автологин в Plasma под <code>exedra</code> (sudo без пароля), консоль — <code>root</code> без пароля.</p></article>
-        <article class="card"><h3>Установка GUI</h3><p>Значок «Install Exedra» на рабочем столе — мастер Calamares.</p></article>
-        <article class="card"><h3>Установка в терминале</h3><p><code>sudo install-exedra-tui</code> — пошаговый мастер, <code>sudo install-exedra</code> — CLI.</p></article>
+        <article class="card"><h3>Desktop сам войдёт</h3><p>Откроется Plasma под пользователем <code>exedra</code> (sudo без пароля). Нужна консоль — там <code>root</code> вообще без пароля.</p></article>
+        <article class="card"><h3>Ставиться — иконкой</h3><p>Прямо на рабочем столе лежит «Install Exedra» — это мастер Calamares, дальше он сам ведёт за руку.</p></article>
+        <article class="card"><h3>Любишь терминал</h3><p><code>sudo install-exedra-tui</code> — пошаговый мастер, <code>sudo install-exedra</code> — для тех, кто всё делает сам.</p></article>
       </div>
     </div>
   </section>
