@@ -1,0 +1,19 @@
+package "just" {
+  version = "1.43.0"
+  description = "just runner"
+  license = "CC0-1.0"
+  homepage = "https://github.com/casey/just"
+  binary {
+    url = "https://github.com/casey/just/releases/download/1.43.0/just-1.43.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/just ${destdir}/bin"
+    command "tar -xf ${srcdir}/just-1.43.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/just"
+    command "chmod +x ${destdir}/opt/just/just"
+    command "ln -sf ../opt/just/just ${destdir}/bin/just"
+  }
+}

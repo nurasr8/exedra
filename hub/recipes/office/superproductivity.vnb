@@ -1,0 +1,19 @@
+package "superproductivity" {
+  version = "11.0.11"
+  description = "SuperProductivity tasks"
+  license = "MIT"
+  homepage = "https://super-productivity.com"
+  binary {
+    url = "https://github.com/johannesjo/super-productivity/releases/download/v11.0.11/superProductivity-11.0.11.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/superproductivity ${destdir}/bin"
+    command "cp ${srcdir}/superProductivity-11.0.11.AppImage ${destdir}/opt/superproductivity/superproductivity.AppImage"
+    command "chmod +x ${destdir}/opt/superproductivity/superproductivity.AppImage"
+    command "ln -sf ../opt/superproductivity/superproductivity.AppImage ${destdir}/bin/superproductivity"
+  }
+}

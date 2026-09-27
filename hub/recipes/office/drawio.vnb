@@ -1,0 +1,19 @@
+package "drawio" {
+  version = "27.0.5"
+  description = "draw.io diagrams"
+  license = "Apache-2.0"
+  homepage = "https://draw.io"
+  binary {
+    url = "https://github.com/jgraph/drawio-desktop/releases/download/v27.0.5/drawio-x86_64-27.0.5.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/drawio ${destdir}/bin"
+    command "cp ${srcdir}/drawio-x86_64-27.0.5.AppImage ${destdir}/opt/drawio/drawio.AppImage"
+    command "chmod +x ${destdir}/opt/drawio/drawio.AppImage"
+    command "ln -sf ../opt/drawio/drawio.AppImage ${destdir}/bin/drawio"
+  }
+}

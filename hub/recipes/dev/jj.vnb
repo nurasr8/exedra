@@ -1,0 +1,19 @@
+package "jj" {
+  version = "0.34.0"
+  description = "Jujutsu VCS"
+  license = "Apache-2.0"
+  homepage = "https://jj-vcs.github.io"
+  binary {
+    url = "https://github.com/jj-vcs/jj/releases/download/v0.34.0/jj-v0.34.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/jj ${destdir}/bin"
+    command "tar -xf ${srcdir}/jj-v0.34.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/jj"
+    command "chmod +x ${destdir}/opt/jj/jj"
+    command "ln -sf ../opt/jj/jj ${destdir}/bin/jj"
+  }
+}

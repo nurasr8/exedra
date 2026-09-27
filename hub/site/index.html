@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exedra Linux — независимый дистрибутив с пакетником venim</title>
+<meta name="description" content="Exedra 0.1.0: ядро и systemd из upstream Arch, свой пакетник venim на C++, рецепты VenimBuild, редакции Core и Desktop (KDE Plasma).">
+<link rel="canonical" href="https://example.org/exedra/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Exedra Linux">
+<meta property="og:description" content="Независимый Linux-дистрибутив: venim, Calamares, KDE Plasma.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header">
+  <div class="header-row">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="Логотип Exedra" width="32" height="32">
+      <span>Exedra</span>
+    </a>
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="index.html" aria-current="page">Главная</a>
+      <a href="pages/download.html">Загрузка</a>
+      <a href="pages/packages.html">Пакеты</a>
+      <a href="pages/compare.html">Сравнение</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title">Exedra Linux 0.1.0</h1>
+      <p class="lead">Независимый дистрибутив: ядро и systemd из upstream Arch, свой пакетный менеджер venim и рецепты VenimBuild.</p>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="pages/download.html">Скачать ISO</a>
+        <a class="btn" href="pages/packages.html">Как ставить пакеты</a>
+      </div>
+      <p class="hero-meta">Две редакции: Core (CLI) и Desktop (KDE Plasma). Гибридный ISO: BIOS + UEFI.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-title">
+    <div class="wrap">
+      <h2 id="features-title">Чем отличается</h2>
+      <p class="section-desc">Три вещи, ради которых проект существует.</p>
+      <div class="grid-3">
+        <article class="card"><h3>venim</h3><p>Пакетник на C++: пакеты изолированы в <code>/venim/packages/имя/версия/</code>, в систему интегрируются относительными симлинками.</p></article>
+        <article class="card"><h3>VenimBuild</h3><p>Рецепты <code>*.vnb</code> — короткий DSL: source/binary, depends, install-команды. Свой репозиторий из 200+ рецептов.</p></article>
+        <article class="card"><h3>Простая установка</h3><p>Графический установщик Calamares в live-сессии и терминальный <code>install-exedra-tui</code>.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="editions-title">
+    <div class="wrap">
+      <h2 id="editions-title">Редакции</h2>
+      <div class="editions">
+        <article class="edition">
+          <h3>Core</h3>
+          <p class="size">≈0.4 ГБ, консоль</p>
+          <ul>
+            <li>TTY, root без пароля из коробки</li>
+            <li>Сеть по DHCP, venim, SSH</li>
+            <li>Для серверов и минимальных установок</li>
+          </ul>
+          <a class="btn" href="pages/download.html">Скачать Core</a>
+        </article>
+        <article class="edition">
+          <h3>Desktop</h3>
+          <p class="size">≈3 ГБ, графика</p>
+          <ul>
+            <li>KDE Plasma 6 (Wayland), SDDM с автологином</li>
+            <li>Firefox, LibreOffice, VLC, Discover</li>
+            <li>Прошивки WiFi/Bluetooth, драйверы GPU и ноутбуков</li>
+          </ul>
+          <a class="btn btn-accent" href="pages/download.html">Скачать Desktop</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title">FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>UEFI не видит флешку. Что делать?</summary>
+          <p>Записывайте образ побайтово на устройство, не в раздел: <code>dd if=Exedra-*.iso of=/dev/sdX bs=4M oflag=sync</code>. Проверьте таблицу разделов после записи — должен быть виден EFI-раздел.</p>
+        </details>
+        <details>
+          <summary>Secure Boot ругается. Это нормально?</summary>
+          <p>Да. Загрузчик подписан собственным ключом Exedra, стоковая прошивка его не знает. Выключите Secure Boot в UEFI Setup либо добавьте наш ключ (подробности — в docs/secureboot.md репозитория).</p>
+        </details>
+        <details>
+          <summary>Не работает WiFi на live-сессии</summary>
+          <p>Прошивки Intel/Realtek/MediaTek/Atheros/Broadcom и драйверы rtw89, rtw88, ath11k/ath12k, mt76/mt7925 в образе есть. Проверьте <code>rfkill list</code> (частый виновник — hard block клавишей) и вывод <code>dmesg | grep -i firmware</code>. Исключение: Broadcom-wl (проприетарный DKMS) — только вручную после установки.</p>
+        </details>
+        <details>
+          <summary>Чем ставить программы?</summary>
+          <p>Пакетником venim: <code>venim install firefox</code>. Рецепты лежат в каталоге <code>packages/</code> и в онлайн-репозитории на 200+ рецептов. Подробности — на странице пакетов.</p>
+        </details>
+        <details>
+          <summary>На чём написан venim?</summary>
+          <p>На C++17 (SQLite, libcurl, OpenSSL). Начиная с 0.1.0 интерпретатор не нужен: <code>/usr/bin/venim</code> — нативный бинарник.</p>
+        </details>
+        <details>
+          <summary>Есть ли 32-битная версия?</summary>
+          <p>Нет, только x86_64 (BIOS и UEFI).</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 Exedra. Рецепты пакетов — CC0, софт из них — под своими лицензиями.</p>
+  </div>
+</footer>
+</body>
+</html>

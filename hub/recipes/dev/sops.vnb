@@ -1,0 +1,18 @@
+package "sops" {
+  version = "3.11.0"
+  description = "sops secrets"
+  license = "MPL-2.0"
+  homepage = "https://github.com/getsops/sops"
+  binary {
+    url = "https://github.com/getsops/sops/releases/download/v3.11.0/sops-v3.11.0.linux.amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./sops-v3.11.0.linux.amd64 ${destdir}/bin/sops"
+    command "chmod +x ${destdir}/bin/sops"
+  }
+}

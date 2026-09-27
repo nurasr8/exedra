@@ -1,0 +1,19 @@
+package "zig" {
+  version = "0.15.1"
+  description = "Zig"
+  license = "MIT"
+  homepage = "https://ziglang.org"
+  binary {
+    url = "https://ziglang.org/download/0.15.1/zig-x86_64-linux-0.15.1.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/zig ${destdir}/bin"
+    command "tar -xf ${srcdir}/zig-x86_64-linux-0.15.1.tar.xz -C ${destdir}/opt/zig --strip-components=1"
+    command "chmod +x ${destdir}/opt/zig/zig"
+    command "ln -sf ../opt/zig/zig ${destdir}/bin/zig"
+  }
+}

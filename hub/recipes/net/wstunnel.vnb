@@ -1,0 +1,19 @@
+package "wstunnel" {
+  version = "10.4.2"
+  description = "wstunnel"
+  license = "MIT"
+  homepage = "https://github.com/erebe/wstunnel"
+  binary {
+    url = "https://github.com/erebe/wstunnel/releases/download/v10.4.2/wstunnel_10.4.2_linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/wstunnel ${destdir}/bin"
+    command "tar -xf ${srcdir}/wstunnel_10.4.2_linux_x86_64.tar.gz -C ${destdir}/opt/wstunnel"
+    command "chmod +x ${destdir}/opt/wstunnel/wstunnel"
+    command "ln -sf ../opt/wstunnel/wstunnel ${destdir}/bin/wstunnel"
+  }
+}

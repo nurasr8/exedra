@@ -1,0 +1,18 @@
+package "goreman" {
+  version = "0.3.19"
+  description = "goreman procman"
+  license = "MIT"
+  homepage = "https://github.com/mattn/goreman"
+  binary {
+    url = "https://github.com/mattn/goreman/releases/download/v0.3.19/goreman_linux_amd64.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./goreman ${destdir}/bin/goreman"
+    command "chmod +x ${destdir}/bin/goreman"
+  }
+}

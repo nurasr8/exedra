@@ -1,0 +1,18 @@
+package "skaffold" {
+  version = "2.17.1"
+  description = "Skaffold"
+  license = "Apache-2.0"
+  homepage = "https://skaffold.dev"
+  binary {
+    url = "https://github.com/GoogleContainerTools/skaffold/releases/download/v2.17.1/skaffold-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./skaffold-linux-amd64 ${destdir}/bin/skaffold"
+    command "chmod +x ${destdir}/bin/skaffold"
+  }
+}

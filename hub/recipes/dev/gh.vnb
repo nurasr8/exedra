@@ -1,0 +1,19 @@
+package "gh" {
+  version = "2.79.0"
+  description = "GitHub CLI"
+  license = "MIT"
+  homepage = "https://cli.github.com"
+  binary {
+    url = "https://github.com/cli/cli/releases/download/v2.79.0/gh_2.79.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gh ${destdir}/bin"
+    command "tar -xf ${srcdir}/gh_2.79.0_linux_amd64.tar.gz -C ${destdir}/opt/gh --strip-components=1"
+    command "chmod +x ${destdir}/opt/gh/bin/gh"
+    command "ln -sf ../opt/gh/bin/gh ${destdir}/bin/gh"
+  }
+}

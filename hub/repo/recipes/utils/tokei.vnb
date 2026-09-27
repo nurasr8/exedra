@@ -1,0 +1,19 @@
+package "tokei" {
+  version = "13.0.0"
+  description = "tokei code stats"
+  license = "MIT"
+  homepage = "https://github.com/XAMPPRocky/tokei"
+  binary {
+    url = "https://github.com/XAMPPRocky/tokei/releases/download/v13.0.0/tokei-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/tokei ${destdir}/bin"
+    command "tar -xf ${srcdir}/tokei-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/tokei"
+    command "chmod +x ${destdir}/opt/tokei/tokei"
+    command "ln -sf ../opt/tokei/tokei ${destdir}/bin/tokei"
+  }
+}

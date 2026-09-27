@@ -1,0 +1,19 @@
+package "syncthing" {
+  version = "2.0.11"
+  description = "Syncthing"
+  license = "MPL-2.0"
+  homepage = "https://syncthing.net"
+  binary {
+    url = "https://github.com/syncthing/syncthing/releases/download/v2.0.11/syncthing-linux-amd64-v2.0.11.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/syncthing ${destdir}/bin"
+    command "tar -xf ${srcdir}/syncthing-linux-amd64-v2.0.11.tar.gz -C ${destdir}/opt/syncthing --strip-components=1"
+    command "chmod +x ${destdir}/opt/syncthing/syncthing"
+    command "ln -sf ../opt/syncthing/syncthing ${destdir}/bin/syncthing"
+  }
+}

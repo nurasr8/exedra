@@ -1,0 +1,19 @@
+package "zoxide" {
+  version = "0.9.7"
+  description = "zoxide cd"
+  license = "MIT"
+  homepage = "https://github.com/ajeetdsouza/zoxide"
+  binary {
+    url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.7/zoxide-0.9.7-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/zoxide ${destdir}/bin"
+    command "tar -xf ${srcdir}/zoxide-0.9.7-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/zoxide"
+    command "chmod +x ${destdir}/opt/zoxide/zoxide"
+    command "ln -sf ../opt/zoxide/zoxide ${destdir}/bin/zoxide"
+  }
+}

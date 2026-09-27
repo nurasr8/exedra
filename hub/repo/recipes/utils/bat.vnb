@@ -1,0 +1,19 @@
+package "bat" {
+  version = "0.26.1"
+  description = "bat cat"
+  license = "MIT"
+  homepage = "https://github.com/sharkdp/bat"
+  binary {
+    url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bat ${destdir}/bin"
+    command "tar -xf ${srcdir}/bat-v0.26.1-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/bat"
+    command "chmod +x ${destdir}/opt/bat/bat"
+    command "ln -sf ../opt/bat/bat ${destdir}/bin/bat"
+  }
+}

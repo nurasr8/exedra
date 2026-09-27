@@ -1,0 +1,19 @@
+package "myapp" {
+  version = "1.0.0"
+  description = "one-line description"
+  license = "MIT"
+  homepage = "https://example.org/myapp"
+  binary {
+    url = "https://example.org/releases/myapp-1.0.0-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/myapp ${destdir}/bin"
+    command "cp ${srcdir}/myapp-1.0.0-x86_64.AppImage ${destdir}/opt/myapp/myapp.AppImage"
+    command "chmod +x ${destdir}/opt/myapp/myapp.AppImage"
+    command "ln -sf ../opt/myapp/myapp.AppImage ${destdir}/bin/myapp"
+  }
+}

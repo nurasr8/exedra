@@ -1,0 +1,19 @@
+package "jan" {
+  version = "0.6.9"
+  description = "Jan AI chat"
+  license = "AGPL-3.0"
+  homepage = "https://jan.ai"
+  binary {
+    url = "https://github.com/menloresearch/jan/releases/download/v0.6.9/jan-linux-x86_64-0.6.9.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/jan ${destdir}/bin"
+    command "cp ${srcdir}/jan-linux-x86_64-0.6.9.AppImage ${destdir}/opt/jan/jan.AppImage"
+    command "chmod +x ${destdir}/opt/jan/jan.AppImage"
+    command "ln -sf ../opt/jan/jan.AppImage ${destdir}/bin/jan"
+  }
+}

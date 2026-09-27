@@ -1,0 +1,19 @@
+package "joplin" {
+  version = "3.4.12"
+  description = "Joplin notes"
+  license = "MIT"
+  homepage = "https://joplinapp.org"
+  binary {
+    url = "https://github.com/laurent22/joplin/releases/download/v3.4.12/Joplin-3.4.12.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/joplin ${destdir}/bin"
+    command "cp ${srcdir}/Joplin-3.4.12.AppImage ${destdir}/opt/joplin/joplin.AppImage"
+    command "chmod +x ${destdir}/opt/joplin/joplin.AppImage"
+    command "ln -sf ../opt/joplin/joplin.AppImage ${destdir}/bin/joplin"
+  }
+}

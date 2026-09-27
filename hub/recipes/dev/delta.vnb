@@ -1,0 +1,19 @@
+package "delta" {
+  version = "0.18.2"
+  description = "delta diff pager"
+  license = "MIT"
+  homepage = "https://github.com/dandavison/delta"
+  binary {
+    url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/delta ${destdir}/bin"
+    command "tar -xf ${srcdir}/delta-0.18.2-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/delta"
+    command "chmod +x ${destdir}/opt/delta/delta"
+    command "ln -sf ../opt/delta/delta ${destdir}/bin/delta"
+  }
+}

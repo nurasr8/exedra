@@ -1,0 +1,18 @@
+package "oh-my-posh" {
+  version = "29.4.0"
+  description = "Oh My Posh prompt"
+  license = "MIT"
+  homepage = "https://ohmyposh.dev"
+  binary {
+    url = "https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v29.4.0/posh-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./posh-linux-amd64 ${destdir}/bin/oh-my-posh"
+    command "chmod +x ${destdir}/bin/oh-my-posh"
+  }
+}

@@ -1,0 +1,19 @@
+package "neofetch" {
+  version = "7.1.0"
+  description = "neofetch"
+  license = "MIT"
+  homepage = "https://github.com/dylanaraps/neofetch"
+  binary {
+    url = "https://github.com/dylanaraps/neofetch/archive/refs/tags/7.1.0.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/neofetch ${destdir}/bin"
+    command "tar -xf ${srcdir}/7.1.0.tar.gz -C ${destdir}/opt/neofetch --strip-components=1"
+    command "chmod +x ${destdir}/opt/neofetch/neofetch"
+    command "ln -sf ../opt/neofetch/neofetch ${destdir}/bin/neofetch"
+  }
+}

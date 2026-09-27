@@ -1,0 +1,19 @@
+package "subfinder" {
+  version = "2.8.0"
+  description = "subfinder"
+  license = "MIT"
+  homepage = "https://github.com/projectdiscovery/subfinder"
+  binary {
+    url = "https://github.com/projectdiscovery/subfinder/releases/download/v2.8.0/subfinder_2.8.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/subfinder ${destdir}/bin"
+    command "tar -xf ${srcdir}/subfinder_2.8.0_linux_amd64.tar.gz -C ${destdir}/opt/subfinder"
+    command "chmod +x ${destdir}/opt/subfinder/subfinder"
+    command "ln -sf ../opt/subfinder/subfinder ${destdir}/bin/subfinder"
+  }
+}

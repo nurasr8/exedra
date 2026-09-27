@@ -1,0 +1,19 @@
+package "powershell" {
+  version = "7.6.0"
+  description = "PowerShell"
+  license = "MIT"
+  homepage = "https://github.com/PowerShell/PowerShell"
+  binary {
+    url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.0/powershell-7.6.0-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/powershell ${destdir}/bin"
+    command "tar -xf ${srcdir}/powershell-7.6.0-linux-x64.tar.gz -C ${destdir}/opt/powershell"
+    command "chmod +x ${destdir}/opt/powershell/pwsh"
+    command "ln -sf ../opt/powershell/pwsh ${destdir}/bin/powershell"
+  }
+}

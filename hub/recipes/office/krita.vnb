@@ -1,0 +1,19 @@
+package "krita" {
+  version = "5.2.9"
+  description = "Krita painting"
+  license = "GPL-3.0"
+  homepage = "https://krita.org"
+  binary {
+    url = "https://download.kde.org/stable/krita/5.2.9/krita-5.2.9-x86_64.appimage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/krita ${destdir}/bin"
+    command "cp ${srcdir}/krita-5.2.9-x86_64.appimage ${destdir}/opt/krita/krita.AppImage"
+    command "chmod +x ${destdir}/opt/krita/krita.AppImage"
+    command "ln -sf ../opt/krita/krita.AppImage ${destdir}/bin/krita"
+  }
+}

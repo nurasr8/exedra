@@ -1,0 +1,19 @@
+package "syft" {
+  version = "1.36.0"
+  description = "Syft SBOM"
+  license = "Apache-2.0"
+  homepage = "https://github.com/anchore/syft"
+  binary {
+    url = "https://github.com/anchore/syft/releases/download/v1.36.0/syft_1.36.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/syft ${destdir}/bin"
+    command "tar -xf ${srcdir}/syft_1.36.0_linux_amd64.tar.gz -C ${destdir}/opt/syft"
+    command "chmod +x ${destdir}/opt/syft/syft"
+    command "ln -sf ../opt/syft/syft ${destdir}/bin/syft"
+  }
+}

@@ -1,0 +1,19 @@
+package "fq" {
+  version = "0.13.0"
+  description = "fq data tool"
+  license = "MIT"
+  homepage = "https://github.com/wader/fq"
+  binary {
+    url = "https://github.com/wader/fq/releases/download/v0.13.0/fq_0.13.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/fq ${destdir}/bin"
+    command "tar -xf ${srcdir}/fq_0.13.0_linux_amd64.tar.gz -C ${destdir}/opt/fq"
+    command "chmod +x ${destdir}/opt/fq/fq"
+    command "ln -sf ../opt/fq/fq ${destdir}/bin/fq"
+  }
+}

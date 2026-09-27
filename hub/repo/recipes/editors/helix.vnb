@@ -1,0 +1,19 @@
+package "helix" {
+  version = "25.07.1"
+  description = "Helix editor"
+  license = "MPL-2.0"
+  homepage = "https://helix-editor.com"
+  binary {
+    url = "https://github.com/helix-editor/helix/releases/download/25.07.1/helix-25.07.1-x86_64-linux.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/helix ${destdir}/bin"
+    command "tar -xf ${srcdir}/helix-25.07.1-x86_64-linux.tar.xz -C ${destdir}/opt/helix"
+    command "chmod +x ${destdir}/opt/helix/hx"
+    command "ln -sf ../opt/helix/hx ${destdir}/bin/helix"
+  }
+}

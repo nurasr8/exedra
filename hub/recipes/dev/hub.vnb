@@ -1,0 +1,19 @@
+package "hub" {
+  version = "2.14.2"
+  description = "hub github"
+  license = "MIT"
+  homepage = "https://hub.github.com"
+  binary {
+    url = "https://github.com/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/hub ${destdir}/bin"
+    command "tar -xf ${srcdir}/hub-linux-amd64-2.14.2.tgz -C ${destdir}/opt/hub --strip-components=1"
+    command "chmod +x ${destdir}/opt/hub/bin/hub"
+    command "ln -sf ../opt/hub/bin/hub ${destdir}/bin/hub"
+  }
+}

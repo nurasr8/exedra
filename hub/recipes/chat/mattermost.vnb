@@ -1,0 +1,19 @@
+package "mattermost" {
+  version = "5.12.2"
+  description = "Mattermost"
+  license = "Apache-2.0"
+  homepage = "https://mattermost.com"
+  binary {
+    url = "https://releases.mattermost.com/desktop/5.12.2/mattermost-desktop-5.12.2-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/mattermost ${destdir}/bin"
+    command "tar -xf ${srcdir}/mattermost-desktop-5.12.2-linux-x64.tar.gz -C ${destdir}/opt/mattermost --strip-components=1"
+    command "chmod +x ${destdir}/opt/mattermost/mattermost-desktop"
+    command "ln -sf ../opt/mattermost/mattermost-desktop ${destdir}/bin/mattermost"
+  }
+}

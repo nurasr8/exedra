@@ -1,0 +1,19 @@
+package "viddy" {
+  version = "0.4.0"
+  description = "viddy watch"
+  license = "MIT"
+  homepage = "https://github.com/sachaos/viddy"
+  binary {
+    url = "https://github.com/sachaos/viddy/releases/download/v0.4.0/viddy_0.4.0_Linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/viddy ${destdir}/bin"
+    command "tar -xf ${srcdir}/viddy_0.4.0_Linux_x86_64.tar.gz -C ${destdir}/opt/viddy"
+    command "chmod +x ${destdir}/opt/viddy/viddy"
+    command "ln -sf ../opt/viddy/viddy ${destdir}/bin/viddy"
+  }
+}

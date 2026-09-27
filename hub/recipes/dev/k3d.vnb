@@ -1,0 +1,18 @@
+package "k3d" {
+  version = "5.8.3"
+  description = "k3d"
+  license = "MIT"
+  homepage = "https://k3d.io"
+  binary {
+    url = "https://github.com/k3d-io/k3d/releases/download/v5.8.3/k3d-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./k3d-linux-amd64 ${destdir}/bin/k3d"
+    command "chmod +x ${destdir}/bin/k3d"
+  }
+}

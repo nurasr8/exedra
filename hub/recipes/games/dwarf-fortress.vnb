@@ -1,0 +1,19 @@
+package "dwarf-fortress" {
+  version = "50.15"
+  description = "Dwarf Fortress"
+  license = "proprietary"
+  homepage = "http://bay12games.com"
+  binary {
+    url = "http://www.bay12games.com/dwarves/df_50_15_linux.tar.bz2"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/dwarf-fortress ${destdir}/bin"
+    command "tar -xf ${srcdir}/df_50_15_linux.tar.bz2 -C ${destdir}/opt/dwarf-fortress --strip-components=1"
+    command "chmod +x ${destdir}/opt/dwarf-fortress/df"
+    command "ln -sf ../opt/dwarf-fortress/df ${destdir}/bin/dwarf-fortress"
+  }
+}

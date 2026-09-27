@@ -1,0 +1,19 @@
+package "pass" {
+  version = "1.7.4"
+  description = "pass password store"
+  license = "GPL-2.0"
+  homepage = "https://passwordstore.org"
+  binary {
+    url = "https://git.zx2c4.com/password-store/snapshot/password-store-1.7.4.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/pass ${destdir}/bin"
+    command "tar -xf ${srcdir}/password-store-1.7.4.tar.xz -C ${destdir}/opt/pass --strip-components=1"
+    command "chmod +x ${destdir}/opt/pass/src/password-store.sh"
+    command "ln -sf ../opt/pass/src/password-store.sh ${destdir}/bin/pass"
+  }
+}

@@ -1,0 +1,19 @@
+package "element" {
+  version = "1.12.9"
+  description = "Element Matrix"
+  license = "Apache-2.0"
+  homepage = "https://element.io"
+  binary {
+    url = "https://github.com/element-hq/element-desktop/releases/download/v1.12.9/Element-1.12.9-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/element ${destdir}/bin"
+    command "cp ${srcdir}/Element-1.12.9-x86_64.AppImage ${destdir}/opt/element/element.AppImage"
+    command "chmod +x ${destdir}/opt/element/element.AppImage"
+    command "ln -sf ../opt/element/element.AppImage ${destdir}/bin/element"
+  }
+}

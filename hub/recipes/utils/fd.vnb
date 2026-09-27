@@ -1,0 +1,19 @@
+package "fd" {
+  version = "10.3.0"
+  description = "fd find"
+  license = "MIT"
+  homepage = "https://github.com/sharkdp/fd"
+  binary {
+    url = "https://github.com/sharkdp/fd/releases/download/v10.3.0/fd-v10.3.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/fd ${destdir}/bin"
+    command "tar -xf ${srcdir}/fd-v10.3.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/fd"
+    command "chmod +x ${destdir}/opt/fd/fd"
+    command "ln -sf ../opt/fd/fd ${destdir}/bin/fd"
+  }
+}

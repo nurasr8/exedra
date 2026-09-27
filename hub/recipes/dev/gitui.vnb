@@ -1,0 +1,19 @@
+package "gitui" {
+  version = "0.27.0"
+  description = "gitui"
+  license = "MIT"
+  homepage = "https://github.com/gitui-org/gitui"
+  binary {
+    url = "https://github.com/gitui-org/gitui/releases/download/v0.27.0/gitui-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gitui ${destdir}/bin"
+    command "tar -xf ${srcdir}/gitui-linux-musl.tar.gz -C ${destdir}/opt/gitui"
+    command "chmod +x ${destdir}/opt/gitui/gitui"
+    command "ln -sf ../opt/gitui/gitui ${destdir}/bin/gitui"
+  }
+}

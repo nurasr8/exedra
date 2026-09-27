@@ -423,8 +423,19 @@ std::string installBinary(const std::string& root, const vnb::Recipe& rec,
                    b->map.at("url").isStr() && !b->map.at("url").s.empty();
     if (!haveUrl) throw std::runtime_error("recipe has no binary section");
     std::string url = b->map.at("url").s;
-    std::string arc =
-        root + "/venim/cache/" + fs::path(url).filename().string();
+    // exact download filename: explicit `file` key or sanitized URL basename
+    // (query strings stripped: ?platform=linux... -> plain name)
+    std::string fn;
+    auto fit = b->map.find("file");
+    if (fit != b->map.end() && fit->second.isStr() && !fit->second.s.empty()) {
+        fn = fit->second.s;
+    } else {
+        fn = fs::path(url).filename().string();
+        size_t q = fn.find_first_of("?#&");
+        if (q != std::string::npos) fn = fn.substr(0, q);
+        if (fn.empty()) fn = rec.name;
+    }
+    std::string arc = root + "/venim/cache/" + fn;
     fetch(url, arc);
     auto it = b->map.find("sha256");
     if (!noCheck && it != b->map.end() && it->second.isStr()) {
@@ -439,27 +450,31 @@ std::string installBinary(const std::string& root, const vnb::Recipe& rec,
     std::error_code ec;
     util::removeAll(stage);
     fs::create_directories(stage, ec);
-    try {
+    // decide by extension up front: GNU tar exits 0 even on non-tar input,
+    // so its exit code cannot tell archives apart from single files
+    std::string low = arc;
+    for (auto& c : low) c = (char)tolower((unsigned char)c);
+    auto ends = [&](const char* sfx) {
+        size_t n = strlen(sfx);
+        return low.size() >= n && low.compare(low.size() - n, n, sfx) == 0;
+    };
+    bool isArchive = ends(".zip") || ends(".zst") || ends(".zstd") ||
+                     ends(".tar") || ends(".txz") || ends(".tbz") ||
+                     ends(".tgz") || ends(".tar.gz") || ends(".tar.xz") ||
+                     ends(".tar.zst") || ends(".tar.bz2");
+    if (isArchive) {
         adapter::unpack(arc, stage);
-    } catch (const std::runtime_error&) {
-        // single-file payloads (AppImage, static binaries) are not archives:
-        // stage them as-is instead of failing
-        std::string low = arc;
-        for (auto& c : low) c = (char)tolower((unsigned char)c);
-        bool isArchive =
-            low.size() >= 4 &&
-            (low.compare(low.size() - 4, 4, ".zip") == 0 ||
-             low.compare(low.size() - 4, 4, ".zst") == 0 ||
-             low.compare(low.size() - 4, 4, ".tar") == 0 ||
-             low.compare(low.size() - 4, 4, ".txz") == 0 ||
-             low.compare(low.size() - 4, 4, ".tbz") == 0 ||
-             low.compare(low.size() - 3, 3, ".gz") == 0 ||
-             low.compare(low.size() - 3, 3, ".xz") == 0 ||
-             low.compare(low.size() - 4, 4, ".bz2") == 0 ||
-             (low.size() >= 5 &&
-              (low.compare(low.size() - 5, 5, ".zstd") == 0 ||
-               low.compare(low.size() - 5, 5, ".tgz") == 0)));
-        if (isArchive) throw;
+    } else if (ends(".gz") || ends(".bz2")) {
+        // single compressed file: decompress into stage
+        std::string fn = fs::path(arc).filename().string();
+        std::string bare = fn.substr(0, fn.size() - (ends(".gz") ? 3 : 4));
+        std::string tool = ends(".gz") ? "gzip -dc" : "bzip2 -dc";
+        std::string out = (fs::path(stage) / bare).string();
+        int rc = util::runQuiet(tool + " " + util::shellQuote(arc) + " > " +
+                                util::shellQuote(out));
+        if (rc != 0) throw std::runtime_error("cannot stage payload: " + arc);
+    } else {
+        // single-file payloads (AppImage, static binaries): stage as-is
         std::string fn = fs::path(arc).filename().string();
         if (!util::copyFile2(arc, (fs::path(stage) / fn).string()))
             throw std::runtime_error("cannot stage payload: " + arc);

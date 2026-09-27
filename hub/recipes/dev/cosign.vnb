@@ -1,0 +1,18 @@
+package "cosign" {
+  version = "2.6.1"
+  description = "cosign"
+  license = "Apache-2.0"
+  homepage = "https://github.com/sigstore/cosign"
+  binary {
+    url = "https://github.com/sigstore/cosign/releases/download/v2.6.1/cosign-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./cosign-linux-amd64 ${destdir}/bin/cosign"
+    command "chmod +x ${destdir}/bin/cosign"
+  }
+}

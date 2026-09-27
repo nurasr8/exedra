@@ -1,0 +1,19 @@
+package "devilutionx" {
+  version = "1.5.4"
+  description = "DevilutionX Diablo"
+  license = "custom"
+  homepage = "https://github.com/diasurgical/devilutionX"
+  binary {
+    url = "https://github.com/diasurgical/devilutionX/releases/download/1.5.4/devilutionx-linux-x86_64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/devilutionx ${destdir}/bin"
+    command "tar -xf ${srcdir}/devilutionx-linux-x86_64.tar.xz -C ${destdir}/opt/devilutionx"
+    command "chmod +x ${destdir}/opt/devilutionx/devilutionx"
+    command "ln -sf ../opt/devilutionx/devilutionx ${destdir}/bin/devilutionx"
+  }
+}

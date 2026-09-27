@@ -1,0 +1,19 @@
+package "traefik" {
+  version = "3.6.1"
+  description = "Traefik proxy"
+  license = "MIT"
+  homepage = "https://github.com/traefik/traefik"
+  binary {
+    url = "https://github.com/traefik/traefik/releases/download/v3.6.1/traefik_v3.6.1_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/traefik ${destdir}/bin"
+    command "tar -xf ${srcdir}/traefik_v3.6.1_linux_amd64.tar.gz -C ${destdir}/opt/traefik"
+    command "chmod +x ${destdir}/opt/traefik/traefik"
+    command "ln -sf ../opt/traefik/traefik ${destdir}/bin/traefik"
+  }
+}

@@ -1,0 +1,19 @@
+package "ffuf" {
+  version = "2.1.0"
+  description = "ffuf fuzzer"
+  license = "MIT"
+  homepage = "https://github.com/ffuf/ffuf"
+  binary {
+    url = "https://github.com/ffuf/ffuf/releases/download/v2.1.0/ffuf_2.1.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ffuf ${destdir}/bin"
+    command "tar -xf ${srcdir}/ffuf_2.1.0_linux_amd64.tar.gz -C ${destdir}/opt/ffuf"
+    command "chmod +x ${destdir}/opt/ffuf/ffuf"
+    command "ln -sf ../opt/ffuf/ffuf ${destdir}/bin/ffuf"
+  }
+}

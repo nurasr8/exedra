@@ -1,0 +1,19 @@
+package "fzf" {
+  version = "0.65.2"
+  description = "fzf finder"
+  license = "MIT"
+  homepage = "https://github.com/junegunn/fzf"
+  binary {
+    url = "https://github.com/junegunn/fzf/releases/download/v0.65.2/fzf-0.65.2-linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/fzf ${destdir}/bin"
+    command "tar -xf ${srcdir}/fzf-0.65.2-linux_amd64.tar.gz -C ${destdir}/opt/fzf"
+    command "chmod +x ${destdir}/opt/fzf/fzf"
+    command "ln -sf ../opt/fzf/fzf ${destdir}/bin/fzf"
+  }
+}

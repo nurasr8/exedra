@@ -1,0 +1,19 @@
+package "zed" {
+  version = "0.209"
+  description = "Zed editor"
+  license = "GPL-3.0"
+  homepage = "https://zed.dev"
+  binary {
+    url = "https://github.com/zed-industries/zed/releases/download/v0.209.1/zed-linux-x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/zed ${destdir}/bin"
+    command "tar -xf ${srcdir}/zed-linux-x86_64.tar.gz -C ${destdir}/opt/zed --strip-components=1"
+    command "chmod +x ${destdir}/opt/zed/zed.app/bin/zed"
+    command "ln -sf ../opt/zed/zed.app/bin/zed ${destdir}/bin/zed"
+  }
+}

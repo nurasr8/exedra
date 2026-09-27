@@ -1,0 +1,19 @@
+package "xh" {
+  version = "0.24.1"
+  description = "xh HTTP client"
+  license = "MIT"
+  homepage = "https://github.com/ducaale/xh"
+  binary {
+    url = "https://github.com/ducaale/xh/releases/download/v0.24.1/xh-v0.24.1-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/xh ${destdir}/bin"
+    command "tar -xf ${srcdir}/xh-v0.24.1-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/xh"
+    command "chmod +x ${destdir}/opt/xh/xh"
+    command "ln -sf ../opt/xh/xh ${destdir}/bin/xh"
+  }
+}

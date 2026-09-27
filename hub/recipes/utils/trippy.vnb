@@ -1,0 +1,19 @@
+package "trippy" {
+  version = "0.14.0"
+  description = "trippy traceroute"
+  license = "Apache-2.0"
+  homepage = "https://github.com/fujiapple852/trippy"
+  binary {
+    url = "https://github.com/fujiapple852/trippy/releases/download/0.14.0/trippy-0.14.0-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/trippy ${destdir}/bin"
+    command "tar -xf ${srcdir}/trippy-0.14.0-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/trippy"
+    command "chmod +x ${destdir}/opt/trippy/trip"
+    command "ln -sf ../opt/trippy/trip ${destdir}/bin/trippy"
+  }
+}

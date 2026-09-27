@@ -1,0 +1,19 @@
+package "fx" {
+  version = "38.0.0"
+  description = "fx JSON viewer"
+  license = "MIT"
+  homepage = "https://github.com/antonmedv/fx"
+  binary {
+    url = "https://github.com/antonmedv/fx/releases/download/38.0.0/fx_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/fx ${destdir}/bin"
+    command "tar -xf ${srcdir}/fx_linux_amd64.tar.gz -C ${destdir}/opt/fx"
+    command "chmod +x ${destdir}/opt/fx/fx"
+    command "ln -sf ../opt/fx/fx ${destdir}/bin/fx"
+  }
+}

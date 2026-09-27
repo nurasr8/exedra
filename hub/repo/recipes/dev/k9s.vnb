@@ -1,0 +1,19 @@
+package "k9s" {
+  version = "0.50.9"
+  description = "k9s"
+  license = "Apache-2.0"
+  homepage = "https://k9scli.io"
+  binary {
+    url = "https://github.com/derailed/k9s/releases/download/v0.50.9/k9s_Linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/k9s ${destdir}/bin"
+    command "tar -xf ${srcdir}/k9s_Linux_amd64.tar.gz -C ${destdir}/opt/k9s"
+    command "chmod +x ${destdir}/opt/k9s/k9s"
+    command "ln -sf ../opt/k9s/k9s ${destdir}/bin/k9s"
+  }
+}

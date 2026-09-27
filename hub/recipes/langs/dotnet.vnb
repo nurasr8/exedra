@@ -1,0 +1,19 @@
+package "dotnet" {
+  version = "9.0.306"
+  description = ".NET SDK"
+  license = "MIT"
+  homepage = "https://dotnet.microsoft.com"
+  binary {
+    url = "https://builds.dotnet.microsoft.com/dotnet/Sdk/9.0.306/dotnet-sdk-9.0.306-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/dotnet ${destdir}/bin"
+    command "tar -xf ${srcdir}/dotnet-sdk-9.0.306-linux-x64.tar.gz -C ${destdir}/opt/dotnet"
+    command "chmod +x ${destdir}/opt/dotnet/dotnet"
+    command "ln -sf ../opt/dotnet/dotnet ${destdir}/bin/dotnet"
+  }
+}

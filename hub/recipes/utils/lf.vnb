@@ -1,0 +1,19 @@
+package "lf" {
+  version = "r34"
+  description = "lf file manager"
+  license = "MIT"
+  homepage = "https://github.com/gokcehan/lf"
+  binary {
+    url = "https://github.com/gokcehan/lf/releases/download/r34/lf-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/lf ${destdir}/bin"
+    command "tar -xf ${srcdir}/lf-linux-amd64.tar.gz -C ${destdir}/opt/lf"
+    command "chmod +x ${destdir}/opt/lf/lf"
+    command "ln -sf ../opt/lf/lf ${destdir}/bin/lf"
+  }
+}

@@ -1,0 +1,18 @@
+package "bun" {
+  version = "1.3.5"
+  description = "Bun"
+  license = "MIT"
+  homepage = "https://bun.sh"
+  binary {
+    url = "https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./bun-linux-x64/bun ${destdir}/bin/bun"
+    command "chmod +x ${destdir}/bin/bun"
+  }
+}

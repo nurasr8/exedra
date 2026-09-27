@@ -1,0 +1,18 @@
+package "jq" {
+  version = "1.8.1"
+  description = "jq JSON"
+  license = "MIT"
+  homepage = "https://jqlang.github.io/jq"
+  binary {
+    url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./jq-linux-amd64 ${destdir}/bin/jq"
+    command "chmod +x ${destdir}/bin/jq"
+  }
+}

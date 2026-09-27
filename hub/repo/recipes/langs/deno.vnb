@@ -1,0 +1,18 @@
+package "deno" {
+  version = "2.5.4"
+  description = "Deno"
+  license = "MIT"
+  homepage = "https://deno.com"
+  binary {
+    url = "https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./deno ${destdir}/bin/deno"
+    command "chmod +x ${destdir}/bin/deno"
+  }
+}

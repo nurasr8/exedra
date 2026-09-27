@@ -1,0 +1,23 @@
+package "nodejs" {
+  version = "22.14.0"
+  description = "Node.js LTS"
+  license = "MIT"
+  homepage = "https://nodejs.org"
+  binary {
+    url = "https://nodejs.org/dist/v22.14.0/node-v22.14.0-linux-x64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/nodejs ${destdir}/bin"
+    command "tar -xf ${srcdir}/node-v22.14.0-linux-x64.tar.xz -C ${destdir}/opt/nodejs --strip-components=1"
+    command "chmod +x ${destdir}/opt/nodejs/bin/node"
+    command "ln -sf ../opt/nodejs/bin/node ${destdir}/bin/nodejs"
+    command "chmod +x ${destdir}/opt/nodejs/bin/npm"
+    command "ln -sf ../opt/nodejs/bin/npm ${destdir}/bin/npm"
+    command "chmod +x ${destdir}/opt/nodejs/bin/npx"
+    command "ln -sf ../opt/nodejs/bin/npx ${destdir}/bin/npx"
+  }
+}

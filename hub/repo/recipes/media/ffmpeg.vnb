@@ -1,0 +1,21 @@
+package "ffmpeg" {
+  version = "8.0"
+  description = "FFmpeg static build"
+  license = "GPL-3.0"
+  homepage = "https://ffmpeg.org"
+  binary {
+    url = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ffmpeg ${destdir}/bin"
+    command "tar -xf ${srcdir}/ffmpeg-release-amd64-static.tar.xz -C ${destdir}/opt/ffmpeg --strip-components=1"
+    command "chmod +x ${destdir}/opt/ffmpeg/ffmpeg"
+    command "ln -sf ../opt/ffmpeg/ffmpeg ${destdir}/bin/ffmpeg"
+    command "chmod +x ${destdir}/opt/ffmpeg/ffprobe"
+    command "ln -sf ../opt/ffmpeg/ffprobe ${destdir}/bin/ffprobe"
+  }
+}

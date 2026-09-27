@@ -1,0 +1,23 @@
+package "mitmproxy" {
+  version = "12.1.2"
+  description = "mitmproxy"
+  license = "MIT"
+  homepage = "https://mitmproxy.org"
+  binary {
+    url = "https://github.com/mitmproxy/mitmproxy/releases/download/v12.1.2/mitmproxy-12.1.2-linux.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/mitmproxy ${destdir}/bin"
+    command "tar -xf ${srcdir}/mitmproxy-12.1.2-linux.tar.gz -C ${destdir}/opt/mitmproxy"
+    command "chmod +x ${destdir}/opt/mitmproxy/mitmproxy"
+    command "ln -sf ../opt/mitmproxy/mitmproxy ${destdir}/bin/mitmproxy"
+    command "chmod +x ${destdir}/opt/mitmproxy/mitmweb"
+    command "ln -sf ../opt/mitmproxy/mitmweb ${destdir}/bin/mitmweb"
+    command "chmod +x ${destdir}/opt/mitmproxy/mitmdump"
+    command "ln -sf ../opt/mitmproxy/mitmdump ${destdir}/bin/mitmdump"
+  }
+}

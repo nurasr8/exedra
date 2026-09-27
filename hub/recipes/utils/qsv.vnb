@@ -1,0 +1,18 @@
+package "qsv" {
+  version = "3.3.0"
+  description = "qsv CSV"
+  license = "MIT"
+  homepage = "https://github.com/dathere/qsv"
+  binary {
+    url = "https://github.com/dathere/qsv/releases/download/3.3.0/qsv-3.3.0-x86_64-unknown-linux-musl.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./qsv ${destdir}/bin/qsv"
+    command "chmod +x ${destdir}/bin/qsv"
+  }
+}

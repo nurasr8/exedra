@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пакеты venim — установка, рецепты VenimBuild, онлайн-репозиторий</title>
+<meta name="description" content="venim: install, remove, verify, рецепты *.vnb, установка с локального файла, по URL и из онлайн-репозитория на 200+ пакетов.">
+<link rel="canonical" href="https://example.org/exedra/pages/packages.html">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header">
+  <div class="header-row">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="Логотип Exedra" width="32" height="32">
+      <span>Exedra</span>
+    </a>
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="../index.html">Главная</a>
+      <a href="download.html">Загрузка</a>
+      <a href="packages.html" aria-current="page">Пакеты</a>
+      <a href="compare.html">Сравнение</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title">Пакеты venim</h1>
+      <p class="lead">Каждый пакет живёт изолированно в <code>/venim/packages/имя/версия/</code>, в систему попадает относительными симлинками.</p>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="#commands">Команды</a>
+        <a class="btn" href="#recipe">Формат рецепта</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="commands" aria-labelledby="commands-title">
+    <div class="wrap">
+      <h2 id="commands-title">Команды</h2>
+      <div class="dl-box">
+        <p><code>venim install firefox</code> — поставить из репозитория</p>
+        <p><code>venim install ./foo.vnb</code> — поставить из локального файла</p>
+        <p><code>venim install https://host/foo.vnb</code> — поставить по URL</p>
+        <p><code>venim --repo https://host/tree install yt-dlp</code> — из онлайн-репозитория</p>
+        <p><code>venim remove firefox</code> — убрать (проверяет обратные зависимости)</p>
+        <p><code>venim list</code>, <code>venim info firefox</code>, <code>venim verify firefox</code>, <code>venim doctor</code></p>
+        <p><code>venim install --no-check ...</code> — пропустить проверку sha256 (или <code>VENIM_NO_CHECK=1</code>)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="recipe" aria-labelledby="recipe-title">
+    <div class="wrap">
+      <h2 id="recipe-title">Рецепт VenimBuild</h2>
+      <p class="section-desc">Короткий DSL. Этот рецепт ставит готовый AppImage:</p>
+      <div class="dl-box">
+        <p><code>package "obsidian" {</code></p>
+        <p><code>&nbsp;&nbsp;version = "1.10.7"</code></p>
+        <p><code>&nbsp;&nbsp;binary { url = "https://github.com/.../Obsidian-1.10.7.AppImage" }</code></p>
+        <p><code>&nbsp;&nbsp;install {</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "mkdir -p ${destdir}/opt/obsidian ${destdir}/bin"</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "cp ${srcdir}/Obsidian-1.10.7.AppImage ${destdir}/opt/obsidian/obsidian.AppImage"</code></p>
+        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;command "ln -sf ../opt/obsidian/obsidian.AppImage ${destdir}/bin/obsidian"</code></p>
+        <p><code>&nbsp;&nbsp;}</code></p>
+        <p><code>}</code></p>
+      </div>
+      <p class="section-desc">Правила: финальная раскладка сразу (<code>bin/</code>, <code>opt/</code>), ссылки только относительные. Полная спецификация — в репозитории рецептов.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="repo-title">
+    <div class="wrap">
+      <h2 id="repo-title">Онлайн-репозиторий</h2>
+      <p class="section-desc">200+ рецептов: браузеры, редакторы, dev-инструменты, языки, сеть, игры, AI, бэкапы.</p>
+      <div class="dl-box">
+        <p><code>venim --repo https://... update</code> — обновить индекс</p>
+        <p><code>venim --repo https://... search rust</code> — поиск</p>
+        <p>Индекс — обычный <code>index.json</code> в корне дерева, генерируется командой <code>venim index ./tree</code>. Свой репозиторий собирается так же.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 Exedra.</p>
+  </div>
+</footer>
+</body>
+</html>

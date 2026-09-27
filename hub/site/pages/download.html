@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скачать Exedra Linux 0.1.0 — Core и Desktop ISO</title>
+<meta name="description" content="ISO-образы Exedra 0.1.0: Core ≈0.4 ГБ и Desktop ≈3 ГБ. Запись через dd, проверка SHA256, замечания про Secure Boot.">
+<link rel="canonical" href="https://example.org/exedra/pages/download.html">
+<link rel="icon" href="../logo.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header">
+  <div class="header-row">
+    <a class="brand" href="../index.html">
+      <img src="../logo.png" alt="Логотип Exedra" width="32" height="32">
+      <span>Exedra</span>
+    </a>
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="../index.html">Главная</a>
+      <a href="download.html" aria-current="page">Загрузка</a>
+      <a href="packages.html">Пакеты</a>
+      <a href="compare.html">Сравнение</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title">Загрузка 0.1.0</h1>
+      <p class="lead">Гибридные ISO: одна флешка грузится и в UEFI, и в Legacy BIOS.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="files-title">
+    <div class="wrap">
+      <h2 id="files-title">Файлы</h2>
+      <table class="dl">
+        <thead><tr><th>Файл</th><th>Размер</th><th>Что внутри</th></tr></thead>
+        <tbody>
+          <tr><td><code>Exedra-Core-0.1.0-x86_64.iso</code></td><td>≈0.4 ГБ</td><td>Консоль, сеть, venim</td></tr>
+          <tr><td><code>Exedra-Desktop-0.1.0-x86_64.iso</code></td><td>≈3 ГБ</td><td>Plasma 6, Firefox, LibreOffice, драйверы</td></tr>
+          <tr><td><code>SHA256SUMS</code></td><td>—</td><td>Контрольные суммы (<code>sha256sum -c SHA256SUMS</code>)</td></tr>
+        </tbody>
+      </table>
+      <div class="version-box">
+        <p>Secure Boot: образы подписаны собственным ключом. На стоковом ПК либо выключите Secure Boot, либо добавьте ключ.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="flash-title">
+    <div class="wrap">
+      <h2 id="flash-title">Запись на флешку</h2>
+      <p class="section-desc">Флешка от 4 ГБ (Desktop) или 1 ГБ (Core). Данные затрутся.</p>
+      <div class="dl-box">
+        <p><code>lsblk</code> — найдите свою флешку (сравните до и после подключения).</p>
+        <p><code>sudo dd if=Exedra-Desktop-0.1.0-x86_64.iso of=/dev/sdX bs=4M status=progress oflag=sync</code></p>
+        <p>Важно: <code>/dev/sdX</code> — устройство целиком, без цифры раздела.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="live-title">
+    <div class="wrap">
+      <h2 id="live-title">Live-сессия и установка</h2>
+      <p class="section-desc">Загрузитесь с флешки (boot-меню: F12/F8/Esc).</p>
+      <div class="grid-3">
+        <article class="card"><h3>Desktop</h3><p>Автологин в Plasma под <code>exedra</code> (sudo без пароля), консоль — <code>root</code> без пароля.</p></article>
+        <article class="card"><h3>Установка GUI</h3><p>Значок «Install Exedra» на рабочем столе — мастер Calamares.</p></article>
+        <article class="card"><h3>Установка в терминале</h3><p><code>sudo install-exedra-tui</code> — пошаговый мастер, <code>sudo install-exedra</code> — CLI.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 Exedra.</p>
+  </div>
+</footer>
+</body>
+</html>

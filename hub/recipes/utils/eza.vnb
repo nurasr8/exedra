@@ -1,0 +1,19 @@
+package "eza" {
+  version = "0.23.4"
+  description = "eza ls"
+  license = "MIT"
+  homepage = "https://github.com/eza-community/eza"
+  binary {
+    url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/eza ${destdir}/bin"
+    command "tar -xf ${srcdir}/eza_x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/eza"
+    command "chmod +x ${destdir}/opt/eza/eza"
+    command "ln -sf ../opt/eza/eza ${destdir}/bin/eza"
+  }
+}

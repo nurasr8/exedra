@@ -1,0 +1,18 @@
+package "amass" {
+  version = "4.2.0"
+  description = "OWASP Amass"
+  license = "Apache-2.0"
+  homepage = "https://github.com/owasp-amass/amass"
+  binary {
+    url = "https://github.com/owasp-amass/amass/releases/download/v4.2.0/amass_linux_amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./amass_linux_amd64 ${destdir}/bin/amass"
+    command "chmod +x ${destdir}/bin/amass"
+  }
+}

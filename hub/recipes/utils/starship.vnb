@@ -1,0 +1,19 @@
+package "starship" {
+  version = "1.26.0"
+  description = "Starship prompt"
+  license = "ISC"
+  homepage = "https://github.com/starship/starship"
+  binary {
+    url = "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/starship ${destdir}/bin"
+    command "tar -xf ${srcdir}/starship-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/starship"
+    command "chmod +x ${destdir}/opt/starship/starship"
+    command "ln -sf ../opt/starship/starship ${destdir}/bin/starship"
+  }
+}

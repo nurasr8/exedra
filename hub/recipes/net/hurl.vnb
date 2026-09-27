@@ -1,0 +1,19 @@
+package "hurl" {
+  version = "7.0.0"
+  description = "Hurl HTTP tests"
+  license = "Apache-2.0"
+  homepage = "https://github.com/Orange-OpenSource/hurl"
+  binary {
+    url = "https://github.com/Orange-OpenSource/hurl/releases/download/7.0.0/hurl-7.0.0-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/hurl ${destdir}/bin"
+    command "tar -xf ${srcdir}/hurl-7.0.0-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/hurl"
+    command "chmod +x ${destdir}/opt/hurl/hurl"
+    command "ln -sf ../opt/hurl/hurl ${destdir}/bin/hurl"
+  }
+}

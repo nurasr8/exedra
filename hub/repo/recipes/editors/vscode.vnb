@@ -1,0 +1,20 @@
+package "vscode" {
+  version = "1.105"
+  description = "Visual Studio Code"
+  license = "MIT"
+  homepage = "https://code.visualstudio.com"
+  binary {
+    url = "https://update.code.visualstudio.com/latest/linux-x64/stable"
+    file = "vscode-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/vscode ${destdir}/bin"
+    command "tar -xf ${srcdir}/vscode-linux-x64.tar.gz -C ${destdir}/opt/vscode --strip-components=1"
+    command "chmod +x ${destdir}/opt/vscode/code"
+    command "ln -sf ../opt/vscode/code ${destdir}/bin/vscode"
+  }
+}

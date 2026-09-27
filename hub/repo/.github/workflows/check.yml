@@ -1,0 +1,26 @@
+name: recipes
+on:
+  push:
+    paths:
+      - "recipes/**"
+      - "tools/gen-recipes.py"
+      - ".github/workflows/check.yml"
+  pull_request:
+    paths:
+      - "recipes/**"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq cmake g++ libsqlite3-dev libcurl4-openssl-dev libssl-dev
+      - name: build venim
+        run: |
+          git clone --depth 1 https://github.com/YOU/exedra venim-src
+          cmake -S venim-src/src-cpp -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j
+      - name: validate recipes
+        run: ./build/venim index recipes/ > /tmp/index.json
+      - name: index is fresh
+        run: ./build/venim index recipes/ | diff - recipes/index.json

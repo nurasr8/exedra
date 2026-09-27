@@ -1,0 +1,19 @@
+package "ripgrep" {
+  version = "14.1.1"
+  description = "ripgrep"
+  license = "MIT"
+  homepage = "https://github.com/BurntSushi/ripgrep"
+  binary {
+    url = "https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ripgrep ${destdir}/bin"
+    command "tar -xf ${srcdir}/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/ripgrep"
+    command "chmod +x ${destdir}/opt/ripgrep/rg"
+    command "ln -sf ../opt/ripgrep/rg ${destdir}/bin/ripgrep"
+  }
+}

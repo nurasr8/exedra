@@ -30,7 +30,34 @@ venim use <name> <version>   переключить active-версию
 --verbose   полный лог сборки
 --quiet     только ошибки
 --json      машинный вывод (для search/info/list)
+--no-check  пропустить проверку sha256 (или VENIM_NO_CHECK=1)
+--repo DIR|URL  каталог рецептов или онлайн-репозиторий
+--root DIR  корень системы (или VENIM_ROOT)
 ```
+
+## Источники установки
+
+```sh
+venim install firefox                        # имя из --repo (каталог)
+venim install ./foo.vnb                      # локальный файл рецепта
+venim install https://host/foo.vnb           # рецепт по URL
+venim --repo https://host/tree install yt-dlp   # онлайн-репозиторий
+venim --repo https://host/tree update        # обновить индекс (index.json)
+venim --repo https://host/tree search rust
+```
+
+Онлайн-репозиторий — дерево `*.vnb` + `index.json` в корне
+(генерируется командой `venim index <dir>`). Готовый репозиторий на
+200+ рецептов: `hub/repo/` (там же генератор `tools/gen-recipes.py`).
+
+## Про sha256
+
+Хэш в `binary`/`source` опционален: есть — проверяется, нет —
+ставится как есть. `--no-check` отключает проверку даже при наличии
+хэша (удобно для community-рецептов без хэшей). Ключ `file` в `binary`
+задаёт точное имя скачанного файла, если оно отличается от basename URL.
+Одиночные файлы (AppImage, static-бинарники, `.gz`/`.bz2`) ставятся
+напрямую, без распаковки.
 
 ## Примеры
 

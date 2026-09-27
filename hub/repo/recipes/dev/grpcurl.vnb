@@ -1,0 +1,19 @@
+package "grpcurl" {
+  version = "1.9.3"
+  description = "grpcurl"
+  license = "MIT"
+  homepage = "https://github.com/fullstorydev/grpcurl"
+  binary {
+    url = "https://github.com/fullstorydev/grpcurl/releases/download/v1.9.3/grpcurl_1.9.3_linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/grpcurl ${destdir}/bin"
+    command "tar -xf ${srcdir}/grpcurl_1.9.3_linux_x86_64.tar.gz -C ${destdir}/opt/grpcurl"
+    command "chmod +x ${destdir}/opt/grpcurl/grpcurl"
+    command "ln -sf ../opt/grpcurl/grpcurl ${destdir}/bin/grpcurl"
+  }
+}

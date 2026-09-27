@@ -1,0 +1,19 @@
+package "cpufetch" {
+  version = "1.1.0"
+  description = "cpufetch"
+  license = "MIT"
+  homepage = "https://github.com/Dr-Noob/cpufetch"
+  binary {
+    url = "https://github.com/Dr-Noob/cpufetch/releases/download/1.1.0/cpufetch_1.1.0_linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/cpufetch ${destdir}/bin"
+    command "tar -xf ${srcdir}/cpufetch_1.1.0_linux_x86_64.tar.gz -C ${destdir}/opt/cpufetch"
+    command "chmod +x ${destdir}/opt/cpufetch/cpufetch"
+    command "ln -sf ../opt/cpufetch/cpufetch ${destdir}/bin/cpufetch"
+  }
+}

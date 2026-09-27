@@ -1,0 +1,18 @@
+package "hysteria" {
+  version = "2.6.4"
+  description = "Hysteria proxy"
+  license = "MIT"
+  homepage = "https://github.com/apernet/hysteria"
+  binary {
+    url = "https://github.com/apernet/hysteria/releases/download/app/v2.6.4/hysteria-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./hysteria-linux-amd64 ${destdir}/bin/hysteria"
+    command "chmod +x ${destdir}/bin/hysteria"
+  }
+}

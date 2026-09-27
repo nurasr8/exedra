@@ -1,0 +1,19 @@
+package "glab" {
+  version = "1.70.0"
+  description = "GitLab CLI"
+  license = "MIT"
+  homepage = "https://gitlab.com/gitlab-org/cli"
+  binary {
+    url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.70.0/downloads/glab_1.70.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/glab ${destdir}/bin"
+    command "tar -xf ${srcdir}/glab_1.70.0_linux_amd64.tar.gz -C ${destdir}/opt/glab"
+    command "chmod +x ${destdir}/opt/glab/bin/glab"
+    command "ln -sf ../opt/glab/bin/glab ${destdir}/bin/glab"
+  }
+}

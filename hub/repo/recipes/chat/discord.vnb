@@ -1,0 +1,20 @@
+package "discord" {
+  version = "0.0.90"
+  description = "Discord"
+  license = "proprietary"
+  homepage = "https://discord.com"
+  binary {
+    url = "https://discord.com/api/download?platform=linux&format=tar.gz"
+    file = "discord.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/discord ${destdir}/bin"
+    command "tar -xf ${srcdir}/discord.tar.gz -C ${destdir}/opt/discord --strip-components=1"
+    command "chmod +x ${destdir}/opt/discord/Discord"
+    command "ln -sf ../opt/discord/Discord ${destdir}/bin/discord"
+  }
+}

@@ -1,0 +1,19 @@
+package "openttd" {
+  version = "15.0"
+  description = "OpenTTD"
+  license = "GPL-2.0"
+  homepage = "https://openttd.org"
+  binary {
+    url = "https://cdn.openttd.org/openttd-releases/15.0/openttd-15.0-linux-generic-amd64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/openttd ${destdir}/bin"
+    command "tar -xf ${srcdir}/openttd-15.0-linux-generic-amd64.tar.xz -C ${destdir}/opt/openttd --strip-components=1"
+    command "chmod +x ${destdir}/opt/openttd/openttd"
+    command "ln -sf ../opt/openttd/openttd ${destdir}/bin/openttd"
+  }
+}

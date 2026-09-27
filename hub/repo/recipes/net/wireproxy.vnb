@@ -1,0 +1,19 @@
+package "wireproxy" {
+  version = "1.0.9"
+  description = "wireproxy"
+  license = "MIT"
+  homepage = "https://github.com/pufferffish/wireproxy"
+  binary {
+    url = "https://github.com/pufferffish/wireproxy/releases/download/v1.0.9/wireproxy_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/wireproxy ${destdir}/bin"
+    command "tar -xf ${srcdir}/wireproxy_linux_amd64.tar.gz -C ${destdir}/opt/wireproxy"
+    command "chmod +x ${destdir}/opt/wireproxy/wireproxy"
+    command "ln -sf ../opt/wireproxy/wireproxy ${destdir}/bin/wireproxy"
+  }
+}

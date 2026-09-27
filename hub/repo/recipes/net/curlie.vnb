@@ -1,0 +1,19 @@
+package "curlie" {
+  version = "1.8.2"
+  description = "curlie HTTP"
+  license = "MIT"
+  homepage = "https://github.com/rs/curlie"
+  binary {
+    url = "https://github.com/rs/curlie/releases/download/v1.8.2/curlie_1.8.2_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/curlie ${destdir}/bin"
+    command "tar -xf ${srcdir}/curlie_1.8.2_linux_amd64.tar.gz -C ${destdir}/opt/curlie"
+    command "chmod +x ${destdir}/opt/curlie/curlie"
+    command "ln -sf ../opt/curlie/curlie ${destdir}/bin/curlie"
+  }
+}

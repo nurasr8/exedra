@@ -1,0 +1,19 @@
+package "ruff" {
+  version = "0.14.3"
+  description = "Ruff linter"
+  license = "MIT"
+  homepage = "https://docs.astral.sh/ruff"
+  binary {
+    url = "https://github.com/astral-sh/ruff/releases/latest/download/ruff-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ruff ${destdir}/bin"
+    command "tar -xf ${srcdir}/ruff-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/ruff"
+    command "chmod +x ${destdir}/opt/ruff/ruff"
+    command "ln -sf ../opt/ruff/ruff ${destdir}/bin/ruff"
+  }
+}

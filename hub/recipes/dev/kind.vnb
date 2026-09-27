@@ -1,0 +1,18 @@
+package "kind" {
+  version = "0.30.0"
+  description = "kind"
+  license = "Apache-2.0"
+  homepage = "https://kind.sigs.k8s.io"
+  binary {
+    url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.30.0/kind-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./kind-linux-amd64 ${destdir}/bin/kind"
+    command "chmod +x ${destdir}/bin/kind"
+  }
+}

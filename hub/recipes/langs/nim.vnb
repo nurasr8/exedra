@@ -1,0 +1,19 @@
+package "nim" {
+  version = "2.2.4"
+  description = "Nim"
+  license = "MIT"
+  homepage = "https://nim-lang.org"
+  binary {
+    url = "https://nim-lang.org/download/nim-2.2.4-linux_x64.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/nim ${destdir}/bin"
+    command "tar -xf ${srcdir}/nim-2.2.4-linux_x64.tar.xz -C ${destdir}/opt/nim --strip-components=1"
+    command "chmod +x ${destdir}/opt/nim/bin/nim"
+    command "ln -sf ../opt/nim/bin/nim ${destdir}/bin/nim"
+  }
+}

@@ -1,0 +1,18 @@
+package "restic" {
+  version = "0.18.1"
+  description = "restic backup"
+  license = "BSD-2"
+  homepage = "https://restic.net"
+  binary {
+    url = "https://github.com/restic/restic/releases/download/v0.18.1/restic_0.18.1_linux_amd64.bz2"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./restic_0.18.1_linux_amd64 ${destdir}/bin/restic"
+    command "chmod +x ${destdir}/bin/restic"
+  }
+}

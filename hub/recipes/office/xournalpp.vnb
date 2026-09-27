@@ -1,0 +1,19 @@
+package "xournalpp" {
+  version = "1.3.6"
+  description = "Xournal++ handwriting"
+  license = "GPL-2.0"
+  homepage = "https://xournalpp.github.io"
+  binary {
+    url = "https://github.com/xournalpp/xournalpp/releases/download/v1.3.6/xournalpp-1.3.6-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/xournalpp ${destdir}/bin"
+    command "cp ${srcdir}/xournalpp-1.3.6-x86_64.AppImage ${destdir}/opt/xournalpp/xournalpp.AppImage"
+    command "chmod +x ${destdir}/opt/xournalpp/xournalpp.AppImage"
+    command "ln -sf ../opt/xournalpp/xournalpp.AppImage ${destdir}/bin/xournalpp"
+  }
+}

@@ -1,0 +1,19 @@
+package "dagger" {
+  version = "0.19.3"
+  description = "Dagger"
+  license = "Apache-2.0"
+  homepage = "https://dagger.io"
+  binary {
+    url = "https://github.com/dagger/dagger/releases/download/v0.19.3/dagger_v0.19.3_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/dagger ${destdir}/bin"
+    command "tar -xf ${srcdir}/dagger_v0.19.3_linux_amd64.tar.gz -C ${destdir}/opt/dagger"
+    command "chmod +x ${destdir}/opt/dagger/dagger"
+    command "ln -sf ../opt/dagger/dagger ${destdir}/bin/dagger"
+  }
+}

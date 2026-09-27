@@ -1,0 +1,21 @@
+package "go" {
+  version = "1.25.4"
+  description = "Go toolchain"
+  license = "BSD-3"
+  homepage = "https://go.dev"
+  binary {
+    url = "https://go.dev/dl/go1.25.4.linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/go ${destdir}/bin"
+    command "tar -xf ${srcdir}/go1.25.4.linux-amd64.tar.gz -C ${destdir}/opt/go --strip-components=1"
+    command "chmod +x ${destdir}/opt/go/bin/go"
+    command "ln -sf ../opt/go/bin/go ${destdir}/bin/go"
+    command "chmod +x ${destdir}/opt/go/bin/gofmt"
+    command "ln -sf ../opt/go/bin/gofmt ${destdir}/bin/gofmt"
+  }
+}

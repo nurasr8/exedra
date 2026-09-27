@@ -1,0 +1,19 @@
+package "gopass" {
+  version = "1.15.18"
+  description = "gopass"
+  license = "MIT"
+  homepage = "https://www.gopass.pw"
+  binary {
+    url = "https://github.com/gopass/gopass/releases/download/v1.15.18/gopass-1.15.18-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gopass ${destdir}/bin"
+    command "tar -xf ${srcdir}/gopass-1.15.18-linux-amd64.tar.gz -C ${destdir}/opt/gopass"
+    command "chmod +x ${destdir}/opt/gopass/gopass"
+    command "ln -sf ../opt/gopass/gopass ${destdir}/bin/gopass"
+  }
+}

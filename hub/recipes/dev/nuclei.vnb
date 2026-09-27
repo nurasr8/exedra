@@ -1,0 +1,19 @@
+package "nuclei" {
+  version = "3.4.8"
+  description = "nuclei scanner"
+  license = "MIT"
+  homepage = "https://github.com/projectdiscovery/nuclei"
+  binary {
+    url = "https://github.com/projectdiscovery/nuclei/releases/download/v3.4.8/nuclei_3.4.8_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/nuclei ${destdir}/bin"
+    command "tar -xf ${srcdir}/nuclei_3.4.8_linux_amd64.tar.gz -C ${destdir}/opt/nuclei"
+    command "chmod +x ${destdir}/opt/nuclei/nuclei"
+    command "ln -sf ../opt/nuclei/nuclei ${destdir}/bin/nuclei"
+  }
+}

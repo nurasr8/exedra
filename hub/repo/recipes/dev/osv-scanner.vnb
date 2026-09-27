@@ -1,0 +1,18 @@
+package "osv-scanner" {
+  version = "2.2.2"
+  description = "OSV scanner"
+  license = "Apache-2.0"
+  homepage = "https://github.com/google/osv-scanner"
+  binary {
+    url = "https://github.com/google/osv-scanner/releases/download/v2.2.2/osv-scanner_linux_amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./osv-scanner_linux_amd64 ${destdir}/bin/osv-scanner"
+    command "chmod +x ${destdir}/bin/osv-scanner"
+  }
+}

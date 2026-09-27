@@ -1,0 +1,19 @@
+package "dive" {
+  version = "0.13.1"
+  description = "dive image explorer"
+  license = "MIT"
+  homepage = "https://github.com/wagoodman/dive"
+  binary {
+    url = "https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/dive ${destdir}/bin"
+    command "tar -xf ${srcdir}/dive_0.13.1_linux_amd64.tar.gz -C ${destdir}/opt/dive"
+    command "chmod +x ${destdir}/opt/dive/dive"
+    command "ln -sf ../opt/dive/dive ${destdir}/bin/dive"
+  }
+}

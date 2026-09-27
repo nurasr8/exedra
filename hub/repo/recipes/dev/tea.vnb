@@ -1,0 +1,18 @@
+package "tea" {
+  version = "0.9.2"
+  description = "Gitea CLI"
+  license = "MIT"
+  homepage = "https://gitea.com"
+  binary {
+    url = "https://gitea.com/gitea/tea/releases/download/v0.9.2/tea-0.9.2-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./tea-0.9.2-linux-amd64 ${destdir}/bin/tea"
+    command "chmod +x ${destdir}/bin/tea"
+  }
+}

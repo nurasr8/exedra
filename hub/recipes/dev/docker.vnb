@@ -1,0 +1,27 @@
+package "docker" {
+  version = "28.5.1"
+  description = "Docker"
+  license = "Apache-2.0"
+  homepage = "https://docker.com"
+  binary {
+    url = "https://download.docker.com/linux/static/stable/x86_64/docker-28.5.1.tgz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/docker ${destdir}/bin"
+    command "tar -xf ${srcdir}/docker-28.5.1.tgz -C ${destdir}/opt/docker --strip-components=1"
+    command "chmod +x ${destdir}/opt/docker/docker"
+    command "ln -sf ../opt/docker/docker ${destdir}/bin/docker"
+    command "chmod +x ${destdir}/opt/docker/dockerd"
+    command "ln -sf ../opt/docker/dockerd ${destdir}/bin/dockerd"
+    command "chmod +x ${destdir}/opt/docker/containerd"
+    command "ln -sf ../opt/docker/containerd ${destdir}/bin/containerd"
+    command "chmod +x ${destdir}/opt/docker/ctr"
+    command "ln -sf ../opt/docker/ctr ${destdir}/bin/ctr"
+    command "chmod +x ${destdir}/opt/docker/runc"
+    command "ln -sf ../opt/docker/runc ${destdir}/bin/runc"
+  }
+}

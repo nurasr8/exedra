@@ -1,0 +1,18 @@
+package "rustup" {
+  version = "1.28.2"
+  description = "rustup"
+  license = "MIT"
+  homepage = "https://rustup.rs"
+  binary {
+    url = "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./rustup-init ${destdir}/bin/rustup-init"
+    command "chmod +x ${destdir}/bin/rustup-init"
+  }
+}

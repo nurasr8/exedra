@@ -1,0 +1,19 @@
+package "logseq" {
+  version = "0.10.9"
+  description = "Logseq notes"
+  license = "AGPL-3.0"
+  homepage = "https://logseq.com"
+  binary {
+    url = "https://github.com/logseq/logseq/releases/download/0.10.9/Logseq-linux-x64-0.10.9.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/logseq ${destdir}/bin"
+    command "cp ${srcdir}/Logseq-linux-x64-0.10.9.AppImage ${destdir}/opt/logseq/logseq.AppImage"
+    command "chmod +x ${destdir}/opt/logseq/logseq.AppImage"
+    command "ln -sf ../opt/logseq/logseq.AppImage ${destdir}/bin/logseq"
+  }
+}

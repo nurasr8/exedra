@@ -1,0 +1,19 @@
+package "prismlauncher" {
+  version = "9.5"
+  description = "PrismLauncher"
+  license = "GPL-3.0"
+  homepage = "https://prismlauncher.org"
+  binary {
+    url = "https://github.com/PrismLauncher/PrismLauncher/releases/download/9.5/PrismLauncher-Linux-9.5-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/prismlauncher ${destdir}/bin"
+    command "cp ${srcdir}/PrismLauncher-Linux-9.5-x86_64.AppImage ${destdir}/opt/prismlauncher/prismlauncher.AppImage"
+    command "chmod +x ${destdir}/opt/prismlauncher/prismlauncher.AppImage"
+    command "ln -sf ../opt/prismlauncher/prismlauncher.AppImage ${destdir}/bin/prismlauncher"
+  }
+}

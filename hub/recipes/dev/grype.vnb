@@ -1,0 +1,19 @@
+package "grype" {
+  version = "0.101.0"
+  description = "Grype scanner"
+  license = "Apache-2.0"
+  homepage = "https://github.com/anchore/grype"
+  binary {
+    url = "https://github.com/anchore/grype/releases/download/v0.101.0/grype_0.101.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/grype ${destdir}/bin"
+    command "tar -xf ${srcdir}/grype_0.101.0_linux_amd64.tar.gz -C ${destdir}/opt/grype"
+    command "chmod +x ${destdir}/opt/grype/grype"
+    command "ln -sf ../opt/grype/grype ${destdir}/bin/grype"
+  }
+}

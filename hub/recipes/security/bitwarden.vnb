@@ -1,0 +1,19 @@
+package "bitwarden" {
+  version = "2026.1.0"
+  description = "Bitwarden"
+  license = "GPL-3.0"
+  homepage = "https://bitwarden.com"
+  binary {
+    url = "https://github.com/bitwarden/clients/releases/download/desktop-v2026.1.0/Bitwarden-2026.1.0-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bitwarden ${destdir}/bin"
+    command "cp ${srcdir}/Bitwarden-2026.1.0-x86_64.AppImage ${destdir}/opt/bitwarden/bitwarden.AppImage"
+    command "chmod +x ${destdir}/opt/bitwarden/bitwarden.AppImage"
+    command "ln -sf ../opt/bitwarden/bitwarden.AppImage ${destdir}/bin/bitwarden"
+  }
+}

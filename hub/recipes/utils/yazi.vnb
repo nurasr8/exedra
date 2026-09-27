@@ -1,0 +1,20 @@
+package "yazi" {
+  version = "25.5.31"
+  description = "Yazi file manager"
+  license = "MIT"
+  homepage = "https://github.com/sxyazi/yazi"
+  binary {
+    url = "https://github.com/sxyazi/yazi/releases/download/v25.5.31/yazi-x86_64-unknown-linux-musl.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./yazi-x86_64-unknown-linux-musl/yazi ${destdir}/bin/yazi"
+    command "chmod +x ${destdir}/bin/yazi"
+    command "cp ./yazi-x86_64-unknown-linux-musl/ya ${destdir}/bin/ya"
+    command "chmod +x ${destdir}/bin/ya"
+  }
+}

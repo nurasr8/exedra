@@ -1,0 +1,19 @@
+package "gobuster" {
+  version = "3.6.0"
+  description = "Gobuster"
+  license = "Apache-2.0"
+  homepage = "https://github.com/OJ/gobuster"
+  binary {
+    url = "https://github.com/OJ/gobuster/releases/download/v3.6.0/gobuster_Linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gobuster ${destdir}/bin"
+    command "tar -xf ${srcdir}/gobuster_Linux_x86_64.tar.gz -C ${destdir}/opt/gobuster"
+    command "chmod +x ${destdir}/opt/gobuster/gobuster"
+    command "ln -sf ../opt/gobuster/gobuster ${destdir}/bin/gobuster"
+  }
+}

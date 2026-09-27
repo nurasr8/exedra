@@ -1,0 +1,23 @@
+package "ghc" {
+  version = "9.12.2"
+  description = "GHC Haskell"
+  license = "BSD-3"
+  homepage = "https://haskell.org/ghc"
+  binary {
+    url = "https://downloads.haskell.org/ghc/9.12.2/ghc-9.12.2-x86_64-deb12-linux.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ghc ${destdir}/bin"
+    command "tar -xf ${srcdir}/ghc-9.12.2-x86_64-deb12-linux.tar.xz -C ${destdir}/opt/ghc --strip-components=1"
+    command "chmod +x ${destdir}/opt/ghc/bin/ghc"
+    command "ln -sf ../opt/ghc/bin/ghc ${destdir}/bin/ghc"
+    command "chmod +x ${destdir}/opt/ghc/bin/ghci"
+    command "ln -sf ../opt/ghc/bin/ghci ${destdir}/bin/ghci"
+    command "chmod +x ${destdir}/opt/ghc/bin/runghc"
+    command "ln -sf ../opt/ghc/bin/runghc ${destdir}/bin/runghc"
+  }
+}

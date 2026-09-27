@@ -1,0 +1,21 @@
+package "tailscale" {
+  version = "1.90.7"
+  description = "Tailscale"
+  license = "BSD-3"
+  homepage = "https://tailscale.com"
+  binary {
+    url = "https://pkgs.tailscale.com/stable/tailscale_1.90.7_amd64.tgz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/tailscale ${destdir}/bin"
+    command "tar -xf ${srcdir}/tailscale_1.90.7_amd64.tgz -C ${destdir}/opt/tailscale --strip-components=1"
+    command "chmod +x ${destdir}/opt/tailscale/tailscale"
+    command "ln -sf ../opt/tailscale/tailscale ${destdir}/bin/tailscale"
+    command "chmod +x ${destdir}/opt/tailscale/tailscaled"
+    command "ln -sf ../opt/tailscale/tailscaled ${destdir}/bin/tailscaled"
+  }
+}

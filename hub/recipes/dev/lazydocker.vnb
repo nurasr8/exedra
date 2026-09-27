@@ -1,0 +1,19 @@
+package "lazydocker" {
+  version = "0.24.3"
+  description = "lazydocker"
+  license = "MIT"
+  homepage = "https://github.com/jesseduffield/lazydocker"
+  binary {
+    url = "https://github.com/jesseduffield/lazydocker/releases/download/v0.24.3/lazydocker_0.24.3_Linux_x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/lazydocker ${destdir}/bin"
+    command "tar -xf ${srcdir}/lazydocker_0.24.3_Linux_x86_64.tar.gz -C ${destdir}/opt/lazydocker"
+    command "chmod +x ${destdir}/opt/lazydocker/lazydocker"
+    command "ln -sf ../opt/lazydocker/lazydocker ${destdir}/bin/lazydocker"
+  }
+}

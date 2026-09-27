@@ -1,0 +1,19 @@
+package "onefetch" {
+  version = "2.24.1"
+  description = "onefetch"
+  license = "MIT"
+  homepage = "https://github.com/o2sh/onefetch"
+  binary {
+    url = "https://github.com/o2sh/onefetch/releases/download/2.24.1/onefetch-linux-x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/onefetch ${destdir}/bin"
+    command "tar -xf ${srcdir}/onefetch-linux-x86_64.tar.gz -C ${destdir}/opt/onefetch"
+    command "chmod +x ${destdir}/opt/onefetch/onefetch"
+    command "ln -sf ../opt/onefetch/onefetch ${destdir}/bin/onefetch"
+  }
+}

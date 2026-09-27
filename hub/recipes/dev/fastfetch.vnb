@@ -1,0 +1,19 @@
+package "fastfetch" {
+  version = "2.55.0"
+  description = "fastfetch"
+  license = "MIT"
+  homepage = "https://github.com/fastfetch-cli/fastfetch"
+  binary {
+    url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.55.0/fastfetch-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/fastfetch ${destdir}/bin"
+    command "tar -xf ${srcdir}/fastfetch-linux-amd64.tar.gz -C ${destdir}/opt/fastfetch"
+    command "chmod +x ${destdir}/opt/fastfetch/usr/bin/fastfetch"
+    command "ln -sf ../opt/fastfetch/usr/bin/fastfetch ${destdir}/bin/fastfetch"
+  }
+}

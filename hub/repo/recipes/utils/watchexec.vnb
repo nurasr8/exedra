@@ -1,0 +1,19 @@
+package "watchexec" {
+  version = "2.3.2"
+  description = "watchexec"
+  license = "Apache-2.0"
+  homepage = "https://github.com/watchexec/watchexec"
+  binary {
+    url = "https://github.com/watchexec/watchexec/releases/download/v2.3.2/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/watchexec ${destdir}/bin"
+    command "tar -xf ${srcdir}/watchexec-2.3.2-x86_64-unknown-linux-musl.tar.xz -C ${destdir}/opt/watchexec"
+    command "chmod +x ${destdir}/opt/watchexec/watchexec"
+    command "ln -sf ../opt/watchexec/watchexec ${destdir}/bin/watchexec"
+  }
+}

@@ -1,0 +1,19 @@
+package "xsv" {
+  version = "0.13.0"
+  description = "xsv CSV"
+  license = "MIT"
+  homepage = "https://github.com/BurntSushi/xsv"
+  binary {
+    url = "https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/xsv ${destdir}/bin"
+    command "tar -xf ${srcdir}/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/xsv"
+    command "chmod +x ${destdir}/opt/xsv/xsv"
+    command "ln -sf ../opt/xsv/xsv ${destdir}/bin/xsv"
+  }
+}

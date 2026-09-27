@@ -1,0 +1,18 @@
+package "yq" {
+  version = "4.48.2"
+  description = "yq YAML"
+  license = "MIT"
+  homepage = "https://github.com/mikefarah/yq"
+  binary {
+    url = "https://github.com/mikefarah/yq/releases/download/v4.48.2/yq_linux_amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./yq_linux_amd64 ${destdir}/bin/yq"
+    command "chmod +x ${destdir}/bin/yq"
+  }
+}

@@ -1,0 +1,18 @@
+package "jless" {
+  version = "0.9.0"
+  description = "jless JSON viewer"
+  license = "MIT"
+  homepage = "https://github.com/PaulJuliusMartinez/jless"
+  binary {
+    url = "https://github.com/PaulJuliusMartinez/jless/releases/download/v0.9.0/jless-v0.9.0-x86_64-unknown-linux-gnu.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./jless ${destdir}/bin/jless"
+    command "chmod +x ${destdir}/bin/jless"
+  }
+}

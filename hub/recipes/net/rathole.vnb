@@ -1,0 +1,18 @@
+package "rathole" {
+  version = "0.5.3"
+  description = "rathole tunnel"
+  license = "Apache-2.0"
+  homepage = "https://github.com/rapiz1/rathole"
+  binary {
+    url = "https://github.com/rapiz1/rathole/releases/download/v0.5.3/rathole-x86_64-unknown-linux-gnu.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./rathole ${destdir}/bin/rathole"
+    command "chmod +x ${destdir}/bin/rathole"
+  }
+}

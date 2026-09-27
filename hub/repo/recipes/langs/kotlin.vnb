@@ -1,0 +1,20 @@
+package "kotlin" {
+  version = "2.2.20"
+  description = "Kotlin compiler"
+  license = "Apache-2.0"
+  homepage = "https://kotlinlang.org"
+  binary {
+    url = "https://github.com/JetBrains/kotlin/releases/download/v2.2.20/kotlin-compiler-2.2.20.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./kotlinc/bin/kotlinc ${destdir}/bin/kotlin"
+    command "chmod +x ${destdir}/bin/kotlin"
+    command "cp ./kotlinc/bin/kotlin ${destdir}/bin/kotlin"
+    command "chmod +x ${destdir}/bin/kotlin"
+  }
+}

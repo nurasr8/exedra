@@ -1,0 +1,19 @@
+package "julia" {
+  version = "1.12.1"
+  description = "Julia"
+  license = "MIT"
+  homepage = "https://julialang.org"
+  binary {
+    url = "https://julialang-s3.julialang.org/bin/linux/x64/1.12/julia-1.12.1-linux-x86_64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/julia ${destdir}/bin"
+    command "tar -xf ${srcdir}/julia-1.12.1-linux-x86_64.tar.gz -C ${destdir}/opt/julia --strip-components=1"
+    command "chmod +x ${destdir}/opt/julia/bin/julia"
+    command "ln -sf ../opt/julia/bin/julia ${destdir}/bin/julia"
+  }
+}

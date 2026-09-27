@@ -1,0 +1,19 @@
+package "atuin" {
+  version = "18.8.0"
+  description = "Atuin history"
+  license = "MIT"
+  homepage = "https://atuin.sh"
+  binary {
+    url = "https://github.com/atuinsh/atuin/releases/download/v18.8.0/atuin-v18.8.0-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/atuin ${destdir}/bin"
+    command "tar -xf ${srcdir}/atuin-v18.8.0-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/atuin"
+    command "chmod +x ${destdir}/opt/atuin/atuin"
+    command "ln -sf ../opt/atuin/atuin ${destdir}/bin/atuin"
+  }
+}

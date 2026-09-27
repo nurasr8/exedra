@@ -1,0 +1,20 @@
+package "telegram" {
+  version = "6.0"
+  description = "Telegram"
+  license = "GPL-3.0"
+  homepage = "https://telegram.org"
+  binary {
+    url = "https://telegram.org/dl/desktop/linux"
+    file = "telegram.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/telegram ${destdir}/bin"
+    command "tar -xf ${srcdir}/telegram.tar.xz -C ${destdir}/opt/telegram --strip-components=1"
+    command "chmod +x ${destdir}/opt/telegram/Telegram"
+    command "ln -sf ../opt/telegram/Telegram ${destdir}/bin/telegram"
+  }
+}

@@ -1,0 +1,19 @@
+package "git-lfs" {
+  version = "3.7.1"
+  description = "Git LFS"
+  license = "MIT"
+  homepage = "https://git-lfs.com"
+  binary {
+    url = "https://github.com/git-lfs/git-lfs/releases/download/v3.7.1/git-lfs-linux-amd64-v3.7.1.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/git-lfs ${destdir}/bin"
+    command "tar -xf ${srcdir}/git-lfs-linux-amd64-v3.7.1.tar.gz -C ${destdir}/opt/git-lfs"
+    command "chmod +x ${destdir}/opt/git-lfs/git-lfs"
+    command "ln -sf ../opt/git-lfs/git-lfs ${destdir}/bin/git-lfs"
+  }
+}

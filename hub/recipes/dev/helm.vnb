@@ -1,0 +1,19 @@
+package "helm" {
+  version = "4.0.0"
+  description = "Helm"
+  license = "Apache-2.0"
+  homepage = "https://helm.sh"
+  binary {
+    url = "https://get.helm.sh/helm-v4.0.0-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/helm ${destdir}/bin"
+    command "tar -xf ${srcdir}/helm-v4.0.0-linux-amd64.tar.gz -C ${destdir}/opt/helm --strip-components=1"
+    command "chmod +x ${destdir}/opt/helm/linux-amd64/helm"
+    command "ln -sf ../opt/helm/linux-amd64/helm ${destdir}/bin/helm"
+  }
+}

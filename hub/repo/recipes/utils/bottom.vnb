@@ -1,0 +1,19 @@
+package "bottom" {
+  version = "0.11.2"
+  description = "bottom monitor"
+  license = "MIT"
+  homepage = "https://github.com/ClementTsang/bottom"
+  binary {
+    url = "https://github.com/ClementTsang/bottom/releases/download/0.11.2/bottom_x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bottom ${destdir}/bin"
+    command "tar -xf ${srcdir}/bottom_x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/bottom"
+    command "chmod +x ${destdir}/opt/bottom/btm"
+    command "ln -sf ../opt/bottom/btm ${destdir}/bin/bottom"
+  }
+}

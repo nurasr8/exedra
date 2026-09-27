@@ -1,0 +1,19 @@
+package "kopia" {
+  version = "0.22.0"
+  description = "Kopia backup"
+  license = "Apache-2.0"
+  homepage = "https://kopia.io"
+  binary {
+    url = "https://github.com/kopia/kopia/releases/download/v0.22.0/kopia-0.22.0-linux-x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/kopia ${destdir}/bin"
+    command "tar -xf ${srcdir}/kopia-0.22.0-linux-x64.tar.gz -C ${destdir}/opt/kopia"
+    command "chmod +x ${destdir}/opt/kopia/kopia"
+    command "ln -sf ../opt/kopia/kopia ${destdir}/bin/kopia"
+  }
+}

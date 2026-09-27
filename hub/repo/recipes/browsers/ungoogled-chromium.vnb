@@ -1,0 +1,19 @@
+package "ungoogled-chromium" {
+  version = "144.0"
+  description = "Ungoogled Chromium"
+  license = "BSD-3"
+  homepage = "https://ungoogled-software.github.io"
+  binary {
+    url = "https://github.com/ungoogled-software/ungoogled-chromium-portablelinux/releases/download/144.0.7559.109-1/ungoogled-chromium_144.0.7559.109-1.linux.tar.xz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/ungoogled-chromium ${destdir}/bin"
+    command "tar -xf ${srcdir}/ungoogled-chromium_144.0.7559.109-1.linux.tar.xz -C ${destdir}/opt/ungoogled-chromium --strip-components=1"
+    command "chmod +x ${destdir}/opt/ungoogled-chromium/chrome-linux/chrome"
+    command "ln -sf ../opt/ungoogled-chromium/chrome-linux/chrome ${destdir}/bin/ungoogled-chromium"
+  }
+}

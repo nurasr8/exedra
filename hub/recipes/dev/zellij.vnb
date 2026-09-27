@@ -1,0 +1,19 @@
+package "zellij" {
+  version = "0.43.1"
+  description = "Zellij"
+  license = "MIT"
+  homepage = "https://github.com/zellij-org/zellij"
+  binary {
+    url = "https://github.com/zellij-org/zellij/releases/download/v0.43.1/zellij-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/zellij ${destdir}/bin"
+    command "tar -xf ${srcdir}/zellij-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/zellij"
+    command "chmod +x ${destdir}/opt/zellij/zellij"
+    command "ln -sf ../opt/zellij/zellij ${destdir}/bin/zellij"
+  }
+}

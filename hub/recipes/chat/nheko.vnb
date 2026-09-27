@@ -1,0 +1,19 @@
+package "nheko" {
+  version = "0.12.0"
+  description = "Nheko Matrix"
+  license = "GPL-3.0"
+  homepage = "https://nheko-reborn.github.io"
+  binary {
+    url = "https://github.com/Nheko-Reborn/nheko/releases/download/v0.12.0/nheko-0.12.0-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/nheko ${destdir}/bin"
+    command "cp ${srcdir}/nheko-0.12.0-x86_64.AppImage ${destdir}/opt/nheko/nheko.AppImage"
+    command "chmod +x ${destdir}/opt/nheko/nheko.AppImage"
+    command "ln -sf ../opt/nheko/nheko.AppImage ${destdir}/bin/nheko"
+  }
+}

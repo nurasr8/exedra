@@ -1,0 +1,19 @@
+package "openra" {
+  version = "20250330"
+  description = "OpenRA"
+  license = "GPL-3.0"
+  homepage = "https://openra.net"
+  binary {
+    url = "https://github.com/OpenRA/OpenRA/releases/download/release-20250330/OpenRA-release-20250330-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/openra ${destdir}/bin"
+    command "cp ${srcdir}/OpenRA-release-20250330-x86_64.AppImage ${destdir}/opt/openra/openra.AppImage"
+    command "chmod +x ${destdir}/opt/openra/openra.AppImage"
+    command "ln -sf ../opt/openra/openra.AppImage ${destdir}/bin/openra"
+  }
+}

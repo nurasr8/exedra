@@ -1,0 +1,19 @@
+package "olive" {
+  version = "0.2.0"
+  description = "Olive video editor"
+  license = "GPL-3.0"
+  homepage = "https://olivevideoeditor.org"
+  binary {
+    url = "https://github.com/olivevideoeditor/olive/releases/download/0.2.0/Olive-0.2.0-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/olive ${destdir}/bin"
+    command "cp ${srcdir}/Olive-0.2.0-x86_64.AppImage ${destdir}/opt/olive/olive.AppImage"
+    command "chmod +x ${destdir}/opt/olive/olive.AppImage"
+    command "ln -sf ../opt/olive/olive.AppImage ${destdir}/bin/olive"
+  }
+}

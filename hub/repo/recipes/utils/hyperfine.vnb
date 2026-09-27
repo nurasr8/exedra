@@ -1,0 +1,19 @@
+package "hyperfine" {
+  version = "1.19.0"
+  description = "hyperfine bench"
+  license = "MIT"
+  homepage = "https://github.com/sharkdp/hyperfine"
+  binary {
+    url = "https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine-v1.19.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/hyperfine ${destdir}/bin"
+    command "tar -xf ${srcdir}/hyperfine-v1.19.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/hyperfine"
+    command "chmod +x ${destdir}/opt/hyperfine/hyperfine"
+    command "ln -sf ../opt/hyperfine/hyperfine ${destdir}/bin/hyperfine"
+  }
+}

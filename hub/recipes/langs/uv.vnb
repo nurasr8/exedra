@@ -1,0 +1,21 @@
+package "uv" {
+  version = "0.9.8"
+  description = "uv python manager"
+  license = "MIT"
+  homepage = "https://docs.astral.sh/uv"
+  binary {
+    url = "https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/uv ${destdir}/bin"
+    command "tar -xf ${srcdir}/uv-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/uv"
+    command "chmod +x ${destdir}/opt/uv/uv"
+    command "ln -sf ../opt/uv/uv ${destdir}/bin/uv"
+    command "chmod +x ${destdir}/opt/uv/uvx"
+    command "ln -sf ../opt/uv/uvx ${destdir}/bin/uvx"
+  }
+}

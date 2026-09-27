@@ -1,0 +1,19 @@
+package "session" {
+  version = "1.18.7"
+  description = "Session messenger"
+  license = "GPL-3.0"
+  homepage = "https://getsession.org"
+  binary {
+    url = "https://github.com/oxen-io/session-desktop/releases/download/v1.18.7/session-desktop-linux-x86_64-1.18.7.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/session ${destdir}/bin"
+    command "cp ${srcdir}/session-desktop-linux-x86_64-1.18.7.AppImage ${destdir}/opt/session/session.AppImage"
+    command "chmod +x ${destdir}/opt/session/session.AppImage"
+    command "ln -sf ../opt/session/session.AppImage ${destdir}/bin/session"
+  }
+}

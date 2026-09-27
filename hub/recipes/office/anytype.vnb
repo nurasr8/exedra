@@ -1,0 +1,19 @@
+package "anytype" {
+  version = "0.48.6"
+  description = "Anytype notes"
+  license = "custom"
+  homepage = "https://anytype.io"
+  binary {
+    url = "https://github.com/anyproto/anytype-ts/releases/download/v0.48.6/Anytype-0.48.6.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/anytype ${destdir}/bin"
+    command "cp ${srcdir}/Anytype-0.48.6.AppImage ${destdir}/opt/anytype/anytype.AppImage"
+    command "chmod +x ${destdir}/opt/anytype/anytype.AppImage"
+    command "ln -sf ../opt/anytype/anytype.AppImage ${destdir}/bin/anytype"
+  }
+}

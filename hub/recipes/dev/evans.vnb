@@ -1,0 +1,19 @@
+package "evans" {
+  version = "0.10.11"
+  description = "Evans gRPC"
+  license = "MIT"
+  homepage = "https://github.com/ktr0731/evans"
+  binary {
+    url = "https://github.com/ktr0731/evans/releases/download/v0.10.11/evans_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/evans ${destdir}/bin"
+    command "tar -xf ${srcdir}/evans_linux_amd64.tar.gz -C ${destdir}/opt/evans"
+    command "chmod +x ${destdir}/opt/evans/evans"
+    command "ln -sf ../opt/evans/evans ${destdir}/bin/evans"
+  }
+}

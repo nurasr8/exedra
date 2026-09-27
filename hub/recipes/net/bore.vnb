@@ -1,0 +1,19 @@
+package "bore" {
+  version = "0.5.3"
+  description = "bore tunnels"
+  license = "MIT"
+  homepage = "https://github.com/ekzhang/bore"
+  binary {
+    url = "https://github.com/ekzhang/bore/releases/download/v0.5.3/bore-v0.5.3-x86_64-unknown-linux-gnu.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/bore ${destdir}/bin"
+    command "tar -xf ${srcdir}/bore-v0.5.3-x86_64-unknown-linux-gnu.tar.gz -C ${destdir}/opt/bore"
+    command "chmod +x ${destdir}/opt/bore/bore"
+    command "ln -sf ../opt/bore/bore ${destdir}/bin/bore"
+  }
+}

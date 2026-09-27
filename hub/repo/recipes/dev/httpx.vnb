@@ -1,0 +1,19 @@
+package "httpx" {
+  version = "1.7.1"
+  description = "httpx probe"
+  license = "MIT"
+  homepage = "https://github.com/projectdiscovery/httpx"
+  binary {
+    url = "https://github.com/projectdiscovery/httpx/releases/download/v1.7.1/httpx_1.7.1_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/httpx ${destdir}/bin"
+    command "tar -xf ${srcdir}/httpx_1.7.1_linux_amd64.tar.gz -C ${destdir}/opt/httpx"
+    command "chmod +x ${destdir}/opt/httpx/httpx"
+    command "ln -sf ../opt/httpx/httpx ${destdir}/bin/httpx"
+  }
+}

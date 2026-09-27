@@ -1,0 +1,22 @@
+package "elixir" {
+  version = "1.19.4"
+  description = "Elixir"
+  license = "Apache-2.0"
+  homepage = "https://elixir-lang.org"
+  binary {
+    url = "https://github.com/elixir-lang/elixir/releases/download/v1.19.4/elixir-otp-27.zip"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./bin/elixir ${destdir}/bin/elixir"
+    command "chmod +x ${destdir}/bin/elixir"
+    command "cp ./bin/mix ${destdir}/bin/mix"
+    command "chmod +x ${destdir}/bin/mix"
+    command "cp ./bin/iex ${destdir}/bin/iex"
+    command "chmod +x ${destdir}/bin/iex"
+  }
+}

@@ -1,0 +1,19 @@
+package "termshark" {
+  version = "2.5.0"
+  description = "Termshark"
+  license = "MIT"
+  homepage = "https://github.com/gcla/termshark"
+  binary {
+    url = "https://github.com/gcla/termshark/releases/download/v2.5.0/termshark_2.5.0_linux_x64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/termshark ${destdir}/bin"
+    command "tar -xf ${srcdir}/termshark_2.5.0_linux_x64.tar.gz -C ${destdir}/opt/termshark"
+    command "chmod +x ${destdir}/opt/termshark/termshark"
+    command "ln -sf ../opt/termshark/termshark ${destdir}/bin/termshark"
+  }
+}

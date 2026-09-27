@@ -1,0 +1,19 @@
+package "kustomize" {
+  version = "5.7.1"
+  description = "kustomize"
+  license = "Apache-2.0"
+  homepage = "https://kustomize.io"
+  binary {
+    url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/kustomize ${destdir}/bin"
+    command "tar -xf ${srcdir}/kustomize_v5.7.1_linux_amd64.tar.gz -C ${destdir}/opt/kustomize"
+    command "chmod +x ${destdir}/opt/kustomize/kustomize"
+    command "ln -sf ../opt/kustomize/kustomize ${destdir}/bin/kustomize"
+  }
+}

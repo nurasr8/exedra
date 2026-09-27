@@ -1,0 +1,19 @@
+package "keepassxc" {
+  version = "2.7.10"
+  description = "KeePassXC"
+  license = "GPL-3.0"
+  homepage = "https://keepassxc.org"
+  binary {
+    url = "https://github.com/keepassxreboot/keepassxc/releases/download/2.7.10/KeePassXC-2.7.10-x86_64.AppImage"
+    format = "appimage"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/keepassxc ${destdir}/bin"
+    command "cp ${srcdir}/KeePassXC-2.7.10-x86_64.AppImage ${destdir}/opt/keepassxc/keepassxc.AppImage"
+    command "chmod +x ${destdir}/opt/keepassxc/keepassxc.AppImage"
+    command "ln -sf ../opt/keepassxc/keepassxc.AppImage ${destdir}/bin/keepassxc"
+  }
+}

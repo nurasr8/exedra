@@ -1,0 +1,19 @@
+package "gojq" {
+  version = "0.12.17"
+  description = "gojq"
+  license = "MIT"
+  homepage = "https://github.com/itchyny/gojq"
+  binary {
+    url = "https://github.com/itchyny/gojq/releases/download/v0.12.17/gojq_v0.12.17_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gojq ${destdir}/bin"
+    command "tar -xf ${srcdir}/gojq_v0.12.17_linux_amd64.tar.gz -C ${destdir}/opt/gojq"
+    command "chmod +x ${destdir}/opt/gojq/gojq"
+    command "ln -sf ../opt/gojq/gojq ${destdir}/bin/gojq"
+  }
+}

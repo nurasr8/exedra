@@ -1,0 +1,19 @@
+package "zenith" {
+  version = "0.14.1"
+  description = "zenith monitor"
+  license = "MIT"
+  homepage = "https://github.com/bvaisvil/zenith"
+  binary {
+    url = "https://github.com/bvaisvil/zenith/releases/download/0.14.1/zenith-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/zenith ${destdir}/bin"
+    command "tar -xf ${srcdir}/zenith-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/zenith"
+    command "chmod +x ${destdir}/opt/zenith/zenith"
+    command "ln -sf ../opt/zenith/zenith ${destdir}/bin/zenith"
+  }
+}

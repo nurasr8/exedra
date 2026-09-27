@@ -1,0 +1,19 @@
+package "vegeta" {
+  version = "12.12.0"
+  description = "vegeta load testing"
+  license = "MIT"
+  homepage = "https://github.com/tsenart/vegeta"
+  binary {
+    url = "https://github.com/tsenart/vegeta/releases/download/v12.12.0/vegeta_12.12.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/vegeta ${destdir}/bin"
+    command "tar -xf ${srcdir}/vegeta_12.12.0_linux_amd64.tar.gz -C ${destdir}/opt/vegeta"
+    command "chmod +x ${destdir}/opt/vegeta/vegeta"
+    command "ln -sf ../opt/vegeta/vegeta ${destdir}/bin/vegeta"
+  }
+}

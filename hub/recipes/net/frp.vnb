@@ -1,0 +1,21 @@
+package "frp" {
+  version = "0.65.0"
+  description = "frp proxy"
+  license = "Apache-2.0"
+  homepage = "https://github.com/fatedier/frp"
+  binary {
+    url = "https://github.com/fatedier/frp/releases/download/v0.65.0/frp_0.65.0_linux_amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/frp ${destdir}/bin"
+    command "tar -xf ${srcdir}/frp_0.65.0_linux_amd64.tar.gz -C ${destdir}/opt/frp"
+    command "chmod +x ${destdir}/opt/frp/frpc"
+    command "ln -sf ../opt/frp/frpc ${destdir}/bin/frp"
+    command "chmod +x ${destdir}/opt/frp/frps"
+    command "ln -sf ../opt/frp/frps ${destdir}/bin/frps"
+  }
+}

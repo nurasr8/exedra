@@ -1,0 +1,18 @@
+package "bazelisk" {
+  version = "1.27.0"
+  description = "Bazelisk"
+  license = "Apache-2.0"
+  homepage = "https://github.com/bazelbuild/bazelisk"
+  binary {
+    url = "https://github.com/bazelbuild/bazelisk/releases/download/v1.27.0/bazelisk-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./bazelisk-linux-amd64 ${destdir}/bin/bazelisk"
+    command "chmod +x ${destdir}/bin/bazelisk"
+  }
+}

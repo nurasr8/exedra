@@ -1,0 +1,19 @@
+package "gping" {
+  version = "1.19.0"
+  description = "gping"
+  license = "MIT"
+  homepage = "https://github.com/orf/gping"
+  binary {
+    url = "https://github.com/orf/gping/releases/download/gping-v1.19.0/gping-v1.19.0-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/gping ${destdir}/bin"
+    command "tar -xf ${srcdir}/gping-v1.19.0-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/gping"
+    command "chmod +x ${destdir}/opt/gping/gping"
+    command "ln -sf ../opt/gping/gping ${destdir}/bin/gping"
+  }
+}

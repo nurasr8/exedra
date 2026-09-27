@@ -1,0 +1,19 @@
+package "mold" {
+  version = "2.40.4"
+  description = "mold linker"
+  license = "MIT"
+  homepage = "https://github.com/rui314/mold"
+  binary {
+    url = "https://github.com/rui314/mold/releases/download/v2.40.4/mold-2.40.4-x86_64-linux.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/mold ${destdir}/bin"
+    command "tar -xf ${srcdir}/mold-2.40.4-x86_64-linux.tar.gz -C ${destdir}/opt/mold --strip-components=1"
+    command "chmod +x ${destdir}/opt/mold/bin/mold"
+    command "ln -sf ../opt/mold/bin/mold ${destdir}/bin/mold"
+  }
+}

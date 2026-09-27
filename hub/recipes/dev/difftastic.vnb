@@ -1,0 +1,19 @@
+package "difftastic" {
+  version = "0.64.0"
+  description = "difftastic"
+  license = "MIT"
+  homepage = "https://github.com/Wilfred/difftastic"
+  binary {
+    url = "https://github.com/Wilfred/difftastic/releases/download/0.64.0/difft-x86_64-unknown-linux-musl.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/difftastic ${destdir}/bin"
+    command "tar -xf ${srcdir}/difft-x86_64-unknown-linux-musl.tar.gz -C ${destdir}/opt/difftastic"
+    command "chmod +x ${destdir}/opt/difftastic/difft"
+    command "ln -sf ../opt/difftastic/difft ${destdir}/bin/difftastic"
+  }
+}

@@ -1,0 +1,18 @@
+package "minikube" {
+  version = "1.37.0"
+  description = "minikube"
+  license = "Apache-2.0"
+  homepage = "https://minikube.sigs.k8s.io"
+  binary {
+    url = "https://github.com/kubernetes/minikube/releases/download/v1.37.0/minikube-linux-amd64"
+    format = "single"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/bin"
+    command "cp ./minikube-linux-amd64 ${destdir}/bin/minikube"
+    command "chmod +x ${destdir}/bin/minikube"
+  }
+}

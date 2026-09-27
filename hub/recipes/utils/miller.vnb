@@ -1,0 +1,19 @@
+package "miller" {
+  version = "6.15.0"
+  description = "miller CSV"
+  license = "BSD-2"
+  homepage = "https://github.com/johnkerl/miller"
+  binary {
+    url = "https://github.com/johnkerl/miller/releases/download/v6.15.0/miller-6.15.0-linux-amd64.tar.gz"
+    format = "tarball"
+  }
+  depends {
+    "glibc"
+  }
+  install {
+    command "mkdir -p ${destdir}/opt/miller ${destdir}/bin"
+    command "tar -xf ${srcdir}/miller-6.15.0-linux-amd64.tar.gz -C ${destdir}/opt/miller"
+    command "chmod +x ${destdir}/opt/miller/mlr"
+    command "ln -sf ../opt/miller/mlr ${destdir}/bin/miller"
+  }
+}
