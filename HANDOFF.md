@@ -120,6 +120,15 @@ Exedra — независимый Linux-дистрибутив (ядро+systemd
   curl+openssl), CLI/DB паритет с Python (проверено diff),
   Python-исходники удалены. Сборка: tools/build-venim.sh -> build-cpp/venim.
   Полный пайплайн и live-QEMU с C++-бинарником зелёные.
+- 2026-09-27: venim умеет --no-check, install по URL/файлу, --repo URL
+  через index.json (+команда index, ключ file, одиночные payloads).
+  examples/ удалены как дубли packages/. hub/: site (plain-site сайт),
+  recipes (209 .vnb без sha256 + index.json), repo (EN GitHub-репо:
+  README/CONTRIBUTING/RECIPE-SPEC/template/LICENSE/CI). Проверены живые
+  установки eza/jq/starship из новых рецептов. ISO пересобран, релиз обновлён.
+  curl+openssl), CLI/DB паритет с Python (проверено diff),
+  Python-исходники удалены. Сборка: tools/build-venim.sh -> build-cpp/venim.
+  Полный пайплайн и live-QEMU с C++-бинарником зелёные.
 - 2026-09-26 (вечер 3): WiFi не работал НЕ из-за драйверов, а из-за
   ОТСУТСТВИЯ modules.dep/modules.alias (Arch генерит хуком depmod,
   сид его не запускал) — modalias-автозагрузка была мертва целиком,
